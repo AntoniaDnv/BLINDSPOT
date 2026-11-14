@@ -1,4 +1,4 @@
-﻿namespace HealthMonitor.Api.Extensions;
+namespace HealthMonitor.Api.Extensions;
 
 using Data;
 using Data.Seeding;
@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Options;
 using Services.BloodPanels;
 using Services.External;
-using Services.Readings;
+using Services.Radiation;
 using Services.Samples;
 using Services.Vitals;
 
@@ -38,8 +38,7 @@ public static class ServiceCollectionExtensions
                 .AddScoped<DataSeeder>()
                 .AddScoped<ISampleService, SampleService>()
                 .AddScoped<IBloodPanelService, BloodPanelService>()
-                .AddScoped<IReadingService, ReadingService>()
-                .AddSingleton<IVitalThresholdService, VitalThresholdService>();
+                .AddScoped<IRadiationService, RadiationService>();
 
         public IServiceCollection AddExternalApiHttpClient()
         {
