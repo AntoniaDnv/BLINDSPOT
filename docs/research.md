@@ -255,7 +255,7 @@ Versions are the ones in `HealthMonitor.Api.csproj`, `index.html` and `Dockerfil
 | Chart.js | 4.6.1 (from the jsDelivr CDN) | Charts | MIT | https://www.chartjs.org/ |
 | Docker images `mcr.microsoft.com/dotnet/sdk:10.0` and `aspnet:10.0` | 10.0 | Building and running the app | MIT | https://mcr.microsoft.com/ |
 | Render | n/a | Hosting the live app | n/a (hosting service) | https://render.com/ |
-| Project skeleton | n/a | Starting structure: folders, `Samples` example feature, Dockerfile, README | n/a | Our README calls it the "Project skeleton for the NASA Space Apps Challenge 2026". **To do: add who provided it and a link.** |
+| Project skeleton | n/a | Starting structure: folders, `Samples` example feature, Dockerfile, README | n/a | Made for this team by Aleksander Milev (teammate and mentor) |
 
 **Fonts, icons and images**
 - Inter font from Google Fonts (Nutrition & Meds page, PR #12). SIL Open Font License 1.1. https://fonts.google.com/specimen/Inter
