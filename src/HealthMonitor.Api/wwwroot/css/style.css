@@ -354,6 +354,8 @@ pre.code {
   --nhm-muted: #bdc8d1;
   --nhm-accent: #44e2cd;
   --nhm-accent-2: #8ed5ff;
+  --nhm-caution: #ff9f5a;
+  --nhm-caution-dark: #b8612a;
 
   display: grid;
   gap: var(--space-4);
@@ -456,7 +458,7 @@ pre.code {
   border-left-color: var(--color-info);
 }
 .nhm-card[data-status="caution"] {
-  border-left-color: var(--color-warning);
+  border-left-color: var(--nhm-caution);
 }
 .nhm-card[data-status="warning"] {
   border-left-color: var(--color-critical);
@@ -662,8 +664,8 @@ pre.code {
 .nhm-legend-swatch {
   background: repeating-linear-gradient(
     135deg,
-    var(--color-warning) 0 4px,
-    #a87a12 4px 8px
+    var(--nhm-caution) 0 4px,
+    var(--nhm-caution-dark) 4px 8px
   );
 }
 
@@ -680,6 +682,11 @@ pre.code {
   width: 1rem;
   height: 1rem;
   border-radius: 3px;
+}
+
+/* No yellow on this page: caution is orange. */
+.nhm .status-warning {
+  background: var(--nhm-caution);
 }
 
 /* Shared badges use white text on light fills (below 4.5:1); darken text on this page only. */
