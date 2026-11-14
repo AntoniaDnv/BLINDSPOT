@@ -11,12 +11,13 @@ const DATA_URL = "/data/nutrition-days.json";
 const DEFAULT_DAY = 46;
 const LOW_WATER_L = 2.0;
 const LOW_KCAL_SHARE = 0.8;
+const WEEK = 7;
 const DASH = "—";
 
 const LEVELS = {
-  advisory: { rank: 1, label: "Advisory", status: "info", badge: "status-info" },
-  caution: { rank: 2, label: "Caution", status: "caution", badge: "status-warning" },
-  warning: { rank: 3, label: "Warning", status: "warning", badge: "status-critical" },
+  advisory: { rank: 1, label: "Advisory", tone: "info" },
+  caution: { rank: 2, label: "Caution", tone: "caution" },
+  warning: { rank: 3, label: "Warning", tone: "warning" },
 };
 
 let data = null;
@@ -28,13 +29,17 @@ export async function init(root) {
     root,
     crew: root.querySelector("#nhm-crew"),
     day: root.querySelector("#nhm-day"),
-    role: root.querySelector("#nhm-crew-role"),
     message: root.querySelector("#nhm-message"),
     energyCard: root.querySelector(".nhm-energy"),
     waterCard: root.querySelector(".nhm-water"),
     medsCard: root.querySelector(".nhm-meds"),
     ring: root.querySelector(".nhm-ring"),
+    progress: root.querySelector(".nhm-progress-fill"),
     segments: [...root.querySelectorAll(".nhm-seg")],
+    waterNote: root.querySelector("#nhm-water-note"),
+    waterNotes: root.querySelector("#nhm-water-notes"),
+    nights: root.querySelector("#nhm-hypnotic-week"),
+    alertsBar: root.querySelector("#nhm-alerts-details"),
     alerts: root.querySelector("#nhm-alerts"),
     alertTpl: root.querySelector("#nhm-alert-tpl"),
     weekKcal: root.querySelector("#nhm-week-kcal"),
@@ -74,9 +79,12 @@ function render() {
   const record = findDay(crew.id, day);
   const alerts = data.alerts.filter((a) => a.crewId === crew.id && a.day === day);
 
-  setText("#nhm-crew-role", `${crew.role} · Mission day ${day}`);
+  setText("#nhm-crew-role", `${crew.role} · ${crew.name}`);
+  setPill("#nhm-mission-pill", `Mission day ${day}`, "ok");
   renderAlerts(alerts);
   renderWeek(crew, day);
+  renderNights(crew.id, day);
+  renderEnergyStats(crew, day);
 
   if (!record) {
     showMessage(el.message, `No data for day ${day}.`, "info");
@@ -86,30 +94,48 @@ function render() {
   hideMessage(el.message);
 
   const { kcalTarget, waterTargetL } = crew.baseline;
+  const foodLevel = worstLevel(alerts, "food");
+  const waterLevel = worstLevel(alerts, "water");
+
+  // Energy
   const kcalPct = Math.round((record.kcal / kcalTarget) * 100);
-  setText("#nhm-kcal", record.kcal.toLocaleString("en-US"));
-  setText("#nhm-kcal-target", kcalTarget.toLocaleString("en-US"));
+  const kcalLeft = kcalTarget - record.kcal;
+  setText("#nhm-kcal", formatNumber(record.kcal));
+  setText("#nhm-kcal-target", formatNumber(kcalTarget));
+  setText("#nhm-kcal-left", kcalLeft > 0 ? `+${formatNumber(kcalLeft)} kcal` : "Target reached");
   setText("#nhm-kcal-pct", `${kcalPct}%`);
   el.ring.style.setProperty("--pct", kcalPct);
+  el.progress.style.setProperty("--pct", kcalPct);
+  setStatus(el.energyCard, "#nhm-energy-status", foodLevel, `${kcalPct}% of target`);
 
+  // Hydration
+  const waterPct = Math.round((record.waterL / waterTargetL) * 100);
   const filled = Math.round(Math.min(record.waterL / waterTargetL, 1) * 10);
+  const leftMl = Math.round(Math.max(waterTargetL - record.waterL, 0) * 1000);
   el.segments.forEach((seg, i) => seg.classList.toggle("is-on", i < filled));
-  const left = Math.max(waterTargetL - record.waterL, 0);
   setText("#nhm-water", record.waterL.toFixed(1));
   setText("#nhm-water-target", waterTargetL.toFixed(1));
-  setText("#nhm-water-left", left > 0 ? `${left.toFixed(1)} L below target` : "Target reached");
+  setText("#nhm-water-target-foot", waterTargetL.toFixed(1));
+  setText("#nhm-water-left", leftMl > 0 ? `${leftMl} mL below target` : "Target reached");
+  setStatus(el.waterCard, "#nhm-water-status", waterLevel, `${waterPct}% of target`);
+  renderWaterNotes(alerts.find((a) => a.system === "water"));
 
-  setStatus(el.energyCard, "#nhm-energy-status", worstLevel(alerts, "food"));
-  setStatus(el.waterCard, "#nhm-water-status", worstLevel(alerts, "water"));
-
+  // Medication
   const streak = medicationStreak(crew.id, day);
   setText("#nhm-hypnotic", record.hypnoticTaken ? "Yes" : "No");
   setText("#nhm-hypnotic-streak", streak === 1 ? "1 night" : `${streak} nights in a row`);
-  setBadge(el.medsCard, "#nhm-meds-status", "Logged", "info", "status-info");
+  setPill("#nhm-meds-status", "Logged", "info");
+  el.medsCard.dataset.status = "info";
 }
 
 function findDay(crewId, day) {
   return data.days.find((d) => d.crewId === crewId && d.day === day);
+}
+
+function weekDays(day) {
+  const days = [];
+  for (let d = Math.max(1, day - (WEEK - 1)); d <= day; d++) days.push(d);
+  return days;
 }
 
 function worstLevel(alerts, system) {
@@ -124,37 +150,97 @@ function medicationStreak(crewId, day) {
   return count;
 }
 
-function setStatus(card, badgeSelector, level) {
-  if (level) {
-    const l = LEVELS[level];
-    setBadge(card, badgeSelector, l.label, l.status, l.badge);
-  } else {
-    setBadge(card, badgeSelector, "On track", "ok", "status-ok");
-  }
+// Pill text always carries the status word, so status is never shown by colour alone.
+function setStatus(card, pillSelector, level, detail) {
+  const l = LEVELS[level];
+  const label = l ? l.label : "On track";
+  const tone = l ? l.tone : "ok";
+  setPill(pillSelector, `${label} · ${detail}`, tone);
+  card.dataset.status = tone;
 }
 
-function setBadge(card, badgeSelector, text, status, badgeClass) {
-  const badge = el.root.querySelector(badgeSelector);
-  badge.textContent = text;
-  badge.className = `badge nhm-badge ${badgeClass}`;
-  card.dataset.status = status;
+function setPill(selector, text, tone) {
+  const pill = el.root.querySelector(selector);
+  pill.querySelector(".nhm-pill-text").textContent = text;
+  pill.dataset.tone = tone;
 }
 
 function clearCards() {
-  for (const id of ["#nhm-kcal", "#nhm-kcal-target", "#nhm-kcal-pct", "#nhm-water", "#nhm-water-target",
-    "#nhm-water-left", "#nhm-hypnotic", "#nhm-hypnotic-streak"]) {
+  for (const id of ["#nhm-kcal", "#nhm-kcal-target", "#nhm-kcal-left", "#nhm-kcal-pct", "#nhm-water",
+    "#nhm-water-target", "#nhm-water-target-foot", "#nhm-water-left", "#nhm-hypnotic", "#nhm-hypnotic-streak"]) {
     setText(id, DASH);
   }
   el.ring.style.setProperty("--pct", 0);
+  el.progress.style.setProperty("--pct", 0);
   el.segments.forEach((seg) => seg.classList.remove("is-on"));
-  for (const [card, badge] of [[el.energyCard, "#nhm-energy-status"], [el.waterCard, "#nhm-water-status"],
-    [el.medsCard, "#nhm-meds-status"]]) {
-    setBadge(card, badge, DASH, "none", "");
+  for (const id of ["#nhm-energy-status", "#nhm-water-status", "#nhm-meds-status"]) setPill(id, DASH, "none");
+  for (const card of [el.energyCard, el.waterCard, el.medsCard]) card.dataset.status = "none";
+  el.waterNote.textContent = DASH;
+  el.waterNote.dataset.tone = "none";
+  el.waterNotes.textContent = DASH;
+}
+
+function renderEnergyStats(crew, day) {
+  const records = weekDays(day).map((d) => findDay(crew.id, d)).filter(Boolean);
+  if (records.length === 0) {
+    setText("#nhm-kcal-avg", DASH);
+    setText("#nhm-kcal-lowdays", DASH);
+    return;
+  }
+  const shares = records.map((r) => r.kcal / crew.baseline.kcalTarget);
+  const avg = Math.round((shares.reduce((sum, s) => sum + s, 0) / shares.length) * 100);
+  const low = shares.filter((s) => s < LOW_KCAL_SHARE).length;
+  setText("#nhm-kcal-avg", `${avg}%`);
+  setText("#nhm-kcal-lowdays", `${low} / ${records.length}`);
+}
+
+function renderWaterNotes(alert) {
+  if (alert) {
+    el.waterNote.textContent = `⚠ ${alert.what}`;
+    el.waterNote.dataset.tone = "caution";
+    el.waterNotes.replaceChildren(
+      line("Why it matters", alert.why),
+      line("What to do", alert.action),
+      line("Source", alert.source),
+    );
+  } else {
+    el.waterNote.textContent = "✓ Hydration on track";
+    el.waterNote.dataset.tone = "ok";
+    el.waterNotes.replaceChildren(
+      line("Rule", "An alert appears after 2 days in a row below 2.0 L (demo parameter)."),
+      line("Source", "NASA Risk of Inadequate Food and Nutrition (in-flight dehydration)"),
+    );
   }
 }
 
+function line(label, text) {
+  const p = document.createElement("p");
+  const l = document.createElement("span");
+  l.className = "nhm-label";
+  l.textContent = `${label} `;
+  p.append(l, document.createTextNode(text));
+  return p;
+}
+
+function renderNights(crewId, day) {
+  el.nights.replaceChildren(...weekDays(day).map((d) => {
+    const r = findDay(crewId, d);
+    const dot = document.createElement("span");
+    dot.className = r?.hypnoticTaken ? "nhm-night is-on" : "nhm-night";
+    const state = r ? (r.hypnoticTaken ? "medication taken" : "no medication") : "no data";
+    dot.setAttribute("role", "img");
+    dot.setAttribute("aria-label", `Night of day ${d}: ${state}`);
+    dot.title = `Day ${d}: ${state}`;
+    return dot;
+  }));
+}
+
 function renderAlerts(alerts) {
-  if (alerts.length === 0) {
+  const count = alerts.length;
+  setPill("#nhm-alerts-count", count === 0 ? "None active" : `${count} active`, count === 0 ? "ok" : worstTone(alerts));
+  el.alertsBar.open = count > 0;
+
+  if (count === 0) {
     const li = document.createElement("li");
     li.className = "nhm-muted";
     li.textContent = "No alerts for this day.";
@@ -165,9 +251,9 @@ function renderAlerts(alerts) {
   el.alerts.replaceChildren(...sorted.map((a) => {
     const item = el.alertTpl.content.firstElementChild.cloneNode(true);
     const level = LEVELS[a.level];
-    const levelEl = item.querySelector(".nhm-alert-level");
-    levelEl.textContent = level ? level.label : a.level;
-    if (level) levelEl.classList.add(level.badge);
+    const pill = item.querySelector(".nhm-alert-level");
+    pill.querySelector(".nhm-pill-text").textContent = level ? level.label : a.level;
+    pill.dataset.tone = level ? level.tone : "none";
     item.querySelector(".nhm-alert-what").textContent = a.what;
     item.querySelector(".nhm-alert-why").textContent = a.why;
     item.querySelector(".nhm-alert-action").textContent = a.action;
@@ -176,11 +262,16 @@ function renderAlerts(alerts) {
   }));
 }
 
+function worstTone(alerts) {
+  const worst = alerts.reduce((w, a) => ((LEVELS[a.level]?.rank ?? 0) > (LEVELS[w]?.rank ?? 0) ? a.level : w), null);
+  return LEVELS[worst]?.tone ?? "none";
+}
+
 function renderWeek(crew, day) {
   const kcalBars = [];
   const waterBars = [];
   const labels = [];
-  for (let d = Math.max(1, day - 6); d <= day; d++) {
+  for (const d of weekDays(day)) {
     const r = findDay(crew.id, d);
     const kcalShare = r ? r.kcal / crew.baseline.kcalTarget : 0;
     const waterShare = r ? r.waterL / crew.baseline.waterTargetL : 0;
@@ -209,6 +300,10 @@ function bar(share, isLow, label) {
   b.setAttribute("aria-label", label);
   b.title = label;
   return b;
+}
+
+function formatNumber(n) {
+  return n.toLocaleString("en-US");
 }
 
 function setText(selector, text) {

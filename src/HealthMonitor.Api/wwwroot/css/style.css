@@ -343,19 +343,24 @@ pre.code {
 .bp-table tbody tr.bp-row-active {
   background: var(--color-surface-2);
 }
+
 /* ===== Nutrition page ===== */
-/* Scoped to .nhm. Look taken from the Stitch "Aerospace Clinical Telemetry" mockup. */
+/* Scoped to .nhm. Colours and type from the Stitch "Aerospace Clinical Telemetry" DESIGN.md. */
 .nhm {
   --nhm-surface: #0e131f;
+  --nhm-surface-low: #161b28;
   --nhm-card: #1b1f2c;
   --nhm-card-high: #252a37;
-  --nhm-border: #3e484f;
+  --nhm-card-highest: #303542;
   --nhm-text: #dee2f4;
   --nhm-muted: #bdc8d1;
-  --nhm-accent: #44e2cd;
-  --nhm-accent-2: #8ed5ff;
-  --nhm-caution: #ff9f5a;
-  --nhm-caution-dark: #b8612a;
+  --nhm-outline: #87929a;
+  --nhm-border: #3e484f;
+  --nhm-primary: #8ed5ff;
+  --nhm-secondary: #44e2cd;
+  --nhm-error: #ffb4ab;
+  --nhm-error-container: #93000a;
+  --nhm-on-error-container: #ffdad6;
 
   display: grid;
   gap: var(--space-4);
@@ -367,15 +372,65 @@ pre.code {
   margin: 0;
   font-size: 2rem;
   font-weight: 500;
+  line-height: 2.5rem;
   letter-spacing: -0.02em;
 }
 
 .nhm h2 {
   margin: 0;
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   font-weight: 500;
+  line-height: 2rem;
+  letter-spacing: -0.01em;
 }
 
+.nhm p {
+  margin: 0;
+}
+
+/* Labels: small uppercase, like the mockup's section captions. */
+.nhm-label,
+.nhm-eyebrow,
+.nhm-picker label,
+.nhm-water-foot dt {
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--nhm-muted);
+}
+
+.nhm-label-accent {
+  margin-left: var(--space-1);
+  color: var(--nhm-primary);
+  text-transform: none;
+  letter-spacing: 0.02em;
+}
+
+.nhm-eyebrow {
+  color: var(--nhm-primary);
+}
+
+.nhm-eyebrow-muted {
+  color: var(--nhm-muted);
+}
+
+.nhm-subtitle {
+  margin-top: var(--space-1);
+  color: var(--nhm-muted);
+}
+
+.nhm-muted {
+  color: var(--nhm-muted);
+}
+
+.nhm-accent-text {
+  color: var(--nhm-secondary);
+  font-weight: 600;
+}
+
+/* Header */
 .nhm-header {
   display: flex;
   flex-wrap: wrap;
@@ -384,30 +439,10 @@ pre.code {
   gap: var(--space-3);
 }
 
-.nhm-eyebrow,
-.nhm-label,
-.nhm-facts dt,
-.nhm-picker label {
-  margin: 0;
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--nhm-muted);
-}
-
-.nhm-eyebrow {
-  color: var(--nhm-accent-2);
-}
-
-.nhm-subtitle {
-  margin: var(--space-1) 0 0;
-  color: var(--nhm-muted);
-}
-
-.nhm-pickers {
+.nhm-header-actions {
   display: flex;
   flex-wrap: wrap;
+  align-items: flex-end;
   gap: var(--space-3);
 }
 
@@ -418,20 +453,78 @@ pre.code {
 
 .nhm-picker select {
   min-width: 10rem;
-  padding: var(--space-2) var(--space-3);
+  padding: 0.55rem var(--space-3);
   font: inherit;
   font-size: 1rem;
+  font-weight: 600;
   color: var(--nhm-text);
-  background: var(--nhm-card-high);
+  background: var(--nhm-card-highest);
   border: 1px solid var(--nhm-border);
-  border-radius: 8px;
+  border-radius: 6px;
+  cursor: pointer;
 }
 
-.nhm-picker select:focus-visible {
-  outline: 2px solid var(--nhm-accent-2);
+.nhm-picker select:focus-visible,
+.nhm summary:focus-visible {
+  outline: 2px solid var(--nhm-primary);
   outline-offset: 2px;
 }
 
+/* Pills with a dot: "● 94% TARGET". data-tone picks the colour. */
+.nhm-pill {
+  --tone: var(--nhm-outline);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex: none;
+  padding: 0.3rem 0.75rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.1rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--tone);
+  background: color-mix(in srgb, var(--tone) 12%, var(--nhm-card));
+  border: 1px solid color-mix(in srgb, var(--tone) 25%, transparent);
+  border-radius: 999px;
+}
+
+.nhm-pill[data-tone="ok"] {
+  --tone: var(--nhm-secondary);
+}
+.nhm-pill[data-tone="info"] {
+  --tone: var(--nhm-primary);
+}
+.nhm-pill[data-tone="caution"] {
+  --tone: var(--nhm-error);
+}
+.nhm-pill[data-tone="warning"] {
+  --tone: var(--nhm-on-error-container);
+  background: var(--nhm-error-container);
+}
+
+.nhm-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  flex: none;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.nhm-pill-group {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.nhm-pill-caption {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--nhm-muted);
+}
+
+/* Cards */
 .nhm-row {
   display: grid;
   grid-template-columns: 3fr 2fr;
@@ -440,47 +533,34 @@ pre.code {
 
 .nhm-card {
   display: grid;
-  gap: var(--space-3);
+  gap: var(--space-4);
   align-content: start;
   min-width: 0;
-  padding: var(--space-4);
+  padding: var(--space-5) var(--space-5);
   font-size: 1rem;
-  background: var(--nhm-card);
+  background: linear-gradient(160deg, var(--nhm-card) 0%, var(--nhm-surface-low) 100%);
   border: 1px solid var(--nhm-border);
-  border-left: 4px solid var(--nhm-border);
   border-radius: 12px;
-}
-
-.nhm-card[data-status="ok"] {
-  border-left-color: var(--color-ok);
-}
-.nhm-card[data-status="info"] {
-  border-left-color: var(--color-info);
-}
-.nhm-card[data-status="caution"] {
-  border-left-color: var(--nhm-caution);
-}
-.nhm-card[data-status="warning"] {
-  border-left-color: var(--color-critical);
 }
 
 .nhm-card-head {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: var(--space-3);
 }
 
 .nhm-card-head > div {
   flex: 1;
-  min-width: 0;
+  min-width: 10rem;
 }
 
 .nhm-icon {
   display: grid;
   place-items: center;
   flex: none;
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 3rem;
+  height: 3rem;
   border-radius: 8px;
   background: var(--nhm-card-high);
 }
@@ -489,40 +569,25 @@ pre.code {
   width: 1.4rem;
   height: 1.4rem;
   fill: none;
-  stroke: var(--nhm-accent-2);
+  stroke: var(--nhm-primary);
   stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
 
-.nhm-badge {
-  flex: none;
-  font-size: 0.85rem;
-}
-
 .nhm-big {
-  font-size: 2.75rem;
+  font-size: 3rem;
   font-weight: 500;
-  line-height: 1.1;
+  line-height: 3.5rem;
   letter-spacing: -0.025em;
 }
 
-.nhm-muted {
-  color: var(--nhm-muted);
-}
-
-.nhm-accent-text {
-  margin: 0;
-  color: var(--nhm-accent);
-  font-weight: 600;
-}
-
-/* Energy ring: --pct is a unitless 0-100 number set by the page script. */
+/* Energy: ring (--pct 0-100, capped) + target box + 3 stat boxes */
 .nhm-energy-body {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--space-4);
+  gap: var(--space-5);
 }
 
 .nhm-ring {
@@ -530,11 +595,11 @@ pre.code {
   display: grid;
   place-items: center;
   flex: none;
-  width: 12rem;
-  height: 12rem;
+  width: 13rem;
+  height: 13rem;
   border-radius: 50%;
   background: conic-gradient(
-    var(--nhm-accent) calc(min(var(--pct), 100) * 1%),
+    var(--nhm-secondary) calc(min(var(--pct), 100) * 1%),
     var(--nhm-card-high) 0
   );
 }
@@ -543,96 +608,291 @@ pre.code {
   display: grid;
   place-items: center;
   align-content: center;
-  width: calc(100% - 1.75rem);
-  height: calc(100% - 1.75rem);
+  gap: var(--space-1);
+  width: calc(100% - 1.5rem);
+  height: calc(100% - 1.5rem);
   border-radius: 50%;
   background: var(--nhm-card);
   text-align: center;
 }
 
-.nhm-facts {
+.nhm-ring-value {
+  font-size: 2.75rem;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.025em;
+}
+
+.nhm-energy-side {
   display: grid;
   gap: var(--space-3);
   flex: 1;
-  min-width: 10rem;
-  margin: 0;
+  min-width: 15rem;
 }
 
-.nhm-facts > div {
-  padding: var(--space-3);
+.nhm-target-box {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
   background: var(--nhm-card-high);
+  border: 1px solid var(--nhm-border);
   border-radius: 8px;
 }
 
-.nhm-facts dd {
-  margin: var(--space-1) 0 0;
-  font-size: 1.25rem;
+.nhm-target-row {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
   font-weight: 500;
 }
 
-.nhm-facts dd.nhm-big {
-  font-size: 2.75rem;
+.nhm-target-sub {
+  font-size: 0.875rem;
+  color: var(--nhm-muted);
 }
 
-.nhm-facts-row {
-  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+.nhm-progress {
+  height: 0.5rem;
+  border-radius: 999px;
+  background: var(--nhm-card-highest);
+  overflow: hidden;
 }
 
-/* Water: 10 segments, filled ones get .is-on. */
+.nhm-progress-fill {
+  --pct: 0;
+  display: block;
+  height: 100%;
+  width: calc(min(var(--pct), 100) * 1%);
+  border-radius: inherit;
+  background: var(--nhm-primary);
+}
+
+.nhm-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-2);
+}
+
+.nhm-stat {
+  display: grid;
+  gap: var(--space-1);
+  padding: var(--space-3);
+  background: var(--nhm-card-high);
+  border: 1px solid var(--nhm-border);
+  border-radius: 8px;
+}
+
+.nhm-stat-value {
+  font-size: 1.75rem;
+  font-weight: 500;
+  line-height: 2.25rem;
+}
+
+.nhm-stat-note {
+  font-size: 0.875rem;
+  color: var(--nhm-muted);
+}
+
+/* Hydration */
 .nhm-water-amount {
-  margin: 0;
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
   gap: var(--space-2);
-  font-size: 1.25rem;
+}
+
+.nhm-water-of {
+  font-size: 1.5rem;
+  color: var(--nhm-muted);
 }
 
 .nhm-segments {
   display: grid;
   grid-template-columns: repeat(10, 1fr);
-  gap: 4px;
-  padding: 4px;
+  gap: 6px;
+  padding: 6px;
   background: var(--nhm-surface);
+  border: 1px solid var(--nhm-border);
   border-radius: 6px;
 }
 
 .nhm-seg {
-  height: 0.9rem;
-  border-radius: 3px;
-  background: var(--nhm-card-high);
+  height: 0.75rem;
+  border-radius: 2px;
+  background: var(--nhm-card-highest);
 }
 
 .nhm-seg.is-on {
-  background: var(--nhm-accent);
+  background: var(--nhm-secondary);
 }
 
-/* Alerts */
+.nhm-protocol {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  background: var(--nhm-card-high);
+  border: 1px solid var(--nhm-border);
+  border-radius: 8px;
+}
+
+.nhm-protocol-head {
+  font-weight: 600;
+  color: var(--nhm-secondary);
+}
+
+.nhm-protocol-head[data-tone="caution"] {
+  color: var(--nhm-error);
+}
+
+.nhm-notes {
+  background: var(--nhm-surface);
+  border: 1px solid var(--nhm-border);
+  border-radius: 6px;
+}
+
+.nhm-notes summary,
+.nhm-alerts-bar summary {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;
+}
+
+.nhm-notes summary::-webkit-details-marker,
+.nhm-alerts-bar summary::-webkit-details-marker {
+  display: none;
+}
+
+.nhm-notes summary::after {
+  content: "⌄";
+  margin-left: auto;
+  color: var(--nhm-muted);
+}
+
+.nhm-notes[open] summary::after,
+.nhm-alerts-bar[open] .nhm-chevron {
+  transform: rotate(180deg);
+}
+
+.nhm-notes-icon {
+  color: var(--nhm-primary);
+}
+
+.nhm-notes-body {
+  display: grid;
+  gap: var(--space-1);
+  padding: 0 var(--space-3) var(--space-3);
+  color: var(--nhm-muted);
+}
+
+.nhm-water-foot {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin: 0;
+}
+
+.nhm-water-foot dd {
+  margin: var(--space-1) 0 0;
+  font-weight: 600;
+}
+
+/* Medication: 3 sub-cards */
+.nhm-meds-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-4);
+}
+
+.nhm-subcard {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background: var(--nhm-card-high);
+  border: 1px solid var(--nhm-border);
+  border-radius: 8px;
+}
+
+.nhm-sub-value {
+  font-size: 2rem;
+  font-weight: 500;
+  line-height: 2.5rem;
+}
+
+.nhm-subcard-foot {
+  font-size: 0.875rem;
+  color: var(--nhm-muted);
+}
+
+.nhm-nights {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.nhm-night {
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 50%;
+  border: 2px solid var(--nhm-outline);
+}
+
+.nhm-night.is-on {
+  background: var(--nhm-primary);
+  border-color: var(--nhm-primary);
+}
+
+/* Alerts bar (expandable, like the mockup's notes bar) */
+.nhm-alerts-bar {
+  padding: 0;
+  gap: 0;
+  background: var(--nhm-surface);
+}
+
+.nhm-alerts-bar summary {
+  padding: var(--space-3) var(--space-4);
+}
+
+.nhm-dot-live {
+  color: var(--nhm-secondary);
+}
+
+.nhm-alerts-title {
+  flex: 1;
+}
+
+.nhm-chevron {
+  color: var(--nhm-muted);
+}
+
 .nhm-alerts {
   display: grid;
   gap: var(--space-3);
   margin: 0;
-  padding: 0;
+  padding: 0 var(--space-4) var(--space-4);
   list-style: none;
 }
 
 .nhm-alert {
   display: grid;
-  gap: var(--space-1);
+  gap: var(--space-2);
   padding: var(--space-3);
   background: var(--nhm-card-high);
+  border: 1px solid var(--nhm-border);
   border-radius: 8px;
-}
-
-.nhm-alert p {
-  margin: 0;
 }
 
 .nhm-alert .nhm-label {
   margin-right: var(--space-1);
 }
 
-/* Last 7 days: bar height comes from --pct (0-100). */
+/* Last 7 days: bar height from --pct (0-100). */
 .nhm-week-grid {
   display: grid;
   grid-template-columns: auto 1fr;
@@ -653,27 +913,34 @@ pre.code {
   height: calc(min(var(--pct), 100) * 1%);
   min-height: 2px;
   border-radius: 3px 3px 0 0;
-  background: var(--nhm-accent);
+  background: var(--nhm-secondary);
 }
 
 .nhm-bars-water .nhm-bar {
-  background: var(--nhm-accent-2);
+  background: var(--nhm-primary);
 }
 
 .nhm-bar.is-low,
 .nhm-legend-swatch {
   background: repeating-linear-gradient(
     135deg,
-    var(--nhm-caution) 0 4px,
-    var(--nhm-caution-dark) 4px 8px
+    var(--nhm-error) 0 4px,
+    var(--nhm-error-container) 4px 8px
   );
+}
+
+.nhm-bar-labels {
+  height: auto;
+  align-items: start;
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--nhm-muted);
 }
 
 .nhm-week-legend {
   display: flex;
   align-items: center;
   gap: var(--space-2);
-  margin: 0;
   color: var(--nhm-muted);
 }
 
@@ -684,39 +951,26 @@ pre.code {
   border-radius: 3px;
 }
 
-/* No yellow on this page: caution is orange. */
-.nhm .status-warning {
-  background: var(--nhm-caution);
-}
-
-/* Shared badges use white text on light fills (below 4.5:1); darken text on this page only. */
-.nhm .status-info,
-.nhm .status-critical {
-  color: #10131a;
-}
-
-.nhm-bar-labels {
-  height: auto;
-  align-items: start;
-  text-align: center;
-  font-size: 0.85rem;
-  color: var(--nhm-muted);
-}
-
 .nhm-disclaimer {
-  margin: 0;
   font-size: 1rem;
   color: var(--nhm-muted);
 }
 
-@media (max-width: 760px) {
-  .nhm-row {
+@media (max-width: 900px) {
+  .nhm-row,
+  .nhm-meds-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .nhm-card {
+    padding: var(--space-4) var(--space-3);
   }
 
   .nhm-ring {
-    width: 10rem;
-    height: 10rem;
+    width: 11rem;
+    height: 11rem;
   }
 
   .nhm-week-grid {
