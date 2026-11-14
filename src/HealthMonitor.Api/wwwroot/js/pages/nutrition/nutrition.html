@@ -1,0 +1,130 @@
+<section class="nhm" aria-labelledby="nhm-title">
+  <header class="nhm-header">
+    <div>
+      <p class="nhm-eyebrow">Nutrition · Hydration · Sleep meds</p>
+      <h1 id="nhm-title">Nutrition, Hydration &amp; Meds</h1>
+      <p class="nhm-subtitle" id="nhm-crew-role">—</p>
+    </div>
+    <div class="nhm-pickers">
+      <div class="nhm-picker">
+        <label for="nhm-crew">Crew member</label>
+        <select id="nhm-crew"></select>
+      </div>
+      <div class="nhm-picker">
+        <label for="nhm-day">Mission day</label>
+        <select id="nhm-day"></select>
+      </div>
+    </div>
+  </header>
+
+  <div id="nhm-message" class="alert hidden" role="alert"></div>
+
+  <div class="nhm-row">
+    <article class="nhm-card nhm-energy" data-status="none" aria-labelledby="nhm-energy-title">
+      <div class="nhm-card-head">
+        <span class="nhm-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M7 2v20M4 2v6a3 3 0 0 0 6 0V2M17 2c-2 2-3 4-3 7s1 4 3 4v9" /></svg>
+        </span>
+        <div>
+          <p class="nhm-label">Energy intake</p>
+          <h2 id="nhm-energy-title">Daily Nutritional Status</h2>
+        </div>
+        <span class="badge nhm-badge" id="nhm-energy-status">—</span>
+      </div>
+      <div class="nhm-energy-body">
+        <div class="nhm-ring" style="--pct: 0">
+          <div class="nhm-ring-inner">
+            <span class="nhm-big" id="nhm-kcal">—</span>
+            <span class="nhm-label">kcal eaten</span>
+          </div>
+        </div>
+        <dl class="nhm-facts">
+          <div>
+            <dt>Personal target</dt>
+            <dd><span id="nhm-kcal-target">—</span> kcal</dd>
+          </div>
+          <div>
+            <dt>Share of target</dt>
+            <dd id="nhm-kcal-pct">—</dd>
+          </div>
+        </dl>
+      </div>
+    </article>
+
+    <article class="nhm-card nhm-water" data-status="none" aria-labelledby="nhm-water-title">
+      <div class="nhm-card-head">
+        <span class="nhm-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M12 2.7s-6 6.6-6 11.3a6 6 0 0 0 12 0c0-4.7-6-11.3-6-11.3z" /></svg>
+        </span>
+        <div>
+          <p class="nhm-label">Water</p>
+          <h2 id="nhm-water-title">Hydration</h2>
+        </div>
+        <span class="badge nhm-badge" id="nhm-water-status">—</span>
+      </div>
+      <p class="nhm-water-amount">
+        <span class="nhm-big" id="nhm-water">—</span>
+        <span class="nhm-muted">/ <span id="nhm-water-target">—</span> L</span>
+      </p>
+      <div class="nhm-segments" aria-hidden="true">
+        <span class="nhm-seg"></span><span class="nhm-seg"></span><span class="nhm-seg"></span>
+        <span class="nhm-seg"></span><span class="nhm-seg"></span><span class="nhm-seg"></span>
+        <span class="nhm-seg"></span><span class="nhm-seg"></span><span class="nhm-seg"></span>
+        <span class="nhm-seg"></span>
+      </div>
+      <p class="nhm-accent-text" id="nhm-water-left">—</p>
+    </article>
+  </div>
+
+  <article class="nhm-card nhm-meds" data-status="none" aria-labelledby="nhm-meds-title">
+    <div class="nhm-card-head">
+      <span class="nhm-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M10.5 20.5 3.5 13.5a5 5 0 0 1 7-7l7 7a5 5 0 0 1-7 7zM8.5 8.5l7 7" /></svg>
+      </span>
+      <div>
+        <p class="nhm-label">Sleep medication</p>
+        <h2 id="nhm-meds-title">Medication &amp; Sleep</h2>
+      </div>
+      <span class="badge nhm-badge" id="nhm-meds-status">—</span>
+    </div>
+    <dl class="nhm-facts nhm-facts-row">
+      <div>
+        <dt>Taken last night</dt>
+        <dd class="nhm-big" id="nhm-hypnotic">—</dd>
+      </div>
+      <div>
+        <dt>Nights in a row</dt>
+        <dd id="nhm-hypnotic-streak">—</dd>
+      </div>
+    </dl>
+  </article>
+
+  <section class="nhm-card nhm-alerts-card" aria-labelledby="nhm-alerts-title">
+    <h2 id="nhm-alerts-title">Alerts for this day</h2>
+    <ul class="nhm-alerts" id="nhm-alerts"></ul>
+    <template id="nhm-alert-tpl">
+      <li class="nhm-alert">
+        <p><span class="badge nhm-alert-level"></span> <strong class="nhm-alert-what"></strong></p>
+        <p><span class="nhm-label">Why it matters</span> <span class="nhm-alert-why"></span></p>
+        <p><span class="nhm-label">What to do</span> <span class="nhm-alert-action"></span></p>
+        <p class="nhm-muted"><span class="nhm-label">Source</span> <span class="nhm-alert-source"></span></p>
+      </li>
+    </template>
+  </section>
+
+  <section class="nhm-card nhm-week" aria-labelledby="nhm-week-title">
+    <h2 id="nhm-week-title">Last 7 days</h2>
+    <div class="nhm-week-grid">
+      <p class="nhm-label">Energy, % of target</p>
+      <div class="nhm-bars" id="nhm-week-kcal"></div>
+      <p class="nhm-label">Water, % of target</p>
+      <div class="nhm-bars nhm-bars-water" id="nhm-week-water"></div>
+      <span></span>
+      <div class="nhm-bars nhm-bar-labels" id="nhm-week-days"></div>
+    </div>
+  </section>
+
+  <p class="nhm-disclaimer">
+    Simulated data. BLINDSPOT is a student hackathon prototype, not a medical device.
+  </p>
+</section>
