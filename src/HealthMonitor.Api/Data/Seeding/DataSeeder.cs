@@ -20,6 +20,7 @@ public class DataSeeder(
     {
         await SeedSamplesAsync(cancellationToken);
         await SeedBloodPanelsAsync(cancellationToken);
+        await SeedReadingsAsync(cancellationToken);
         //add more seeders here.
     }
 
@@ -98,6 +99,32 @@ public class DataSeeder(
 
         logger.LogInformation(
             "Seeded {Count} blood panel results",
+            saved);
+    }
+
+    private async Task SeedReadingsAsync(
+        CancellationToken cancellationToken = default)
+    {
+        if (await data.Readings.AnyAsync(cancellationToken))
+            return;
+
+        var rows = await jsonLoader.Load<ReadingSeedRow>(
+            "readings.json",
+            cancellationToken);
+
+        var entities = rows
+            .Select(r => new Reading
+            {
+                Indicator = r.Indicator,
+                Value = r.Value,
+                RecordedAt = r.RecordedAt,
+            });
+
+        data.AddRange(entities);
+        var saved = await data.SaveChangesAsync(cancellationToken);
+
+        logger.LogInformation(
+            "Seeded {Count} readings",
             saved);
     }
 }

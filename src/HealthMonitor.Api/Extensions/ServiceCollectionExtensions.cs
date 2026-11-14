@@ -6,7 +6,9 @@ using Microsoft.EntityFrameworkCore;
 using Options;
 using Services.BloodPanels;
 using Services.External;
+using Services.Readings;
 using Services.Samples;
+using Services.Vitals;
 
 public static class ServiceCollectionExtensions
 {
@@ -35,7 +37,9 @@ public static class ServiceCollectionExtensions
                 .AddScoped<CsvLoader>()
                 .AddScoped<DataSeeder>()
                 .AddScoped<ISampleService, SampleService>()
-                .AddScoped<IBloodPanelService, BloodPanelService>();
+                .AddScoped<IBloodPanelService, BloodPanelService>()
+                .AddScoped<IReadingService, ReadingService>()
+                .AddSingleton<IVitalThresholdService, VitalThresholdService>();
 
         public IServiceCollection AddExternalApiHttpClient()
         {
