@@ -241,8 +241,27 @@ Every link, dataset, library and image we use. Add to this list as you go.
 - Potassium: https://medlineplus.gov/lab-tests/potassium-blood-test/
 - Sodium: https://medlineplus.gov/lab-tests/sodium-blood-test/
 
-**Libraries and images**
-- (add as you go)
+**Libraries, tools and hosting**
+
+Versions are the ones in `HealthMonitor.Api.csproj`, `index.html` and `Dockerfile`.
+
+| What | Version | Used for | License | Link |
+|---|---|---|---|---|
+| .NET / ASP.NET Core | 10.0 (`net10.0`) | Backend web app and API | MIT | https://dotnet.microsoft.com/ |
+| Microsoft.AspNetCore.OpenApi | 10.0.15 | API description (OpenAPI) | MIT | https://www.nuget.org/packages/Microsoft.AspNetCore.OpenApi |
+| Microsoft.EntityFrameworkCore.InMemory (EF Core InMemory) | 10.0.15 | In-memory database | MIT | https://www.nuget.org/packages/Microsoft.EntityFrameworkCore.InMemory |
+| Scalar.AspNetCore | 2.20.0 | API docs page at `/scalar` | MIT | https://www.nuget.org/packages/Scalar.AspNetCore |
+| CsvHelper | 33.1.0 | Reading the CSV data files | MS-PL / Apache 2.0 | https://joshclose.github.io/CsvHelper/ |
+| Chart.js | 4.6.1 (from the jsDelivr CDN) | Charts | MIT | https://www.chartjs.org/ |
+| Docker images `mcr.microsoft.com/dotnet/sdk:10.0` and `aspnet:10.0` | 10.0 | Building and running the app | MIT | https://mcr.microsoft.com/ |
+| Render | n/a | Hosting the live app | n/a (hosting service) | https://render.com/ |
+| Project skeleton | n/a | Starting structure: folders, `Samples` example feature, Dockerfile, README | n/a | Our README calls it the "Project skeleton for the NASA Space Apps Challenge 2026". **To do: add who provided it and a link.** |
+
+**Fonts, icons and images**
+- Inter font from Google Fonts (Nutrition & Meds page, PR #12). SIL Open Font License 1.1. https://fonts.google.com/specimen/Inter
+- Icons: the Nutrition & Meds icons are simple inline SVGs drawn for this project. No icon library.
+- Images: none. The app uses no photos or image files.
+- Design mockups: the UI design was explored with Google Stitch (see AI usage). https://stitch.withgoogle.com/
 
 ---
 
@@ -253,5 +272,5 @@ Which AI tool, for what. Needed for the AI disclosure on the project page. Add t
 | Tool | What it was used for | Checked by a person? |
 |---|---|---|
 | Claude (Anthropic), via Claude Code | Finding and checking sources (opened every link; confirmed every paper's title and abstract in Europe PMC), drafting this file and `analyte-info.json`, calculating the Inspiration4 lymphocyte changes | ☐ To do: a team member reads every claim against its source |
-| Claude (Anthropic), via Claude Code | Writing the LabClean data-checking tool (`tools/LabClean/`) | ☐ To do |
+| Google Stitch | UI design mockups that the pages were styled after | ☐ To do |
 | Claude (Anthropic), via Claude Code | Finding NOAA and NASA sources for the radiation alert rules and guidance text (opened every link, checked the SRAG quotes on the live page) | ☐ To do |
