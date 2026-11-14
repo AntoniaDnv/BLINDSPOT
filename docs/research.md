@@ -39,6 +39,37 @@ The single source of truth for BLINDSPOT. The README, the deck and the project p
 - Source: https://www.nasa.gov/humans-in-space/the-human-body-in-space/
 - Live data: NASA **DONKI** (Space Weather Database Of Notifications, Knowledge, Information) reports solar energetic particle events. API: https://api.nasa.gov/ (endpoint `DONKI/SEP`)
 
+### Radiation alert rules (used by `RadiationService.cs`)
+
+How the backend turns DONKI events into ok / warning / critical. Each line has a source or is marked **team demo parameter** (our own choice, no official rule), as in `vital-thresholds.json`.
+
+**Thresholds**
+
+- **Warning: an event seen on a `>10 MeV` channel.** NOAA measures solar radiation storms with protons of **≥10 MeV**. A storm starts when that flux reaches **10 pfu** (proton flux units), which is level **S1 (Minor)**. Source: https://www.swpc.noaa.gov/phenomena/solar-radiation-storm (NOAA SWPC, "Solar Radiation Storm") and https://www.swpc.noaa.gov/noaa-scales-explanation (NOAA Space Weather Scales, S-scale table)
+  - Calling this a "warning" is a **team demo parameter**. NOAA lists no biological effect at S1 ("None"). The first level that mentions astronauts is **S3 (Strong, 1,000 pfu)**: "Radiation hazard avoidance recommended for astronauts on EVA". S4 and S5 say the hazard to astronauts on EVA is "unavoidable". Source: https://www.swpc.noaa.gov/noaa-scales-explanation
+- **Critical: an event seen on a `>100 MeV` channel.** NOAA tracks ≥100 MeV protons separately and sends an alert when they reach **1 pfu**. Source: https://www.swpc.noaa.gov/products/goes-proton-flux (NOAA SWPC, "GOES Proton Flux") and https://www.swpc.noaa.gov/phenomena/solar-radiation-storm
+  - Calling this "critical" is a **team demo parameter**. NOAA does not link the ≥100 MeV alert to a specific astronaut action.
+- Caveat: our code checks the **energy channel named** in each DONKI event (for example "GOES-P: SEISS >100 MeV"). It does not read the flux value. We did not find a DONKI page that says which flux level makes DONKI log an SEP event, so the link "DONKI event = NOAA threshold crossed" is a **team demo parameter**.
+
+**Guidance text**
+
+The actions come from NASA's Space Radiation Analysis Group (SRAG), which watches space weather for crews. Source for all four: https://srag.jsc.nasa.gov/SpaceRadiation/How/How.cfm (NASA SRAG, "How do we protect the astronauts from space radiation?")
+
+- **Shelter in a better-shielded area:** SRAG can recommend that the crew "shelter in higher shielded areas of the spacecraft". For Artemis, Orion's crew will build a shelter from stowage bags: https://science.nasa.gov/science-research/heliophysics/how-nasa-will-protect-astronauts-from-space-radiation-at-the-moon (NASA, "How NASA Will Protect Astronauts From Space Radiation at the Moon")
+  - NASA says "higher shielded", not "most shielded". "The most heavily shielded area" is our wording.
+- **No EVAs / postpone EVAs:** SRAG can recommend to "delay an EVA, or return from an ongoing EVA". NASA's radiation standard also calls EVAs a main risk during solar particle events: https://www.nasa.gov/wp-content/uploads/2023/03/radiation-protection-technical-brief-ochmo.pdf (NASA-STD-3001 Technical Brief OCHMO-TB-020)
+- **Flight surgeons:** SRAG gives "recommendations to the Flight Surgeon in order to mitigate radiation exposure". The advice goes from SRAG *to* the flight surgeon; the crew then follows the flight surgeon.
+- **Monitor the dosimeter:** Crew Active Dosimeters "continuously measure and log each astronaut's radiation exposure". Artemis II astronauts also wear them: https://science.nasa.gov/missions/artemis/artemis-2/to-protect-artemis-ii-astronauts-nasa-experts-keep-eyes-on-sun/ (NASA, "To Protect Artemis II Astronauts, NASA Experts Keep Eyes on Sun")
+- **Which action goes with which level** (shelter at critical, postpone EVAs at warning) is a **team demo parameter**. NASA decides case by case. For Artemis II, "a higher threshold triggers a recommendation for the crew to take shelter" (same Artemis II page), but no number is published.
+
+**Final guidance text (for the backend)**
+
+| Status | Rule | Guidance |
+|---|---|---|
+| ok | No DONKI SEP event, or none on a ≥10 MeV channel | "No solar particle events detected." |
+| warning | Event on a ≥10 MeV channel | "Solar particle event detected. Postpone EVAs and keep checking your dosimeter." |
+| critical | Event on a ≥100 MeV channel | "Strong solar particle event. Move to the most heavily shielded area, do not start EVAs and end any EVA in progress. Follow flight surgeon instructions." |
+
 ---
 
 ## Blood tests (analytes)
@@ -171,6 +202,15 @@ Every link, dataset, library and image we use. Add to this list as you go.
 - NASA, Risk of Inadequate Food and Nutrition: https://www.nasa.gov/reference/risk-of-inadequate-food-and-nutrition/
 - NASA, Risk of Cardiovascular Adaptations: https://www.nasa.gov/reference/risk-of-cardiovascular-adaptations/
 - NASA, Risk of Radiation-Induced Cancers: https://www.nasa.gov/reference/risk-of-radiation-induced-cancers/
+- NASA SRAG, How do we protect the astronauts from space radiation?: https://srag.jsc.nasa.gov/SpaceRadiation/How/How.cfm
+- NASA, How NASA Will Protect Astronauts From Space Radiation at the Moon: https://science.nasa.gov/science-research/heliophysics/how-nasa-will-protect-astronauts-from-space-radiation-at-the-moon
+- NASA, To Protect Artemis II Astronauts, NASA Experts Keep Eyes on Sun: https://science.nasa.gov/missions/artemis/artemis-2/to-protect-artemis-ii-astronauts-nasa-experts-keep-eyes-on-sun/
+- NASA-STD-3001 Technical Brief OCHMO-TB-020, Design for Ionizing Radiation Protection: https://www.nasa.gov/wp-content/uploads/2023/03/radiation-protection-technical-brief-ochmo.pdf
+
+**NOAA**
+- NOAA SWPC, Space Weather Scales (S-scale): https://www.swpc.noaa.gov/noaa-scales-explanation
+- NOAA SWPC, Solar Radiation Storm: https://www.swpc.noaa.gov/phenomena/solar-radiation-storm
+- NOAA SWPC, GOES Proton Flux: https://www.swpc.noaa.gov/products/goes-proton-flux
 
 **Data**
 - NASA OSDR OSD-569, Inspiration4 whole blood (CBC): https://osdr.nasa.gov/bio/repo/data/studies/OSD-569
@@ -214,3 +254,4 @@ Which AI tool, for what. Needed for the AI disclosure on the project page. Add t
 |---|---|---|
 | Claude (Anthropic), via Claude Code | Finding and checking sources (opened every link; confirmed every paper's title and abstract in Europe PMC), drafting this file and `analyte-info.json`, calculating the Inspiration4 lymphocyte changes | ☐ To do: a team member reads every claim against its source |
 | Claude (Anthropic), via Claude Code | Writing the LabClean data-checking tool (`tools/LabClean/`) | ☐ To do |
+| Claude (Anthropic), via Claude Code | Finding NOAA and NASA sources for the radiation alert rules and guidance text (opened every link, checked the SRAG quotes on the live page) | ☐ To do |
