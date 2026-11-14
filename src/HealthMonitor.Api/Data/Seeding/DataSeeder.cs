@@ -19,6 +19,7 @@ public class DataSeeder(
         CancellationToken cancellationToken = default)
     {
         await SeedSamplesAsync(cancellationToken);
+        await SeedBloodPanelsAsync(cancellationToken);
         //add more seeders here.
     }
 
@@ -65,5 +66,38 @@ public class DataSeeder(
             saved,
             this.options.UseJson,
             this.options.UseCsv);
+    }
+
+    private async Task SeedBloodPanelsAsync(
+        CancellationToken cancellationToken = default)
+    {
+        if (await data.BloodPanelResults.AnyAsync(cancellationToken))
+            return;
+
+        var rows = await jsonLoader.Load<BloodPanelSeedRow>(
+            "blood-panels.json",
+            cancellationToken);
+
+        var entities = rows
+            .Select(r => new BloodPanelResult
+            {
+                CrewId = r.CrewId,
+                Timepoint = r.Timepoint,
+                DayOffset = r.DayOffset,
+                Panel = r.Panel,
+                Analyte = r.Analyte,
+                Value = r.Value,
+                Unit = r.Unit,
+                RangeMin = r.RangeMin,
+                RangeMax = r.RangeMax,
+                Flag = r.Flag,
+            });
+
+        data.AddRange(entities);
+        var saved = await data.SaveChangesAsync(cancellationToken);
+
+        logger.LogInformation(
+            "Seeded {Count} blood panel results",
+            saved);
     }
 }

@@ -1,0 +1,85 @@
+<section>
+  <h1>Blood Panels</h1>
+  <p class="muted">
+    Astronaut biomarker panels, threshold status, and mission trend analysis.
+  </p>
+</section>
+
+<div id="bp-message" class="alert hidden"></div>
+
+<section class="card">
+  <div class="form-row">
+    <div class="field">
+      <label for="bp-crew-select">Crew Member</label>
+      <select id="bp-crew-select">
+        <option value="C001" selected>C001</option>
+        <option value="C002">C002</option>
+        <option value="C003">C003</option>
+        <option value="C004">C004</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="bp-panel-select">Blood Panel</label>
+      <select id="bp-panel-select">
+        <option value="CBC" selected>Complete Blood Count (CBC)</option>
+        <option value="Metabolic">Comprehensive Metabolic Panel (CMP)</option>
+        <option value="Lipid">Lipid Panel</option>
+        <option value="Electrolytes">Electrolytes & Renal</option>
+      </select>
+    </div>
+  </div>
+</section>
+
+<section class="bp-kpi-grid">
+  <div class="card bp-kpi">
+    <span class="muted bp-kpi-label">Crew ID</span>
+    <strong id="bp-kpi-crew" class="bp-kpi-value">C001</strong>
+  </div>
+  <div class="card bp-kpi">
+    <span class="muted bp-kpi-label">Selected Panel</span>
+    <strong id="bp-kpi-panel" class="bp-kpi-value">CBC</strong>
+  </div>
+  <div class="card bp-kpi">
+    <span class="muted bp-kpi-label">Out-of-Range Markers</span>
+    <strong id="bp-kpi-flagged" class="bp-kpi-value">—</strong>
+  </div>
+  <div class="card bp-kpi">
+    <span class="muted bp-kpi-label">Last Sample</span>
+    <strong id="bp-kpi-date" class="bp-kpi-value">—</strong>
+  </div>
+</section>
+
+<section class="card">
+  <div class="bp-card-head">
+    <h2>Biomarker Results</h2>
+    <span class="muted bp-hint">Click a biomarker row to view its mission trend</span>
+  </div>
+
+  <div class="table-wrap">
+    <table class="bp-table">
+      <thead>
+        <tr>
+          <th>Biomarker</th>
+          <th>Value</th>
+          <th>Unit</th>
+          <th>Normal Range</th>
+          <th>Status</th>
+          <th>Measured At</th>
+        </tr>
+      </thead>
+      <tbody id="bp-table-body">
+        <tr>
+          <td colspan="6" class="muted">Loading...</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="card">
+  <h2 id="bp-chart-title">Biomarker trend over time</h2>
+  <div class="chart-box">
+    <canvas id="bp-chart"></canvas>
+  </div>
+</section>
