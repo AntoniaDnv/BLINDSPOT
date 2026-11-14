@@ -658,8 +658,34 @@ pre.code {
   background: var(--nhm-accent-2);
 }
 
-.nhm-bar.is-low {
-  background: var(--color-warning);
+.nhm-bar.is-low,
+.nhm-legend-swatch {
+  background: repeating-linear-gradient(
+    135deg,
+    var(--color-warning) 0 4px,
+    #a87a12 4px 8px
+  );
+}
+
+.nhm-week-legend {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0;
+  color: var(--nhm-muted);
+}
+
+.nhm-legend-swatch {
+  flex: none;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 3px;
+}
+
+/* Shared badges use white text on light fills (below 4.5:1); darken text on this page only. */
+.nhm .status-info,
+.nhm .status-critical {
+  color: #10131a;
 }
 
 .nhm-bar-labels {
@@ -672,7 +698,7 @@ pre.code {
 
 .nhm-disclaimer {
   margin: 0;
-  font-size: 0.9rem;
+  font-size: 1rem;
   color: var(--nhm-muted);
 }
 

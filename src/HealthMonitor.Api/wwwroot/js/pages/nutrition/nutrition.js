@@ -184,8 +184,14 @@ function renderWeek(crew, day) {
     const r = findDay(crew.id, d);
     const kcalShare = r ? r.kcal / crew.baseline.kcalTarget : 0;
     const waterShare = r ? r.waterL / crew.baseline.waterTargetL : 0;
-    kcalBars.push(bar(kcalShare, r && kcalShare < LOW_KCAL_SHARE, r ? `Day ${d}: ${Math.round(kcalShare * 100)}%` : `Day ${d}: no data`));
-    waterBars.push(bar(waterShare, r && r.waterL < LOW_WATER_L, r ? `Day ${d}: ${r.waterL.toFixed(1)} L` : `Day ${d}: no data`));
+    const kcalLow = Boolean(r) && kcalShare < LOW_KCAL_SHARE;
+    const waterLow = Boolean(r) && r.waterL < LOW_WATER_L;
+    kcalBars.push(bar(kcalShare, kcalLow, r
+      ? `Day ${d}: ${Math.round(kcalShare * 100)}% of target${kcalLow ? ", below 80%" : ""}`
+      : `Day ${d}: no data`));
+    waterBars.push(bar(waterShare, waterLow, r
+      ? `Day ${d}: ${r.waterL.toFixed(1)} L${waterLow ? ", below 2.0 L" : ""}`
+      : `Day ${d}: no data`));
     const label = document.createElement("span");
     label.textContent = String(d);
     labels.push(label);
@@ -195,11 +201,13 @@ function renderWeek(crew, day) {
   el.weekDays.replaceChildren(...labels);
 }
 
-function bar(share, isLow, title) {
+function bar(share, isLow, label) {
   const b = document.createElement("span");
   b.className = isLow ? "nhm-bar is-low" : "nhm-bar";
   b.style.setProperty("--pct", Math.round(share * 100));
-  b.title = title;
+  b.setAttribute("role", "img");
+  b.setAttribute("aria-label", label);
+  b.title = label;
   return b;
 }
 
