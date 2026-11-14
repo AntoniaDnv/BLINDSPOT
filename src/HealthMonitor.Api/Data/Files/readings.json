@@ -1,0 +1,77 @@
+// SIMULATED one week of vital signs for one fictional astronaut on the ISS.
+// Day-by-day astronaut vitals are not public, so these are not real readings.
+// Normal days follow what studies measured in space; event days are set just past
+// the thresholds in vital-thresholds.json so every status (ok / warning / critical) appears.
+//
+// Normal-day values and where they come from:
+//   Blood pressure ~110/70 mmHg: on the ISS 24-hour blood pressure is 8-10 mmHg lower than on Earth.
+//     Norsk P et al. 2015, J Physiol. https://doi.org/10.1113/jphysiol.2014.284869
+//   Sleep 6.0-6.5 h: ISS astronauts slept 6.09 h a night on average (SD 0.67).
+//     Barger LK et al. 2014, Lancet Neurol. https://doi.org/10.1016/S1474-4422%2814%2970122-X
+//   Heart rate 60-70 bpm, SpO2 97-98 %, temperature 36.7-37.1 °C: normal adult ranges.
+//     https://medlineplus.gov/ency/article/003399.htm
+//     https://medlineplus.gov/lab-tests/pulse-oximetry/
+//     https://medlineplus.gov/ency/article/001982.htm
+//   Mood (1-5): team demo scale, no study.
+//
+// Event days:
+//   2026-11-09: heart rate 54 (athlete range), SpO2 93 %, short sleep -> warnings
+//   2026-11-10: acute illness scenario -> every indicator critical
+//   2026-11-14: today, heart rate 105, SpO2 89 %, 5 h sleep -> warnings + critical sleep
+[
+  { "indicator": "heartRate", "value": 64, "recordedAt": "2026-11-08T07:00:00Z" },
+  { "indicator": "systolicBp", "value": 110, "recordedAt": "2026-11-08T07:00:00Z" },
+  { "indicator": "diastolicBp", "value": 70, "recordedAt": "2026-11-08T07:00:00Z" },
+  { "indicator": "spo2", "value": 98, "recordedAt": "2026-11-08T07:00:00Z" },
+  { "indicator": "bodyTemp", "value": 36.8, "recordedAt": "2026-11-08T07:00:00Z" },
+  { "indicator": "sleepHours", "value": 6.4, "recordedAt": "2026-11-08T07:00:00Z" },
+  { "indicator": "mood", "value": 4, "recordedAt": "2026-11-08T07:00:00Z" },
+
+  { "indicator": "heartRate", "value": 54, "recordedAt": "2026-11-09T07:00:00Z" },
+  { "indicator": "systolicBp", "value": 112, "recordedAt": "2026-11-09T07:00:00Z" },
+  { "indicator": "diastolicBp", "value": 68, "recordedAt": "2026-11-09T07:00:00Z" },
+  { "indicator": "spo2", "value": 93, "recordedAt": "2026-11-09T07:00:00Z" },
+  { "indicator": "bodyTemp", "value": 36.9, "recordedAt": "2026-11-09T07:00:00Z" },
+  { "indicator": "sleepHours", "value": 6.0, "recordedAt": "2026-11-09T07:00:00Z" },
+  { "indicator": "mood", "value": 3, "recordedAt": "2026-11-09T07:00:00Z" },
+
+  { "indicator": "heartRate", "value": 132, "recordedAt": "2026-11-10T07:00:00Z" },
+  { "indicator": "systolicBp", "value": 186, "recordedAt": "2026-11-10T07:00:00Z" },
+  { "indicator": "diastolicBp", "value": 122, "recordedAt": "2026-11-10T07:00:00Z" },
+  { "indicator": "spo2", "value": 88, "recordedAt": "2026-11-10T07:00:00Z" },
+  { "indicator": "bodyTemp", "value": 39.3, "recordedAt": "2026-11-10T07:00:00Z" },
+  { "indicator": "sleepHours", "value": 3.0, "recordedAt": "2026-11-10T07:00:00Z" },
+  { "indicator": "mood", "value": 1, "recordedAt": "2026-11-10T07:00:00Z" },
+
+  { "indicator": "heartRate", "value": 70, "recordedAt": "2026-11-11T07:00:00Z" },
+  { "indicator": "systolicBp", "value": 116, "recordedAt": "2026-11-11T07:00:00Z" },
+  { "indicator": "diastolicBp", "value": 74, "recordedAt": "2026-11-11T07:00:00Z" },
+  { "indicator": "spo2", "value": 95, "recordedAt": "2026-11-11T07:00:00Z" },
+  { "indicator": "bodyTemp", "value": 37.0, "recordedAt": "2026-11-11T07:00:00Z" },
+  { "indicator": "sleepHours", "value": 6.5, "recordedAt": "2026-11-11T07:00:00Z" },
+  { "indicator": "mood", "value": 2, "recordedAt": "2026-11-11T07:00:00Z" },
+
+  { "indicator": "heartRate", "value": 66, "recordedAt": "2026-11-12T07:00:00Z" },
+  { "indicator": "systolicBp", "value": 108, "recordedAt": "2026-11-12T07:00:00Z" },
+  { "indicator": "diastolicBp", "value": 70, "recordedAt": "2026-11-12T07:00:00Z" },
+  { "indicator": "spo2", "value": 97, "recordedAt": "2026-11-12T07:00:00Z" },
+  { "indicator": "bodyTemp", "value": 36.7, "recordedAt": "2026-11-12T07:00:00Z" },
+  { "indicator": "sleepHours", "value": 7.2, "recordedAt": "2026-11-12T07:00:00Z" },
+  { "indicator": "mood", "value": 5, "recordedAt": "2026-11-12T07:00:00Z" },
+
+  { "indicator": "heartRate", "value": 62, "recordedAt": "2026-11-13T07:00:00Z" },
+  { "indicator": "systolicBp", "value": 110, "recordedAt": "2026-11-13T07:00:00Z" },
+  { "indicator": "diastolicBp", "value": 72, "recordedAt": "2026-11-13T07:00:00Z" },
+  { "indicator": "spo2", "value": 98, "recordedAt": "2026-11-13T07:00:00Z" },
+  { "indicator": "bodyTemp", "value": 36.8, "recordedAt": "2026-11-13T07:00:00Z" },
+  { "indicator": "sleepHours", "value": 6.1, "recordedAt": "2026-11-13T07:00:00Z" },
+  { "indicator": "mood", "value": 4, "recordedAt": "2026-11-13T07:00:00Z" },
+
+  { "indicator": "heartRate", "value": 105, "recordedAt": "2026-11-14T07:00:00Z" },
+  { "indicator": "systolicBp", "value": 118, "recordedAt": "2026-11-14T07:00:00Z" },
+  { "indicator": "diastolicBp", "value": 78, "recordedAt": "2026-11-14T07:00:00Z" },
+  { "indicator": "spo2", "value": 89, "recordedAt": "2026-11-14T07:00:00Z" },
+  { "indicator": "bodyTemp", "value": 37.1, "recordedAt": "2026-11-14T07:00:00Z" },
+  { "indicator": "sleepHours", "value": 5.0, "recordedAt": "2026-11-14T07:00:00Z" },
+  { "indicator": "mood", "value": 3, "recordedAt": "2026-11-14T07:00:00Z" }
+]
