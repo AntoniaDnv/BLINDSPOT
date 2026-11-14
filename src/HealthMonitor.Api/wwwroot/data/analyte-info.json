@@ -1,0 +1,98 @@
+[
+  {
+    "analyte": "WBC",
+    "explanation": "White blood cells are part of the immune system and fight infection.",
+    "nasaRisk": "Risk of Altered Immune System Responses",
+    "sourceUrl": "https://www.nasa.gov/reference/risk-of-altered-immune-system-responses/"
+  },
+  {
+    "analyte": "Lymphocytes (absolute)",
+    "explanation": "White blood cells (B and T cells) that fight viruses and bacteria and destroy infected cells.",
+    "nasaRisk": "Risk of Altered Immune System Responses",
+    "sourceUrl": "https://www.nasa.gov/reference/risk-of-altered-immune-system-responses/"
+  },
+  {
+    "analyte": "Neutrophils (absolute)",
+    "explanation": "The most common white blood cell: the body's main defense when germs get in.",
+    "nasaRisk": "Risk of Altered Immune System Responses",
+    "sourceUrl": "https://www.nasa.gov/reference/risk-of-altered-immune-system-responses/"
+  },
+  {
+    "analyte": "RBC",
+    "explanation": "Red blood cells carry oxygen from the lungs to the rest of the body.",
+    "nasaRisk": "Space anemia (red blood cells destroyed faster in space)",
+    "sourceUrl": "https://doi.org/10.1038/s41591-021-01637-7"
+  },
+  {
+    "analyte": "Hemoglobin",
+    "explanation": "The iron-rich protein in red blood cells that carries oxygen. Used to check for anemia.",
+    "nasaRisk": "Space anemia (red blood cells destroyed faster in space)",
+    "sourceUrl": "https://doi.org/10.1038/s41591-021-01637-7"
+  },
+  {
+    "analyte": "Hematocrit",
+    "explanation": "The percentage of your blood made of red blood cells. Too high or too low can mean dehydration or a blood disorder.",
+    "nasaRisk": "Space anemia (red blood cells destroyed faster in space)",
+    "sourceUrl": "https://doi.org/10.1038/s41591-021-01637-7"
+  },
+  {
+    "analyte": "MCV",
+    "explanation": "The average size of your red blood cells. Too small or too large can be a sign of anemia.",
+    "nasaRisk": "Space anemia (red blood cells destroyed faster in space)",
+    "sourceUrl": "https://doi.org/10.1038/s41591-021-01637-7"
+  },
+  {
+    "analyte": "Platelets",
+    "explanation": "Platelets help your blood clot to stop bleeding.",
+    "nasaRisk": "Risk of Cardiovascular Adaptations",
+    "sourceUrl": "https://www.nasa.gov/reference/risk-of-cardiovascular-adaptations/"
+  },
+  {
+    "analyte": "ALP",
+    "explanation": "An enzyme found mostly in the liver and bones. Abnormal levels can point to liver or bone problems.",
+    "nasaRisk": "Risk of Spaceflight-Induced Bone Changes",
+    "sourceUrl": "https://www.nasa.gov/reference/risk-of-spaceflight-induced-bone-changes/"
+  },
+  {
+    "analyte": "ALT",
+    "explanation": "A liver enzyme. High levels can be a sign of liver damage.",
+    "nasaRisk": "None specific (general health check)",
+    "sourceUrl": "https://medlineplus.gov/lab-tests/alt-blood-test/"
+  },
+  {
+    "analyte": "Albumin",
+    "explanation": "A protein made by the liver that keeps fluid inside your blood vessels. High levels can mean dehydration.",
+    "nasaRisk": "None specific (general health check)",
+    "sourceUrl": "https://medlineplus.gov/lab-tests/albumin-blood-test/"
+  },
+  {
+    "analyte": "Calcium",
+    "explanation": "Almost all your calcium is stored in bones and teeth. Blood calcium keeps nerves, muscles and the heart working.",
+    "nasaRisk": "Risk of Spaceflight-Induced Bone Changes",
+    "sourceUrl": "https://www.nasa.gov/reference/risk-of-spaceflight-induced-bone-changes/"
+  },
+  {
+    "analyte": "Creatinine",
+    "explanation": "A waste product from your muscles that the kidneys filter out. High levels can mean a kidney problem.",
+    "nasaRisk": "Kidney stones (from dehydration and calcium lost from bones)",
+    "sourceUrl": "https://www.nasa.gov/humans-in-space/the-human-body-in-space/"
+  },
+  {
+    "analyte": "Glucose",
+    "explanation": "Blood sugar: your body's main source of energy, which comes from food.",
+    "nasaRisk": "Risk of Inadequate Food and Nutrition",
+    "sourceUrl": "https://www.nasa.gov/reference/risk-of-inadequate-food-and-nutrition/"
+  },
+  {
+    "analyte": "Potassium",
+    "explanation": "An electrolyte your heart, nerves and muscles need to work properly.",
+    "nasaRisk": "Risk of Cardiovascular Adaptations",
+    "sourceUrl": "https://www.nasa.gov/reference/risk-of-cardiovascular-adaptations/"
+  },
+  {
+    "analyte": "Sodium",
+    "explanation": "An electrolyte that controls the amount of fluid in your body. Abnormal levels can mean dehydration.",
+    "nasaRisk": "Risk of Inadequate Food and Nutrition",
+    "sourceUrl": "https://www.nasa.gov/reference/risk-of-inadequate-food-and-nutrition/"
+  }
+]
