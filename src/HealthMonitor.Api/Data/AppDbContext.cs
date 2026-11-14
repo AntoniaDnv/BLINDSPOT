@@ -10,6 +10,8 @@ public class AppDbContext(
 
     public DbSet<BloodPanelResult> BloodPanelResults { get; init; }
 
+    public DbSet<Reading> Readings { get; init; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
         => modelBuilder
             .Entity<Sample>(entity =>
@@ -59,5 +61,18 @@ public class AppDbContext(
                 entity
                     .Property(r => r.Flag)
                     .HasMaxLength(50);
+            })
+            .Entity<Reading>(entity =>
+            {
+                entity
+                    .HasKey(r => r.Id);
+
+                entity
+                    .Property(r => r.Indicator)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity
+                    .HasIndex(r => new { r.Indicator, r.RecordedAt });
             });
 }

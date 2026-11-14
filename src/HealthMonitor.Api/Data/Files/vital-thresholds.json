@@ -1,0 +1,114 @@
+[
+  {
+    "indicator": "heartRate",
+    "name": "Resting heart rate",
+    "unit": "bpm",
+    "okMin": 60,
+    "okMax": 100,
+    "warnMin": 50,
+    "warnMax": 120,
+    "nasaRisk": "Cardiovascular Adaptations",
+    "guidance": {
+      "ok": "Resting heart rate is within the expected range.",
+      "warning": "Resting heart rate is outside the expected range. Rest and recheck; seek medical advice if it persists.",
+      "critical": "Resting heart rate is far outside the expected range. Seek medical support immediately."
+    },
+    "source": "TODO"
+  },
+  {
+    "indicator": "systolicBp",
+    "name": "Systolic blood pressure",
+    "unit": "mmHg",
+    "okMin": 90,
+    "okMax": 120,
+    "warnMin": 80,
+    "warnMax": 140,
+    "nasaRisk": "Cardiovascular Adaptations",
+    "guidance": {
+      "ok": "Systolic blood pressure is within the expected range.",
+      "warning": "Systolic blood pressure is outside the expected range. Rest and recheck soon.",
+      "critical": "Systolic blood pressure is dangerously outside the expected range. Seek medical support immediately."
+    },
+    "source": "TODO"
+  },
+  {
+    "indicator": "diastolicBp",
+    "name": "Diastolic blood pressure",
+    "unit": "mmHg",
+    "okMin": 60,
+    "okMax": 80,
+    "warnMin": 50,
+    "warnMax": 90,
+    "nasaRisk": "Cardiovascular Adaptations",
+    "guidance": {
+      "ok": "Diastolic blood pressure is within the expected range.",
+      "warning": "Diastolic blood pressure is outside the expected range. Rest and recheck soon.",
+      "critical": "Diastolic blood pressure is dangerously outside the expected range. Seek medical support immediately."
+    },
+    "source": "TODO"
+  },
+  {
+    "indicator": "spo2",
+    "name": "Blood oxygen saturation",
+    "unit": "%",
+    "okMin": 95,
+    "okMax": 100,
+    "warnMin": 90,
+    "warnMax": 100,
+    "nasaRisk": "Hypoxia",
+    "guidance": {
+      "ok": "Blood oxygen saturation is within the expected range.",
+      "warning": "Blood oxygen saturation is below the expected range. Sit still, breathe normally and recheck.",
+      "critical": "Blood oxygen saturation is critically low. Seek medical support immediately."
+    },
+    "source": "TODO"
+  },
+  {
+    "indicator": "bodyTemp",
+    "name": "Body temperature",
+    "unit": "°C",
+    "okMin": 36.1,
+    "okMax": 37.2,
+    "warnMin": 35.0,
+    "warnMax": 38.0,
+    "nasaRisk": "Thermoregulation",
+    "guidance": {
+      "ok": "Body temperature is within the expected range.",
+      "warning": "Body temperature is outside the expected range. Monitor and recheck.",
+      "critical": "Body temperature is dangerously outside the expected range. Seek medical support immediately."
+    },
+    "source": "TODO"
+  },
+  {
+    "indicator": "sleepHours",
+    "name": "Sleep duration",
+    "unit": "hours",
+    "okMin": 7,
+    "okMax": 9,
+    "warnMin": 6,
+    "warnMax": 10,
+    "nasaRisk": "Sleep Loss and Circadian Rhythm Disruption",
+    "guidance": {
+      "ok": "Sleep duration is within the recommended range.",
+      "warning": "Sleep duration is outside the recommended range. Aim for consistent rest.",
+      "critical": "Sleep duration is far outside the recommended range. Prioritise recovery and report persistent sleep loss."
+    },
+    "source": "TODO"
+  },
+  {
+    "indicator": "mood",
+    "name": "Mood",
+    "unit": "score",
+    "okMin": 4,
+    "okMax": 5,
+    "warnMin": 2,
+    "warnMax": 5,
+    "nasaRisk": "Behavioral Health and Performance",
+    "guidance": {
+      "ok": "Mood score is within the expected range.",
+      "warning": "Mood score is low. Monitor how you feel and talk to your crew or support team.",
+      "critical": "Mood score is critically low. Seek support from the crew medical team."
+    },
+    "source": "TODO"
+  }
+]
