@@ -7,6 +7,25 @@ const string CmpPath = "data/raw/LSDS-8_Comprehensive_Metabolic_Panel_CMP_TRANSF
 const string OutputPath = "src/HealthMonitor.Api/Data/Files/blood-panels.json";
 const string ArtifactFlag = "suspected-sample-artifact";
 
+// Written at the top of the output so the data always says where it comes from.
+// The seed loader (JsonLoader) skips comments.
+const string SourceHeader = """
+// REAL astronaut data: blood tests of the 4 Inspiration4 crew (C001-C004), SpaceX, 2021, 3-day flight.
+// Values and lab reference ranges are copied unchanged from NASA's Open Science Data Repository:
+//   CBC (blood count):      NASA OSDR OSD-569  https://osdr.nasa.gov/bio/repo/data/studies/OSD-569
+//   CMP (metabolic panel):  NASA OSDR OSD-575  https://osdr.nasa.gov/bio/repo/data/studies/OSD-575
+// Study: Jones CW et al. 2024, "Molecular and physiological changes in the SpaceX Inspiration4
+//   civilian crew", Nature. https://doi.org/10.1038/s41586-024-07648-x
+// Timepoints: L-92, L-44, L-3 = days before launch; R+1, R+45, R+82, R+194 = days after return.
+//   No samples were taken during the flight.
+// Cleaning (tools/convert-blood-panels.cs, from data/raw/):
+//   - C003 L-92 blood count dropped: that source row has values in the wrong columns.
+//   - "suspected-sample-artifact": low glucose (3 crew) and high potassium (C004) at R+45,
+//     most likely from delayed sample processing, not a real health change.
+// Generated file: edit tools/convert-blood-panels.cs and re-run it instead of editing by hand.
+
+""";
+
 var specs = new AnalyteSpec[]
 {
     // CBC
@@ -200,7 +219,7 @@ if (!string.IsNullOrEmpty(outputDirectory))
 
 File.WriteAllText(
     OutputPath,
-    JsonSerializer.Serialize(ordered, PanelJsonContext.Default.ListPanelEntry) + Environment.NewLine);
+    SourceHeader + JsonSerializer.Serialize(ordered, PanelJsonContext.Default.ListPanelEntry) + Environment.NewLine);
 
 var flaggedCount = ordered.Count(e => e.Flag is not null);
 Console.WriteLine($"Wrote {ordered.Count} entries ({flaggedCount} flagged) to {OutputPath}");

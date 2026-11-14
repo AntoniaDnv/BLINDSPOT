@@ -5,47 +5,47 @@
     "unit": "bpm",
     "okMin": 60,
     "okMax": 100,
-    "warnMin": 50,
+    "warnMin": 40,
     "warnMax": 120,
-    "nasaRisk": "Cardiovascular Adaptations",
+    "nasaRisk": "Risk of Cardiovascular Adaptations",
     "guidance": {
-      "ok": "Resting heart rate is within the expected range.",
-      "warning": "Resting heart rate is outside the expected range. Rest and recheck; seek medical advice if it persists.",
+      "ok": "Resting heart rate is within the normal adult range (60-100 bpm).",
+      "warning": "Resting heart rate is outside the normal range. A rate of 40-60 can be normal for very fit people. Rest and recheck; report it if it persists.",
       "critical": "Resting heart rate is far outside the expected range. Seek medical support immediately."
     },
-    "source": "TODO"
+    "source": "OK 60-100 bpm: American Heart Association, All About Heart Rate (https://www.heart.org/en/health-topics/high-blood-pressure/the-facts-about-high-blood-pressure/all-about-heart-rate-pulse) and MedlinePlus, Pulse (https://medlineplus.gov/ency/article/003399.htm). Warning low limit 40: MedlinePlus gives 40-60 bpm for well-trained athletes. Warning high limit 120: team demo parameter (no guideline)."
   },
   {
     "indicator": "systolicBp",
     "name": "Systolic blood pressure",
     "unit": "mmHg",
     "okMin": 90,
-    "okMax": 120,
+    "okMax": 119,
     "warnMin": 80,
-    "warnMax": 140,
-    "nasaRisk": "Cardiovascular Adaptations",
+    "warnMax": 180,
+    "nasaRisk": "Risk of Cardiovascular Adaptations",
     "guidance": {
-      "ok": "Systolic blood pressure is within the expected range.",
-      "warning": "Systolic blood pressure is outside the expected range. Rest and recheck soon.",
-      "critical": "Systolic blood pressure is dangerously outside the expected range. Seek medical support immediately."
+      "ok": "Systolic blood pressure is normal (90-119 mmHg).",
+      "warning": "Systolic blood pressure is elevated or low. Rest and recheck soon; report it if it stays outside the normal range.",
+      "critical": "Systolic blood pressure is above 180 mmHg or very low. Seek medical support immediately."
     },
-    "source": "TODO"
+    "source": "OK below 120 mmHg (normal) and warning up to 180 (elevated, stage 1-2 hypertension), critical above 180 (severe hypertension): American Heart Association, Understanding Blood Pressure Readings (https://www.heart.org/en/health-topics/high-blood-pressure/understanding-blood-pressure-readings). Low below 90: AHA, Low Blood Pressure (https://www.heart.org/en/health-topics/high-blood-pressure/the-facts-about-high-blood-pressure/low-blood-pressure-when-blood-pressure-is-too-low). Warning low limit 80: team demo parameter. In space, 24-hour blood pressure was 8-10 mmHg lower on the ISS: Norsk P et al. 2015, J Physiol (https://doi.org/10.1113/jphysiol.2014.284869)."
   },
   {
     "indicator": "diastolicBp",
     "name": "Diastolic blood pressure",
     "unit": "mmHg",
     "okMin": 60,
-    "okMax": 80,
+    "okMax": 79,
     "warnMin": 50,
-    "warnMax": 90,
-    "nasaRisk": "Cardiovascular Adaptations",
+    "warnMax": 120,
+    "nasaRisk": "Risk of Cardiovascular Adaptations",
     "guidance": {
-      "ok": "Diastolic blood pressure is within the expected range.",
-      "warning": "Diastolic blood pressure is outside the expected range. Rest and recheck soon.",
-      "critical": "Diastolic blood pressure is dangerously outside the expected range. Seek medical support immediately."
+      "ok": "Diastolic blood pressure is normal (60-79 mmHg).",
+      "warning": "Diastolic blood pressure is high or low. Rest and recheck soon; report it if it stays outside the normal range.",
+      "critical": "Diastolic blood pressure is above 120 mmHg or very low. Seek medical support immediately."
     },
-    "source": "TODO"
+    "source": "OK below 80 mmHg (normal), warning up to 120 (stage 1-2 hypertension), critical above 120 (severe hypertension): American Heart Association, Understanding Blood Pressure Readings (https://www.heart.org/en/health-topics/high-blood-pressure/understanding-blood-pressure-readings). Low below 60: AHA, Low Blood Pressure (https://www.heart.org/en/health-topics/high-blood-pressure/the-facts-about-high-blood-pressure/low-blood-pressure-when-blood-pressure-is-too-low). Warning low limit 50: team demo parameter."
   },
   {
     "indicator": "spo2",
@@ -53,15 +53,15 @@
     "unit": "%",
     "okMin": 95,
     "okMax": 100,
-    "warnMin": 90,
+    "warnMin": 89,
     "warnMax": 100,
-    "nasaRisk": "Hypoxia",
+    "nasaRisk": "Risk of Hypoxia",
     "guidance": {
-      "ok": "Blood oxygen saturation is within the expected range.",
-      "warning": "Blood oxygen saturation is below the expected range. Sit still, breathe normally and recheck.",
-      "critical": "Blood oxygen saturation is critically low. Seek medical support immediately."
+      "ok": "Blood oxygen saturation is normal (95-100%).",
+      "warning": "Blood oxygen saturation is below normal. Sit still, breathe normally and recheck. At 92% or lower, contact the crew medical officer.",
+      "critical": "Blood oxygen saturation is 88% or lower. Seek medical support immediately."
     },
-    "source": "TODO"
+    "source": "OK 95-100%, contact a provider at 92% or lower, seek immediate medical attention at 88% or lower: MedlinePlus, Pulse Oximetry (https://medlineplus.gov/lab-tests/pulse-oximetry/)."
   },
   {
     "indicator": "bodyTemp",
@@ -71,13 +71,13 @@
     "okMax": 37.2,
     "warnMin": 35.0,
     "warnMax": 38.0,
-    "nasaRisk": "Thermoregulation",
+    "nasaRisk": "Risk of Altered Immune System Responses",
     "guidance": {
-      "ok": "Body temperature is within the expected range.",
-      "warning": "Body temperature is outside the expected range. Monitor and recheck.",
-      "critical": "Body temperature is dangerously outside the expected range. Seek medical support immediately."
+      "ok": "Body temperature is within the normal range (36.1-37.2 °C).",
+      "warning": "Body temperature is outside the normal range. Monitor and recheck.",
+      "critical": "Body temperature is above 38 °C (likely fever from an infection) or below 35 °C (hypothermia). Seek medical support immediately."
     },
-    "source": "TODO"
+    "source": "OK 36.1-37.2 °C and fever above 38 °C: MedlinePlus, Body temperature norms (https://medlineplus.gov/ency/article/001982.htm). Hypothermia below 35 °C: MedlinePlus, Hypothermia (https://medlineplus.gov/ency/article/000038.htm). A fever usually means infection, which NASA links to altered immunity in space. In space, resting core body temperature rose about 1 °C over 2.5 months: Stahn AC et al. 2017, Sci Rep (https://doi.org/10.1038/s41598-017-15560-w)."
   },
   {
     "indicator": "sleepHours",
@@ -87,13 +87,13 @@
     "okMax": 9,
     "warnMin": 6,
     "warnMax": 10,
-    "nasaRisk": "Sleep Loss and Circadian Rhythm Disruption",
+    "nasaRisk": "Risk from Inadequate Sleep and Irregular Schedules",
     "guidance": {
-      "ok": "Sleep duration is within the recommended range.",
-      "warning": "Sleep duration is outside the recommended range. Aim for consistent rest.",
+      "ok": "Sleep duration is within the recommended range (7-9 hours).",
+      "warning": "You slept less than the recommended 7 hours. Aim for consistent rest; short sleep slows reaction time.",
       "critical": "Sleep duration is far outside the recommended range. Prioritise recovery and report persistent sleep loss."
     },
-    "source": "TODO"
+    "source": "OK 7 or more hours, more than 9 only sometimes appropriate: American Academy of Sleep Medicine and Sleep Research Society consensus, Watson NF et al. 2015, J Clin Sleep Med (https://doi.org/10.5664/jcsm.4758). Warning limits 6 and 10: team demo parameters. In space, ISS astronauts slept 6.09 hours a night on average: Barger LK et al. 2014, Lancet Neurol (https://doi.org/10.1016/S1474-4422%2814%2970122-X)."
   },
   {
     "indicator": "mood",
@@ -103,12 +103,12 @@
     "okMax": 5,
     "warnMin": 2,
     "warnMax": 5,
-    "nasaRisk": "Behavioral Health and Performance",
+    "nasaRisk": "Risk of Behavioral Changes and Psychiatric Disorders",
     "guidance": {
       "ok": "Mood score is within the expected range.",
       "warning": "Mood score is low. Monitor how you feel and talk to your crew or support team.",
       "critical": "Mood score is critically low. Seek support from the crew medical team."
     },
-    "source": "TODO"
+    "source": "Team demo scale (1-5 self-rating); there is no clinical cut-off for a single 1-5 rating. Why it matters: NASA, Risk of Behavioral Changes and Psychiatric Disorders (https://www.nasa.gov/reference/risk-of-behavioral-conditions-and-psychiatric-disorders/)."
   }
 ]
