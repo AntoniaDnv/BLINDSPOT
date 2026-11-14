@@ -17,7 +17,7 @@ public class RadiationService(IExternalApiClient nasa, ILogger<RadiationService>
         // Determine date range
         var endDate = end ?? DateTime.UtcNow;
         var startDate = start
-            ?? endDate.AddDays(-30); // default 30 days if days param not specified
+            ?? endDate.AddDays(-3); // default 3 days if days param not specified
 
         try
         {
@@ -144,10 +144,10 @@ public class RadiationService(IExternalApiClient nasa, ILogger<RadiationService>
         if (gtMatch.Success && double.TryParse(gtMatch.Groups[1].Value, out var gtEnergy))
             return gtEnergy;
 
-        // Look for "X-Y MeV" range pattern - take the max
+        // Look for "X-Y MeV" range pattern - take the lower number
         var rangeMatch = Regex.Match(displayName, @"(\d+(?:\.\d+)?)\s*[-–]\s*(\d+(?:\.\d+)?)\s*MeV", RegexOptions.IgnoreCase);
-        if (rangeMatch.Success && double.TryParse(rangeMatch.Groups[2].Value, out var rangeMax))
-            return rangeMax;
+        if (rangeMatch.Success && double.TryParse(rangeMatch.Groups[1].Value, out var rangeMin))
+            return rangeMin;
 
         return null;
     }

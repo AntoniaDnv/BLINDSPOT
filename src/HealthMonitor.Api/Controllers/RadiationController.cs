@@ -30,6 +30,15 @@ public class RadiationController(IRadiationService radiation) : ControllerBase
             startDate = start;
         }
 
+        // Validate: start must not be after end
+        if (startDate.HasValue && endDate.HasValue && startDate > endDate)
+        {
+            return this.StatusCode(502, new
+            {
+                error = "Start date cannot be after end date.",
+            });
+        }
+
         var status = await radiation.GetStatusAsync(startDate, endDate, cancellationToken);
 
         return this.Ok(status);
