@@ -4,6 +4,7 @@ using Data;
 using Data.Seeding;
 using Microsoft.EntityFrameworkCore;
 using Options;
+using Services.BloodPanels;
 using Services.External;
 using Services.Samples;
 
@@ -33,7 +34,8 @@ public static class ServiceCollectionExtensions
                 .AddScoped<JsonLoader>()
                 .AddScoped<CsvLoader>()
                 .AddScoped<DataSeeder>()
-                .AddScoped<ISampleService, SampleService>();
+                .AddScoped<ISampleService, SampleService>()
+                .AddScoped<IBloodPanelService, BloodPanelService>();
 
         public IServiceCollection AddExternalApiHttpClient()
         {
