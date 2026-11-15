@@ -57,8 +57,8 @@ public class RadiationService(IExternalApiClient nasa, ILogger<RadiationService>
             // Determine status
             var (status, guidance) = maxEnergy switch
             {
-                >= 100 => ("critical", "Move to the most shielded module, no EVAs, report to flight surgeons."),
-                >= 10 => ("warning", "Postpone EVAs, monitor dosimeter."),
+                >= 100 => ("critical", "Strong solar particle event. Move to the most heavily shielded area, do not start EVAs and end any EVA in progress. Follow flight surgeon instructions."),
+                >= 10 => ("warning", "Solar particle event detected. Postpone EVAs and keep checking your dosimeter."),
                 _ => ("ok", "No solar particle events detected.")
             };
 

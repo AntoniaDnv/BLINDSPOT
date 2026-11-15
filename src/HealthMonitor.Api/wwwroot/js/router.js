@@ -4,6 +4,7 @@ const routes = {
   "/external": "external",
   "/blood-panels": "blood-panels",
   "/nutrition": "nutrition",
+  "/radiation": "radiation",
   // '/dashboard': 'dashboard',
 };
 

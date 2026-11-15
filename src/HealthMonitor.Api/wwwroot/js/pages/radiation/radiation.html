@@ -1,0 +1,37 @@
+<section>
+  <h1>Radiation</h1>
+  <p class="muted">Solar particle events from NASA DONKI, turned into a crew alert level.</p>
+</section>
+
+<div id="rad-message" class="alert hidden"></div>
+
+<section class="card">
+  <p><span id="rad-status" class="badge">Loading</span></p>
+  <p id="rad-guidance"><strong>Loading...</strong></p>
+  <ul class="rad-stats">
+    <li>Solar particle events: <strong id="rad-count">-</strong></li>
+    <li>Solar flares: <strong id="rad-flares">-</strong></li>
+    <li>CMEs: <strong id="rad-cmes">-</strong></li>
+    <li>Last event: <strong id="rad-last">-</strong></li>
+  </ul>
+  <p id="rad-range" class="muted"></p>
+  <div class="rad-buttons">
+    <button type="button" class="btn" id="rad-live">Live (last 3 days)</button>
+    <button type="button" class="btn btn-secondary" id="rad-30">Last 30 days</button>
+    <button type="button" class="btn btn-secondary" id="rad-replay">Replay May 2024 storm</button>
+  </div>
+</section>
+
+<section class="card">
+  <h2>How we decide</h2>
+  <ul>
+    <li>Event on a &gt;10 MeV proton channel: <strong>Warning</strong></li>
+    <li>Event on a &gt;100 MeV proton channel: <strong>Critical</strong></li>
+    <li>No event on those channels: <strong>OK</strong></li>
+  </ul>
+  <p class="muted">
+    Sources: NOAA SWPC (solar radiation storms) and NASA SRAG (crew guidance). The
+    Warning/Critical mapping is a team demo parameter. Details in docs/research.md.
+  </p>
+  <p class="muted">Data: NASA DONKI SEP via api.nasa.gov</p>
+</section>
