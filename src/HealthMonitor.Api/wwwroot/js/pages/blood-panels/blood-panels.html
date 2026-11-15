@@ -3,6 +3,7 @@
   <p class="muted">
     Astronaut biomarker panels, threshold status, and mission trend analysis.
   </p>
+  <p class="muted bp-hint">Real data: Inspiration4 crew (2021), NASA OSDR OSD-569 / OSD-575</p>
 </section>
 
 <div id="bp-message" class="alert hidden"></div>
@@ -23,10 +24,13 @@
       <label for="bp-panel-select">Blood Panel</label>
       <select id="bp-panel-select">
         <option value="CBC" selected>Complete Blood Count (CBC)</option>
-        <option value="Metabolic">Comprehensive Metabolic Panel (CMP)</option>
-        <option value="Lipid">Lipid Panel</option>
-        <option value="Electrolytes">Electrolytes & Renal</option>
+        <option value="CMP">Comprehensive Metabolic Panel (CMP)</option>
       </select>
+    </div>
+
+    <div class="field">
+      <label for="bp-time-select">Timepoint</label>
+      <select id="bp-time-select"></select>
     </div>
   </div>
 </section>

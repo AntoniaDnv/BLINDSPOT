@@ -1,0 +1,58 @@
+<div class="auth">
+  <div class="auth__glow" aria-hidden="true"></div>
+  <div class="auth__wrap">
+    <div class="auth__brand">
+      <span class="sidebar__logo" aria-hidden="true"><span class="icon material-symbols-outlined">ecg_heart</span></span>
+      <span class="auth__brand-name">BLINDSPOT</span>
+    </div>
+    <p class="auth__pitch">Catch the health changes on long missions that nobody is watching for yet.</p>
+
+    <section class="card card--raised auth__card" aria-labelledby="login-title">
+      <h1 class="auth__title" id="login-title">Sign in</h1>
+      <p class="auth__sub muted">Astronauts see their own data. Flight surgeons see the whole crew.</p>
+
+      <form id="login-form" class="auth__form" novalidate>
+        <div class="field">
+          <label for="login-email">Email</label>
+          <input id="login-email" name="email" type="email" autocomplete="username" inputmode="email" required aria-describedby="login-email-err" />
+          <p class="auth__error" id="login-email-err" hidden></p>
+        </div>
+        <div class="field">
+          <label for="login-password">Password</label>
+          <div class="auth__password">
+            <input id="login-password" name="password" type="password" autocomplete="current-password" required aria-describedby="login-password-err" />
+            <button type="button" class="btn btn--icon btn--ghost auth__toggle" id="login-toggle" aria-label="Show password" aria-pressed="false">
+              <span class="icon material-symbols-outlined" aria-hidden="true">visibility</span>
+            </button>
+          </div>
+          <p class="auth__error" id="login-password-err" hidden></p>
+        </div>
+        <p class="auth__error auth__error--form" id="login-error" role="alert" hidden></p>
+        <button type="submit" class="btn btn--primary auth__submit" id="login-submit">Sign in</button>
+      </form>
+
+      <p class="auth__switch muted">New here? <a href="#/signup">Create an astronaut account</a></p>
+    </section>
+
+    <section class="auth__demo" aria-labelledby="demo-title">
+      <h2 class="label label--sm" id="demo-title">Demo accounts (public test values)</h2>
+      <ul class="auth__demo-list">
+        <li>
+          <div class="auth__demo-main">
+            <span class="auth__demo-name">Astronaut C001</span>
+            <span class="muted tabular">c001@blindspot.test</span>
+          </div>
+          <button type="button" class="btn btn--ghost btn--sm" data-demo="c001" aria-label="Use the astronaut C001 demo account">Use</button>
+        </li>
+        <li>
+          <div class="auth__demo-main">
+            <span class="auth__demo-name">Flight surgeon</span>
+            <span class="muted tabular">surgeon@blindspot.test</span>
+          </div>
+          <button type="button" class="btn btn--ghost btn--sm" data-demo="surgeon" aria-label="Use the flight surgeon demo account">Use</button>
+        </li>
+      </ul>
+    </section>
+    <p class="auth__disclaimer">Prototype · not a medical device · NASA Space Apps 2026</p>
+  </div>
+</div>

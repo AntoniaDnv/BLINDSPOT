@@ -16,6 +16,9 @@ builder
     .ConfigureOptions(builder.Configuration)
     .AddInMemoryDb()
     .AddServices()
+    .AddAppAuth()
+    .AddAuthRateLimiting()
+    .AddProxyForwardedHeaders()
     .AddExternalApiHttpClient()
     .AddOpenApi()
     .AddProblemDetails()
@@ -29,14 +32,23 @@ var cancellationToken = app
 
 await app.SeedData(cancellationToken);
 
+// First: client IP and scheme from the hosting proxy (rate limiting, Secure cookie).
+app.UseForwardedHeaders();
+
 app.UseExceptionHandler();
 app.UseStatusCodePages();
 
-app.MapOpenApi();
-app.MapScalarApiReference();
-
+// Static files (the SPA shell) are public and served before authorization runs.
 app.UseDefaultFiles();
 app.UseStaticFiles();
+
+app.UseRouting();
+app.UseRateLimiter();
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.MapOpenApi().AllowAnonymous();
+app.MapScalarApiReference().AllowAnonymous();
 
 app.MapControllers();
 

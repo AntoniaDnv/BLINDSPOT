@@ -1,0 +1,44 @@
+<div class="auth">
+  <div class="auth__glow" aria-hidden="true"></div>
+  <div class="auth__wrap">
+    <div class="auth__brand">
+      <span class="sidebar__logo" aria-hidden="true"><span class="icon material-symbols-outlined">ecg_heart</span></span>
+      <span class="auth__brand-name">BLINDSPOT</span>
+    </div>
+    <p class="auth__pitch">Create an astronaut account to log your own vitals and watch them against your personal baseline.</p>
+
+    <section class="card card--raised auth__card" aria-labelledby="signup-title">
+      <h1 class="auth__title" id="signup-title">Create account</h1>
+      <p class="auth__sub muted">New accounts are astronauts and start with no data.</p>
+
+      <form id="signup-form" class="auth__form" novalidate>
+        <div class="field">
+          <label for="signup-name">Display name</label>
+          <input id="signup-name" name="displayName" type="text" autocomplete="name" maxlength="60" required aria-describedby="signup-name-err" />
+          <p class="auth__error" id="signup-name-err" hidden></p>
+        </div>
+        <div class="field">
+          <label for="signup-email">Email</label>
+          <input id="signup-email" name="email" type="email" autocomplete="email" inputmode="email" required aria-describedby="signup-email-err" />
+          <p class="auth__error" id="signup-email-err" hidden></p>
+        </div>
+        <div class="field">
+          <label for="signup-password">Password</label>
+          <div class="auth__password">
+            <input id="signup-password" name="password" type="password" autocomplete="new-password" required aria-describedby="signup-password-hint signup-password-err" />
+            <button type="button" class="btn btn--icon btn--ghost auth__toggle" id="signup-toggle" aria-label="Show password" aria-pressed="false">
+              <span class="icon material-symbols-outlined" aria-hidden="true">visibility</span>
+            </button>
+          </div>
+          <p class="field__hint" id="signup-password-hint">At least 8 characters, with a letter and a digit.</p>
+          <p class="auth__error" id="signup-password-err" hidden></p>
+        </div>
+        <p class="auth__error auth__error--form" id="signup-error" role="alert" hidden></p>
+        <button type="submit" class="btn btn--primary auth__submit" id="signup-submit">Create account</button>
+      </form>
+
+      <p class="auth__switch muted">Already have an account? <a href="#/login">Sign in</a></p>
+    </section>
+    <p class="auth__disclaimer">Prototype · not a medical device · NASA Space Apps 2026</p>
+  </div>
+</div>
