@@ -18,7 +18,6 @@ using Services.Logging;
 using Services.Nutrition;
 using Services.Radiation;
 using Services.Readings;
-using Services.Samples;
 using Services.Vitals;
 
 public static class ServiceCollectionExtensions
@@ -30,8 +29,6 @@ public static class ServiceCollectionExtensions
             => services
                 .Configure<ExternalApiOptions>(
                     config.GetSection(ExternalApiOptions.SectionName))
-                .Configure<SeedingOptions>(
-                    config.GetSection(SeedingOptions.SectionName))
                 .Configure<AuthRateLimitOptions>(
                     config.GetSection(AuthRateLimitOptions.SectionName));
 
@@ -54,7 +51,6 @@ public static class ServiceCollectionExtensions
                 .AddScoped<JsonLoader>()
                 .AddScoped<CsvLoader>()
                 .AddScoped<DataSeeder>()
-                .AddScoped<ISampleService, SampleService>()
                 .AddScoped<IBloodPanelService, BloodPanelService>()
                 .AddScoped<IReadingService, ReadingService>()
                 .AddSingleton<IVitalThresholdService, VitalThresholdService>()

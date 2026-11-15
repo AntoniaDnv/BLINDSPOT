@@ -3,8 +3,6 @@ import { CREW_CHANGE_EVENT, isFlightSurgeon, loadSession } from "./session.js";
 
 const routes = {
   "/": "home",
-  "/samples": "samples",
-  "/external": "external",
   "/blood-panels": "blood-panels",
   "/nutrition": "nutrition",
   "/radiation": "radiation",
@@ -43,7 +41,7 @@ export function startRouter(root, authContainer) {
   render();
 }
 
-/** Navigate from code, e.g. navigate('/samples'). */
+/** Navigate from code, e.g. navigate('/crew'). */
 export function navigate(path) {
   window.location.hash = `#${path}`;
 }
@@ -136,7 +134,7 @@ async function render() {
 }
 
 function getPath() {
-  // "#/samples?x=1" -> "/samples"
+  // "#/crew?x=1" -> "/crew"
   const hash = window.location.hash.slice(1) || "/";
   return hash.split("?")[0] || "/";
 }

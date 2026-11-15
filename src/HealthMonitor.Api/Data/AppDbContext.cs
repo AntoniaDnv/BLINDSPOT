@@ -6,8 +6,6 @@ using Models.Entities;
 public class AppDbContext(
     DbContextOptions<AppDbContext> options) : DbContext(options)
 {
-    public DbSet<Sample> Samples { get; init; }
-
     public DbSet<BloodPanelResult> BloodPanelResults { get; init; }
 
     public DbSet<Reading> Readings { get; init; }
@@ -24,20 +22,6 @@ public class AppDbContext(
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
         => modelBuilder
-            .Entity<Sample>(entity =>
-            {
-                entity
-                    .HasKey(s => s.Id);
-
-                entity
-                    .Property(s => s.Name)
-                    .IsRequired()
-                    .HasMaxLength(100);
-
-                entity
-                    .Property(s => s.Unit)
-                    .HasMaxLength(20);
-            })
             .Entity<BloodPanelResult>(entity =>
             {
                 entity

@@ -23,8 +23,6 @@ public class AuthAndAccessTests(ApiFactory factory) : IClassFixture<ApiFactory>
     [InlineData("/api/crew")]
     [InlineData("/api/vitals/indicators")]
     [InlineData("/api/radiation/status")]
-    [InlineData("/api/samples")]
-    [InlineData("/api/external?path=planetary/apod")]
     [InlineData("/api/auth/me")]
     public async Task Anonymous_request_gets_401_json_not_redirect(string url)
     {
@@ -365,7 +363,6 @@ public class AuthAndAccessTests(ApiFactory factory) : IClassFixture<ApiFactory>
 
     [Theory]
     [InlineData("/api/crew")]
-    [InlineData("/api/samples")]
     public async Task Astronaut_on_flight_surgeon_endpoint_gets_403_json(string url)
     {
         var client = await factory.LoggedInClient(ApiFactory.C001Email, ApiFactory.C001Password);
