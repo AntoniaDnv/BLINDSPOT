@@ -304,6 +304,7 @@ function drawSleep() {
     });
   }
   charts.push(new window.Chart(canvas, {
+    type: "bar",
     data: { labels: days.map((d, i) => (i === last ? "Latest" : shortDate(d.recordedAt))), datasets },
     options: {
       responsive: true,
