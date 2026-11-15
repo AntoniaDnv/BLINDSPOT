@@ -78,6 +78,7 @@ public class DataSeeder(
                 Indicator = r.Indicator,
                 Value = r.Value,
                 RecordedAt = r.RecordedAt,
+                IsSimulated = true,
             });
 
         data.AddRange(entities);

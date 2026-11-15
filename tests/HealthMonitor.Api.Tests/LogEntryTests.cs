@@ -348,6 +348,55 @@ public class LogEntryTests(ApiFactory factory) : IClassFixture<ApiFactory>
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
     }
 
+    [Fact]
+    public async Task Recent_entries_mark_seeded_readings_as_simulated()
+    {
+        var client = await Astronaut();
+        await client.PostAsJsonAsync("/api/readings/batch", new
+        {
+            values = new object[] { new { indicator = "heartRate", value = 66 } },
+        });
+
+        var recent = (await Json(await client.GetAsync("/api/log/recent?limit=50"))).EnumerateArray().ToList();
+        var vitals = recent.Where(r => r.GetProperty("type").GetString() == "vitals").ToList();
+        Assert.Contains(vitals, r => r.GetProperty("simulated").GetBoolean());
+        Assert.Contains(vitals, r => !r.GetProperty("simulated").GetBoolean());
+        Assert.All(
+            recent.Where(r => r.GetProperty("type").GetString() != "vitals"),
+            r => Assert.False(r.GetProperty("simulated").GetBoolean()));
+    }
+
+    [Fact]
+    public async Task Batch_with_null_item_gets_400()
+    {
+        var client = await Astronaut();
+        var response = await client.PostAsync(
+            "/api/readings/batch",
+            new StringContent("{\"values\":[null]}", System.Text.Encoding.UTF8, "application/json"));
+
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+    }
+
+    [Fact]
+    public async Task Future_recordedAt_gets_400_for_batch_and_symptoms()
+    {
+        var client = await Astronaut();
+        var future = DateTime.UtcNow.AddHours(1);
+
+        var batch = await client.PostAsJsonAsync("/api/readings/batch", new
+        {
+            recordedAt = future,
+            values = new object[] { new { indicator = "heartRate", value = 70 } },
+        });
+        Assert.Equal(HttpStatusCode.BadRequest, batch.StatusCode);
+
+        var symptom = await client.PostAsJsonAsync("/api/symptoms", new { recordedAt = future, fatigue = 1, headache = 1 });
+        Assert.Equal(HttpStatusCode.BadRequest, symptom.StatusCode);
+
+        var nearNow = await client.PostAsJsonAsync("/api/symptoms", new { recordedAt = DateTime.UtcNow.AddMinutes(2), fatigue = 1, headache = 1 });
+        Assert.Equal(HttpStatusCode.Created, nearNow.StatusCode);
+    }
+
     [Theory]
     [InlineData("/api/symptoms")]
     [InlineData("/api/meds")]

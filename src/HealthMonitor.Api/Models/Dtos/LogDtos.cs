@@ -243,4 +243,7 @@ public class RecentEntryDto
 
     /// <summary>ok | warning | critical | taken | pending, or null.</summary>
     public string? Status { get; init; }
+
+    /// <summary>True for seeded simulated demo data (not something the user logged).</summary>
+    public bool Simulated { get; init; }
 }

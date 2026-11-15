@@ -12,4 +12,7 @@ public class Reading
     public double Value { get; set; }
 
     public DateTime RecordedAt { get; set; }
+
+    /// <summary>True for the seeded simulated week (readings.json); false for logged readings.</summary>
+    public bool IsSimulated { get; set; }
 }

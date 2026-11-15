@@ -45,6 +45,9 @@ public class SymptomsController(
         if (!access.IsAllowed)
             return access.ToErrorResult();
 
+        if (dto.RecordedAt is { } at && at.ToUniversalTime() > DateTime.UtcNow.AddMinutes(5))
+            return LogErrors.BadRequest("recordedAt", "Recorded time cannot be in the future.");
+
         var created = await log.LogSymptomAsync(access.CrewId!, dto, cancellationToken);
         return this.StatusCode(StatusCodes.Status201Created, created);
     }

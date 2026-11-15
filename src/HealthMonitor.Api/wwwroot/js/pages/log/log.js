@@ -446,7 +446,10 @@ async function refreshRecent(my) {
   if (my !== token) return;
 
   const todayLocal = new Date().toDateString();
-  const savedToday = new Set(rows.filter((r) => new Date(r.recordedAt).toDateString() === todayLocal).map((r) => r.type));
+  // Only entries someone logged count; the seeded simulated vitals week never does.
+  const savedToday = new Set(rows
+    .filter((r) => !r.simulated && new Date(r.recordedAt).toDateString() === todayLocal)
+    .map((r) => r.type));
   for (const section of SECTIONS) {
     const chip = el.root.querySelector(`[data-saved="${section}"]`);
     const saved = savedToday.has(section);
@@ -469,7 +472,10 @@ async function refreshRecent(my) {
         <p class="log-recent__meta"><span class="label label--sm">${escapeHtml(type.label)}</span> <span class="muted tabular">${escapeHtml(formatDateTime(r.recordedAt))}</span></p>
         <p class="log-recent__summary">${escapeHtml(r.summary)}</p>
       </div>
-      ${s ? `<span class="chip ${s.tone}">${escapeHtml(s.label)}</span>` : ""}
+      <span class="log-recent__chips">
+        ${r.simulated ? `<span class="chip chip--tertiary chip--plain">Simulated</span>` : ""}
+        ${s ? `<span class="chip ${s.tone}">${escapeHtml(s.label)}</span>` : ""}
+      </span>
     </li>`;
   }).join("");
 }
