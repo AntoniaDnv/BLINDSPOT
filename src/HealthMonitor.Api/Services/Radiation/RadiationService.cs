@@ -98,7 +98,7 @@ public class RadiationService(IExternalApiClient nasa, ILogger<RadiationService>
             {
                 Status = "error",
                 Guidance = "Radiation data unavailable.",
-                Error = ex.Message,
+                Error = "NASA DONKI request failed.",
             };
         }
     }

@@ -10,6 +10,7 @@ public class RadiationController(IRadiationService radiation) : ControllerBase
 {
     [HttpGet("status")]
     [ProducesResponseType<RadiationStatusResponseDto>(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<RadiationStatusResponseDto>> GetStatus(
         [FromQuery] int? days = null,
         [FromQuery] DateTime? start = null,
@@ -33,7 +34,7 @@ public class RadiationController(IRadiationService radiation) : ControllerBase
         // Validate: start must not be after end
         if (startDate.HasValue && endDate.HasValue && startDate > endDate)
         {
-            return this.StatusCode(502, new
+            return this.BadRequest(new
             {
                 error = "Start date cannot be after end date.",
             });

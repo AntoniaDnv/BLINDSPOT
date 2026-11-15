@@ -14,6 +14,8 @@ const RANGE_LABELS = {
 };
 
 let el = null;
+let buttons = [];
+let requestId = 0;
 
 export function init(root) {
   const local = {
@@ -27,6 +29,7 @@ export function init(root) {
     range: root.querySelector("#rad-range"),
   };
   el = local;
+  buttons = [...root.querySelectorAll(".rad-buttons button")];
   root.querySelector("#rad-live").addEventListener("click", () => load("live"));
   root.querySelector("#rad-30").addEventListener("click", () => load("days30"));
   root.querySelector("#rad-replay").addEventListener("click", () => load("replay"));
@@ -35,19 +38,27 @@ export function init(root) {
 
 export function destroy() {
   el = null;
+  buttons = [];
+  requestId++;
 }
 
 async function load(mode) {
   const local = el;
+  const myId = ++requestId;
+  buttons.forEach((b) => (b.disabled = true));
+  local.range.textContent = "Loading...";
   try {
     const data = await api.get(`/api/radiation/status${QUERIES[mode]}`);
-    if (el !== local) return; // page was left while loading
+    if (el !== local || myId !== requestId) return; // left page or superseded
     render(data, mode);
   } catch (error) {
-    if (el !== local) return;
+    if (el !== local || myId !== requestId) return;
     setBadge("error");
     local.guidance.textContent = "Radiation status unavailable.";
+    local.range.textContent = "";
     showMessage(local.message, `Could not load radiation data: ${error.message}`, "error");
+  } finally {
+    if (el === local && myId === requestId) buttons.forEach((b) => (b.disabled = false));
   }
 }
 
