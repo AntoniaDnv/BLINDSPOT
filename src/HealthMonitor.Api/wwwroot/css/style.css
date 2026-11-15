@@ -3330,3 +3330,33 @@ pre.code {
   align-items: flex-end;
   gap: 4px;
 }
+
+/* =============================================================================
+   Daily Readiness & Vitals page (home.js). Prefix hv-.
+   ============================================================================= */
+.hv-stack { display: flex; flex-direction: column; gap: var(--space-lg); min-width: 0; }
+.hv-grid { align-items: start; }
+.hv-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: var(--gutter); }
+.hv-tile { gap: var(--space-sm); }
+.hv-tile__top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-xs) var(--space-sm); }
+.hv-tile .metric { margin: 0; }
+.hv-tile .range-bar { margin: var(--space-xs) 0; }
+.hv-base { display: flex; flex-direction: column; gap: 2px; margin: 0; padding-top: var(--space-xs); border-top: 1px solid var(--divider); }
+.hv-delta { display: inline-flex; align-items: center; gap: 4px; font-size: var(--text-body-sm); font-weight: 600; color: var(--on-surface-variant); }
+.hv-base__note { font-size: var(--text-label-sm); color: var(--on-surface-variant); }
+.hv-risk { margin: auto 0 0; padding-top: var(--space-xs); color: var(--tertiary); }
+.hv-mood { margin: 0; color: var(--on-surface); font-weight: 500; }
+.hv-mood-scale { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; }
+.hv-mood-scale span { height: 6px; border-radius: var(--radius-full); background: var(--surface-container-highest); }
+.hv-mood-scale span.is-on { background: var(--primary-container); opacity: 0.55; }
+.hv-mood-scale span.is-current { opacity: 1; box-shadow: var(--glow-primary); }
+.hv-target { font-size: var(--text-label-md); font-weight: 600; color: var(--secondary); font-variant-numeric: tabular-nums; }
+.hv-chart { position: relative; min-width: 0; }
+.hv-chart--sleep { height: 200px; }
+.hv-chart--trend { height: 320px; }
+.hv-picker { gap: var(--space-xs); }
+.hv-foot { margin: 0; font-size: var(--text-body-sm); }
+@media (max-width: 767px) {
+  .hv-chart--trend { height: 260px; }
+  .hv-tiles { grid-template-columns: 1fr; }
+}

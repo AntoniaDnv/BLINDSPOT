@@ -196,6 +196,7 @@ public class ReadingService(
                 Status = vitals.GetStatus(threshold, reading.Value),
                 NasaRisk = threshold.NasaRisk,
                 Guidance = threshold.Guidance,
+                IsSimulated = reading.IsSimulated,
             });
         }
 
@@ -212,6 +213,7 @@ public class ReadingService(
             Indicator = reading.Indicator,
             Value = reading.Value,
             RecordedAt = reading.RecordedAt,
+            IsSimulated = reading.IsSimulated,
             Status = threshold is null
                 ? "unknown"
                 : vitals.GetStatus(threshold, reading.Value),

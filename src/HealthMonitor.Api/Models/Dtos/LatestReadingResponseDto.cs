@@ -22,5 +22,8 @@ public class LatestReadingResponseDto
 
     public string NasaRisk { get; init; } = "";
 
+    /// <summary>True when the latest reading is seeded simulated data.</summary>
+    public bool IsSimulated { get; init; }
+
     public VitalGuidance Guidance { get; init; } = new();
 }
