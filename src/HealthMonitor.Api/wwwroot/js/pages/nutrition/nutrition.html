@@ -1,0 +1,193 @@
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" />
+<section class="nhm" aria-labelledby="nhm-title">
+  <header class="nhm-header">
+    <div>
+      <p class="nhm-eyebrow">Crew health <span aria-hidden="true">•</span> <span class="nhm-eyebrow-muted">Bio-metabolic stream</span></p>
+      <h1 id="nhm-title">Nutrition, Hydration &amp; Meds</h1>
+      <p class="nhm-subtitle" id="nhm-crew-role">—</p>
+    </div>
+    <div class="nhm-header-actions">
+      <span class="nhm-pill" data-tone="ok" id="nhm-mission-pill"><span class="nhm-dot" aria-hidden="true"></span><span class="nhm-pill-text">—</span></span>
+      <div class="nhm-picker">
+        <label for="nhm-crew">Crew member</label>
+        <select id="nhm-crew"></select>
+      </div>
+      <div class="nhm-picker">
+        <label for="nhm-day">Mission day</label>
+        <select id="nhm-day"></select>
+      </div>
+    </div>
+  </header>
+
+  <div id="nhm-message" class="alert hidden" role="alert"></div>
+
+  <div class="nhm-row">
+    <!-- Energy -->
+    <article class="nhm-card nhm-energy" data-status="none" aria-labelledby="nhm-energy-title">
+      <div class="nhm-card-head">
+        <span class="nhm-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M7 2v20M4 2v6a3 3 0 0 0 6 0V2M17 2c-2 2-3 4-3 7s1 4 3 4v9" /></svg>
+        </span>
+        <div>
+          <p class="nhm-label">Caloric balance</p>
+          <h2 id="nhm-energy-title">Daily Nutritional Status</h2>
+        </div>
+        <span class="nhm-pill" data-tone="none" id="nhm-energy-status"><span class="nhm-dot" aria-hidden="true"></span><span class="nhm-pill-text">—</span></span>
+      </div>
+      <div class="nhm-energy-body">
+        <div class="nhm-ring" style="--pct: 0">
+          <div class="nhm-ring-inner">
+            <span class="nhm-ring-value" id="nhm-kcal">—</span>
+            <span class="nhm-label">kcal eaten</span>
+          </div>
+        </div>
+        <div class="nhm-energy-side">
+          <div class="nhm-target-box">
+            <p class="nhm-target-row">
+              <span>Energy target</span>
+              <strong><span id="nhm-kcal-target">—</span> kcal</strong>
+            </p>
+            <div class="nhm-progress" aria-hidden="true"><span class="nhm-progress-fill" style="--pct: 0"></span></div>
+            <p class="nhm-target-row nhm-target-sub">
+              <span>Remaining to target</span>
+              <span class="nhm-accent-text" id="nhm-kcal-left">—</span>
+            </p>
+          </div>
+          <p class="nhm-label">Energy, last 7 days</p>
+          <div class="nhm-stats">
+            <div class="nhm-stat">
+              <p class="nhm-label">Today</p>
+              <p class="nhm-stat-value" id="nhm-kcal-pct">—</p>
+              <p class="nhm-stat-note">of target</p>
+            </div>
+            <div class="nhm-stat">
+              <p class="nhm-label">7-day avg</p>
+              <p class="nhm-stat-value" id="nhm-kcal-avg">—</p>
+              <p class="nhm-stat-note">of target</p>
+            </div>
+            <div class="nhm-stat">
+              <p class="nhm-label">Low days</p>
+              <p class="nhm-stat-value" id="nhm-kcal-lowdays">—</p>
+              <p class="nhm-stat-note">below 80%</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- Hydration -->
+    <article class="nhm-card nhm-water" data-status="none" aria-labelledby="nhm-water-title">
+      <div class="nhm-card-head">
+        <span class="nhm-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M12 2.7s-6 6.6-6 11.3a6 6 0 0 0 12 0c0-4.7-6-11.3-6-11.3z" /></svg>
+        </span>
+        <div>
+          <p class="nhm-label">Fluid reserve</p>
+          <h2 id="nhm-water-title">Hydration Index</h2>
+        </div>
+        <span class="nhm-pill" data-tone="none" id="nhm-water-status"><span class="nhm-dot" aria-hidden="true"></span><span class="nhm-pill-text">—</span></span>
+      </div>
+      <p class="nhm-water-amount">
+        <span class="nhm-big" id="nhm-water">—</span>
+        <span class="nhm-water-of">/ <span id="nhm-water-target">—</span> Liters</span>
+        <span class="nhm-accent-text" id="nhm-water-left">—</span>
+      </p>
+      <div class="nhm-segments" aria-hidden="true">
+        <span class="nhm-seg"></span><span class="nhm-seg"></span><span class="nhm-seg"></span>
+        <span class="nhm-seg"></span><span class="nhm-seg"></span><span class="nhm-seg"></span>
+        <span class="nhm-seg"></span><span class="nhm-seg"></span><span class="nhm-seg"></span>
+        <span class="nhm-seg"></span>
+      </div>
+      <div class="nhm-protocol">
+        <p class="nhm-protocol-head" id="nhm-water-note">—</p>
+        <details class="nhm-notes" id="nhm-water-details">
+          <summary>
+            <span class="nhm-notes-icon" aria-hidden="true">≡</span>
+            Hydration notes &amp; source
+          </summary>
+          <div class="nhm-notes-body" id="nhm-water-notes">—</div>
+        </details>
+      </div>
+      <dl class="nhm-water-foot">
+        <div><dt>Personal target</dt><dd><span id="nhm-water-target-foot">—</span> L / day</dd></div>
+        <div><dt>Alert rule</dt><dd>&lt; 2.0 L for 2 days (demo parameter)</dd></div>
+      </dl>
+    </article>
+  </div>
+
+  <!-- Medication -->
+  <article class="nhm-card nhm-meds" data-status="none" aria-labelledby="nhm-meds-title">
+    <div class="nhm-card-head">
+      <span class="nhm-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M10.5 20.5 3.5 13.5a5 5 0 0 1 7-7l7 7a5 5 0 0 1-7 7zM8.5 8.5l7 7" /></svg>
+      </span>
+      <div>
+        <p class="nhm-label">Sleep medication log</p>
+        <h2 id="nhm-meds-title">Medication &amp; Sleep</h2>
+      </div>
+      <span class="nhm-pill-group">
+        <span class="nhm-pill-caption">Log status:</span>
+        <span class="nhm-pill" data-tone="none" id="nhm-meds-status"><span class="nhm-dot" aria-hidden="true"></span><span class="nhm-pill-text">—</span></span>
+      </span>
+    </div>
+    <div class="nhm-meds-grid">
+      <div class="nhm-subcard">
+        <p class="nhm-label">Last night <span class="nhm-label-accent">Sleep medication</span></p>
+        <p class="nhm-big" id="nhm-hypnotic">—</p>
+        <p class="nhm-subcard-foot">Logged as yes / no each night</p>
+      </div>
+      <div class="nhm-subcard">
+        <p class="nhm-label">Nights in a row</p>
+        <p class="nhm-sub-value" id="nhm-hypnotic-streak">—</p>
+        <p class="nhm-subcard-foot">Counting back from the chosen day</p>
+      </div>
+      <div class="nhm-subcard">
+        <p class="nhm-label">Last 7 nights</p>
+        <div class="nhm-nights" id="nhm-hypnotic-week"></div>
+        <p class="nhm-subcard-foot">Filled dot = medication taken</p>
+      </div>
+    </div>
+  </article>
+
+  <!-- Alerts -->
+  <details class="nhm-card nhm-alerts-bar" id="nhm-alerts-details">
+    <summary>
+      <span class="nhm-dot nhm-dot-live" aria-hidden="true"></span>
+      <span class="nhm-alerts-title" id="nhm-alerts-title">Alerts &amp; sources for this day</span>
+      <span class="nhm-pill" data-tone="none" id="nhm-alerts-count"><span class="nhm-dot" aria-hidden="true"></span><span class="nhm-pill-text">—</span></span>
+      <span class="nhm-chevron" aria-hidden="true">⌄</span>
+    </summary>
+    <ul class="nhm-alerts" id="nhm-alerts" aria-labelledby="nhm-alerts-title"></ul>
+    <template id="nhm-alert-tpl">
+      <li class="nhm-alert">
+        <p><span class="nhm-pill nhm-alert-level"><span class="nhm-dot" aria-hidden="true"></span><span class="nhm-pill-text"></span></span> <strong class="nhm-alert-what"></strong></p>
+        <p><span class="nhm-label">Why it matters</span> <span class="nhm-alert-why"></span></p>
+        <p><span class="nhm-label">What to do</span> <span class="nhm-alert-action"></span></p>
+        <p class="nhm-muted"><span class="nhm-label">Source</span> <span class="nhm-alert-source"></span></p>
+      </li>
+    </template>
+  </details>
+
+  <!-- Last 7 days -->
+  <section class="nhm-card nhm-week" aria-labelledby="nhm-week-title">
+    <h2 id="nhm-week-title">Last 7 days</h2>
+    <div class="nhm-week-grid">
+      <p class="nhm-label">Energy, % of target</p>
+      <div class="nhm-bars" id="nhm-week-kcal"></div>
+      <p class="nhm-label">Water, % of target</p>
+      <div class="nhm-bars nhm-bars-water" id="nhm-week-water"></div>
+      <span></span>
+      <div class="nhm-bars nhm-bar-labels" id="nhm-week-days"></div>
+    </div>
+    <p class="nhm-week-legend">
+      <span class="nhm-legend-swatch" aria-hidden="true"></span>
+      Striped coral = that day was below 80% of the energy target or below 2.0 L of water
+      (single-day demo parameter; alerts need several days in a row).
+    </p>
+  </section>
+
+  <p class="nhm-disclaimer">
+    Simulated data. BLINDSPOT is a student hackathon prototype, not a medical device.
+  </p>
+</section>

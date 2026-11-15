@@ -3,6 +3,7 @@ const routes = {
   "/samples": "samples",
   "/external": "external",
   "/blood-panels": "blood-panels",
+  "/nutrition": "nutrition",
   // '/dashboard': 'dashboard',
 };
 

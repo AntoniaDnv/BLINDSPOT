@@ -1,0 +1,1336 @@
+{
+  "note": "Simulated crew data for the BLINDSPOT prototype. Not real astronaut data.",
+  "crew": [
+    {
+      "id": "crew-1",
+      "name": "Sam Okafor",
+      "role": "Flight Engineer",
+      "baseline": {
+        "kcalTarget": 2600,
+        "waterTargetL": 2.3
+      }
+    },
+    {
+      "id": "crew-2",
+      "name": "Alex Rowan",
+      "role": "Commander",
+      "baseline": {
+        "kcalTarget": 2800,
+        "waterTargetL": 2.5
+      }
+    },
+    {
+      "id": "crew-3",
+      "name": "Riley Chen",
+      "role": "Mission Specialist",
+      "baseline": {
+        "kcalTarget": 3000,
+        "waterTargetL": 2.7
+      }
+    }
+  ],
+  "days": [
+    {
+      "crewId": "crew-1",
+      "day": 1,
+      "kcal": 2300,
+      "waterL": 2.2,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-1",
+      "day": 2,
+      "kcal": 2360,
+      "waterL": 2.1,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-1",
+      "day": 3,
+      "kcal": 2380,
+      "waterL": 2.5,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-1",
+      "day": 4,
+      "kcal": 2150,
+      "waterL": 2,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-1",
+      "day": 5,
+      "kcal": 2270,
+      "waterL": 2.1,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-1",
+      "day": 6,
+      "kcal": 2250,
+      "waterL": 2.2,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-1",
+      "day": 7,
+      "kcal": 2340,
+      "waterL": 2,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-1",
+      "day": 8,
+      "kcal": 2230,
+      "waterL": 2.5,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-1",
+      "day": 9,
+      "kcal": 2470,
+      "waterL": 2.5,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-1",
+      "day": 10,
+      "kcal": 2230,
+      "waterL": 2.2,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-1",
+      "day": 11,
+      "kcal": 2370,
+      "waterL": 2.5,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-1",
+      "day": 12,
+      "kcal": 2470,
+      "waterL": 2,
+      "hypnoticTaken": true
+    },
+    {
+      "crewId": "crew-1",
+      "day": 13,
+      "kcal": 2250,
+      "waterL": 2.5,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-1",
+      "day": 14,
+      "kcal": 2280,
+      "waterL": 2.6,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-1",
+      "day": 15,
+      "kcal": 2360,
+      "waterL": 2.2,
+      "hypnoticTaken": true
+    },
+    {
+      "crewId": "crew-1",
+      "day": 16,
+      "kcal": 2490,
+      "waterL": 2.1,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-1",
+      "day": 17,
+      "kcal": 2430,
+      "waterL": 2.2,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-1",
+      "day": 18,
+      "kcal": 2200,
+      "waterL": 2.6,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-1",
+      "day": 19,
+      "kcal": 2450,
+      "waterL": 2.5,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-1",
+      "day": 20,
+      "kcal": 2300,
+      "waterL": 2.3,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-1",
+      "day": 21,
+      "kcal": 2410,
+      "waterL": 2.3,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-1",
+      "day": 22,
+      "kcal": 2480,
+      "waterL": 2.2,
+      "hypnoticTaken": true
+    },
+    {
+      "crewId": "crew-1",
+      "day": 23,
+      "kcal": 2200,
+      "waterL": 2,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-1",
+      "day": 24,
+      "kcal": 2470,
+      "waterL": 2.1,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-1",
+      "day": 25,
+      "kcal": 2310,
+      "waterL": 2.4,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-1",
+      "day": 26,
+      "kcal": 2480,
+      "waterL": 2.5,
+      "hypnoticTaken": true
+    },
+    {
+      "crewId": "crew-1",
+      "day": 27,
+      "kcal": 2480,
+      "waterL": 2.4,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-1",
+      "day": 28,
+      "kcal": 2220,
+      "waterL": 2.4,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-1",
+      "day": 29,
+      "kcal": 2140,
+      "waterL": 2.5,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-1",
+      "day": 30,
+      "kcal": 2480,
+      "waterL": 2.5,
+      "hypnoticTaken": true
+    },
+    {
+      "crewId": "crew-1",
+      "day": 31,
+      "kcal": 2480,
+      "waterL": 2.6,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-1",
+      "day": 32,
+      "kcal": 2300,
+      "waterL": 2,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-1",
+      "day": 33,
+      "kcal": 2430,
+      "waterL": 2.5,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-1",
+      "day": 34,
+      "kcal": 2200,
+      "waterL": 2.1,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-1",
+      "day": 35,
+      "kcal": 2490,
+      "waterL": 2.5,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-1",
+      "day": 36,
+      "kcal": 2250,
+      "waterL": 2.4,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-1",
+      "day": 37,
+      "kcal": 2200,
+      "waterL": 2.4,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-1",
+      "day": 38,
+      "kcal": 2150,
+      "waterL": 2.3,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-1",
+      "day": 39,
+      "kcal": 2360,
+      "waterL": 2.4,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-1",
+      "day": 40,
+      "kcal": 2220,
+      "waterL": 2.2,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-1",
+      "day": 41,
+      "kcal": 2460,
+      "waterL": 2.2,
+      "hypnoticTaken": true
+    },
+    {
+      "crewId": "crew-1",
+      "day": 42,
+      "kcal": 2280,
+      "waterL": 2.2,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-1",
+      "day": 43,
+      "kcal": 2440,
+      "waterL": 2.4,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-1",
+      "day": 44,
+      "kcal": 1790,
+      "waterL": 2.1,
+      "hypnoticTaken": true
+    },
+    {
+      "crewId": "crew-1",
+      "day": 45,
+      "kcal": 1780,
+      "waterL": 1.8,
+      "hypnoticTaken": true
+    },
+    {
+      "crewId": "crew-1",
+      "day": 46,
+      "kcal": 1790,
+      "waterL": 1.9,
+      "hypnoticTaken": true
+    },
+    {
+      "crewId": "crew-1",
+      "day": 47,
+      "kcal": 1780,
+      "waterL": 1.7,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-1",
+      "day": 48,
+      "kcal": 2230,
+      "waterL": 2,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-1",
+      "day": 49,
+      "kcal": 2340,
+      "waterL": 2.6,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-1",
+      "day": 50,
+      "kcal": 2320,
+      "waterL": 2.3,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-1",
+      "day": 51,
+      "kcal": 2450,
+      "waterL": 2.3,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-1",
+      "day": 52,
+      "kcal": 2370,
+      "waterL": 2.4,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-1",
+      "day": 53,
+      "kcal": 2250,
+      "waterL": 2.3,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-1",
+      "day": 54,
+      "kcal": 2180,
+      "waterL": 2.1,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-1",
+      "day": 55,
+      "kcal": 2160,
+      "waterL": 2.3,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-1",
+      "day": 56,
+      "kcal": 2190,
+      "waterL": 2.1,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-1",
+      "day": 57,
+      "kcal": 2380,
+      "waterL": 2.4,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-1",
+      "day": 58,
+      "kcal": 2170,
+      "waterL": 2.1,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-1",
+      "day": 59,
+      "kcal": 2470,
+      "waterL": 2.5,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-1",
+      "day": 60,
+      "kcal": 2190,
+      "waterL": 2.2,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-2",
+      "day": 1,
+      "kcal": 2680,
+      "waterL": 2.5,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-2",
+      "day": 2,
+      "kcal": 2670,
+      "waterL": 2.5,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-2",
+      "day": 3,
+      "kcal": 2500,
+      "waterL": 2.7,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-2",
+      "day": 4,
+      "kcal": 2370,
+      "waterL": 2.8,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-2",
+      "day": 5,
+      "kcal": 2330,
+      "waterL": 2.4,
+      "hypnoticTaken": true
+    },
+    {
+      "crewId": "crew-2",
+      "day": 6,
+      "kcal": 2350,
+      "waterL": 2.2,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-2",
+      "day": 7,
+      "kcal": 2300,
+      "waterL": 2.6,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-2",
+      "day": 8,
+      "kcal": 2320,
+      "waterL": 2.6,
+      "hypnoticTaken": true
+    },
+    {
+      "crewId": "crew-2",
+      "day": 9,
+      "kcal": 2440,
+      "waterL": 2.2,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-2",
+      "day": 10,
+      "kcal": 2430,
+      "waterL": 2.5,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-2",
+      "day": 11,
+      "kcal": 2510,
+      "waterL": 2.7,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-2",
+      "day": 12,
+      "kcal": 2470,
+      "waterL": 2.3,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-2",
+      "day": 13,
+      "kcal": 2610,
+      "waterL": 2.7,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-2",
+      "day": 14,
+      "kcal": 2420,
+      "waterL": 2.6,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-2",
+      "day": 15,
+      "kcal": 2350,
+      "waterL": 2.6,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-2",
+      "day": 16,
+      "kcal": 2490,
+      "waterL": 2.3,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-2",
+      "day": 17,
+      "kcal": 2490,
+      "waterL": 2.5,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-2",
+      "day": 18,
+      "kcal": 2530,
+      "waterL": 2.6,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-2",
+      "day": 19,
+      "kcal": 2450,
+      "waterL": 2.4,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-2",
+      "day": 20,
+      "kcal": 2640,
+      "waterL": 2.2,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-2",
+      "day": 21,
+      "kcal": 2510,
+      "waterL": 2.3,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-2",
+      "day": 22,
+      "kcal": 2660,
+      "waterL": 2.5,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-2",
+      "day": 23,
+      "kcal": 2640,
+      "waterL": 2.8,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-2",
+      "day": 24,
+      "kcal": 2400,
+      "waterL": 2.4,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-2",
+      "day": 25,
+      "kcal": 2350,
+      "waterL": 2.4,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-2",
+      "day": 26,
+      "kcal": 2460,
+      "waterL": 2.7,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-2",
+      "day": 27,
+      "kcal": 2370,
+      "waterL": 2.6,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-2",
+      "day": 28,
+      "kcal": 2600,
+      "waterL": 2.3,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-2",
+      "day": 29,
+      "kcal": 2310,
+      "waterL": 2.5,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-2",
+      "day": 30,
+      "kcal": 2610,
+      "waterL": 2.5,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-2",
+      "day": 31,
+      "kcal": 2500,
+      "waterL": 2.8,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-2",
+      "day": 32,
+      "kcal": 2460,
+      "waterL": 2.8,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-2",
+      "day": 33,
+      "kcal": 2650,
+      "waterL": 2.5,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-2",
+      "day": 34,
+      "kcal": 2680,
+      "waterL": 2.8,
+      "hypnoticTaken": true
+    },
+    {
+      "crewId": "crew-2",
+      "day": 35,
+      "kcal": 2360,
+      "waterL": 2.5,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-2",
+      "day": 36,
+      "kcal": 2340,
+      "waterL": 2.5,
+      "hypnoticTaken": true
+    },
+    {
+      "crewId": "crew-2",
+      "day": 37,
+      "kcal": 2510,
+      "waterL": 2.3,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-2",
+      "day": 38,
+      "kcal": 2520,
+      "waterL": 2.4,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-2",
+      "day": 39,
+      "kcal": 2370,
+      "waterL": 2.3,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-2",
+      "day": 40,
+      "kcal": 2490,
+      "waterL": 2.7,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-2",
+      "day": 41,
+      "kcal": 2450,
+      "waterL": 2.4,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-2",
+      "day": 42,
+      "kcal": 2410,
+      "waterL": 2.4,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-2",
+      "day": 43,
+      "kcal": 2490,
+      "waterL": 2.3,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-2",
+      "day": 44,
+      "kcal": 2440,
+      "waterL": 2.2,
+      "hypnoticTaken": true
+    },
+    {
+      "crewId": "crew-2",
+      "day": 45,
+      "kcal": 2510,
+      "waterL": 2.5,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-2",
+      "day": 46,
+      "kcal": 2400,
+      "waterL": 2.8,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-2",
+      "day": 47,
+      "kcal": 2600,
+      "waterL": 2.2,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-2",
+      "day": 48,
+      "kcal": 2550,
+      "waterL": 2.3,
+      "hypnoticTaken": true
+    },
+    {
+      "crewId": "crew-2",
+      "day": 49,
+      "kcal": 2470,
+      "waterL": 2.7,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-2",
+      "day": 50,
+      "kcal": 2490,
+      "waterL": 2.2,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-2",
+      "day": 51,
+      "kcal": 2590,
+      "waterL": 2.7,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-2",
+      "day": 52,
+      "kcal": 2620,
+      "waterL": 2.6,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-2",
+      "day": 53,
+      "kcal": 2380,
+      "waterL": 2.3,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-2",
+      "day": 54,
+      "kcal": 2560,
+      "waterL": 2.8,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-2",
+      "day": 55,
+      "kcal": 2530,
+      "waterL": 2.5,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-2",
+      "day": 56,
+      "kcal": 2320,
+      "waterL": 2.7,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-2",
+      "day": 57,
+      "kcal": 2450,
+      "waterL": 2.5,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-2",
+      "day": 58,
+      "kcal": 2390,
+      "waterL": 2.5,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-2",
+      "day": 59,
+      "kcal": 2550,
+      "waterL": 2.3,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-2",
+      "day": 60,
+      "kcal": 2630,
+      "waterL": 2.8,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-3",
+      "day": 1,
+      "kcal": 2540,
+      "waterL": 3,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-3",
+      "day": 2,
+      "kcal": 2600,
+      "waterL": 2.8,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-3",
+      "day": 3,
+      "kcal": 2470,
+      "waterL": 2.7,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-3",
+      "day": 4,
+      "kcal": 2780,
+      "waterL": 2.8,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-3",
+      "day": 5,
+      "kcal": 2880,
+      "waterL": 2.6,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-3",
+      "day": 6,
+      "kcal": 2590,
+      "waterL": 2.5,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-3",
+      "day": 7,
+      "kcal": 2660,
+      "waterL": 2.9,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-3",
+      "day": 8,
+      "kcal": 2760,
+      "waterL": 2.6,
+      "hypnoticTaken": true
+    },
+    {
+      "crewId": "crew-3",
+      "day": 9,
+      "kcal": 2630,
+      "waterL": 2.6,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-3",
+      "day": 10,
+      "kcal": 2680,
+      "waterL": 2.9,
+      "hypnoticTaken": true
+    },
+    {
+      "crewId": "crew-3",
+      "day": 11,
+      "kcal": 2670,
+      "waterL": 2.6,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-3",
+      "day": 12,
+      "kcal": 2580,
+      "waterL": 2.6,
+      "hypnoticTaken": true
+    },
+    {
+      "crewId": "crew-3",
+      "day": 13,
+      "kcal": 2490,
+      "waterL": 2.5,
+      "hypnoticTaken": true
+    },
+    {
+      "crewId": "crew-3",
+      "day": 14,
+      "kcal": 2770,
+      "waterL": 2.9,
+      "hypnoticTaken": true
+    },
+    {
+      "crewId": "crew-3",
+      "day": 15,
+      "kcal": 2860,
+      "waterL": 3,
+      "hypnoticTaken": true
+    },
+    {
+      "crewId": "crew-3",
+      "day": 16,
+      "kcal": 2620,
+      "waterL": 2.4,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-3",
+      "day": 17,
+      "kcal": 2770,
+      "waterL": 2.8,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-3",
+      "day": 18,
+      "kcal": 2500,
+      "waterL": 3,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-3",
+      "day": 19,
+      "kcal": 2470,
+      "waterL": 2.7,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-3",
+      "day": 20,
+      "kcal": 2860,
+      "waterL": 2.8,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-3",
+      "day": 21,
+      "kcal": 2820,
+      "waterL": 2.7,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-3",
+      "day": 22,
+      "kcal": 2640,
+      "waterL": 2.9,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-3",
+      "day": 23,
+      "kcal": 2620,
+      "waterL": 2.5,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-3",
+      "day": 24,
+      "kcal": 2830,
+      "waterL": 2.6,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-3",
+      "day": 25,
+      "kcal": 2830,
+      "waterL": 2.6,
+      "hypnoticTaken": true
+    },
+    {
+      "crewId": "crew-3",
+      "day": 26,
+      "kcal": 2810,
+      "waterL": 2.6,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-3",
+      "day": 27,
+      "kcal": 2470,
+      "waterL": 2.6,
+      "hypnoticTaken": true
+    },
+    {
+      "crewId": "crew-3",
+      "day": 28,
+      "kcal": 2760,
+      "waterL": 2.5,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-3",
+      "day": 29,
+      "kcal": 2810,
+      "waterL": 3,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-3",
+      "day": 30,
+      "kcal": 2590,
+      "waterL": 2.6,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-3",
+      "day": 31,
+      "kcal": 2700,
+      "waterL": 2.9,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-3",
+      "day": 32,
+      "kcal": 2860,
+      "waterL": 3,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-3",
+      "day": 33,
+      "kcal": 2620,
+      "waterL": 2.6,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-3",
+      "day": 34,
+      "kcal": 2860,
+      "waterL": 2.6,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-3",
+      "day": 35,
+      "kcal": 2500,
+      "waterL": 3,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-3",
+      "day": 36,
+      "kcal": 2590,
+      "waterL": 2.6,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-3",
+      "day": 37,
+      "kcal": 2670,
+      "waterL": 2.7,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-3",
+      "day": 38,
+      "kcal": 2630,
+      "waterL": 2.7,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-3",
+      "day": 39,
+      "kcal": 2800,
+      "waterL": 2.7,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-3",
+      "day": 40,
+      "kcal": 2610,
+      "waterL": 2.5,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-3",
+      "day": 41,
+      "kcal": 2770,
+      "waterL": 2.8,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-3",
+      "day": 42,
+      "kcal": 2830,
+      "waterL": 2.7,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-3",
+      "day": 43,
+      "kcal": 2700,
+      "waterL": 2.5,
+      "hypnoticTaken": true
+    },
+    {
+      "crewId": "crew-3",
+      "day": 44,
+      "kcal": 2860,
+      "waterL": 2.4,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-3",
+      "day": 45,
+      "kcal": 2540,
+      "waterL": 2.9,
+      "hypnoticTaken": true
+    },
+    {
+      "crewId": "crew-3",
+      "day": 46,
+      "kcal": 2500,
+      "waterL": 2.9,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-3",
+      "day": 47,
+      "kcal": 2630,
+      "waterL": 2.7,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-3",
+      "day": 48,
+      "kcal": 2730,
+      "waterL": 2.7,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-3",
+      "day": 49,
+      "kcal": 2770,
+      "waterL": 2.7,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-3",
+      "day": 50,
+      "kcal": 2680,
+      "waterL": 2.8,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-3",
+      "day": 51,
+      "kcal": 2730,
+      "waterL": 2.6,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-3",
+      "day": 52,
+      "kcal": 2860,
+      "waterL": 2.9,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-3",
+      "day": 53,
+      "kcal": 2770,
+      "waterL": 2.8,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-3",
+      "day": 54,
+      "kcal": 2470,
+      "waterL": 2.8,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-3",
+      "day": 55,
+      "kcal": 2730,
+      "waterL": 2.9,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-3",
+      "day": 56,
+      "kcal": 2740,
+      "waterL": 2.4,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-3",
+      "day": 57,
+      "kcal": 2590,
+      "waterL": 2.4,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-3",
+      "day": 58,
+      "kcal": 2810,
+      "waterL": 2.8,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-3",
+      "day": 59,
+      "kcal": 2640,
+      "waterL": 2.9,
+      "hypnoticTaken": false
+    },
+    {
+      "crewId": "crew-3",
+      "day": 60,
+      "kcal": 2580,
+      "waterL": 2.6,
+      "hypnoticTaken": false
+    }
+  ],
+  "alerts": [
+    {
+      "crewId": "crew-1",
+      "day": 46,
+      "level": "caution",
+      "system": "food",
+      "what": "Eating less than 80% of target for 3 days",
+      "why": "ISS crews ate about 80% of their energy needs, and under-eating leads to weight loss.",
+      "action": "Plan an extra snack and tell the CMO if it continues.",
+      "source": "Smith SM et al., J Nutr 2005; NASA Risk of Inadequate Food and Nutrition"
+    },
+    {
+      "crewId": "crew-1",
+      "day": 46,
+      "level": "caution",
+      "system": "water",
+      "what": "Less than 2.0 L of water for 2 days",
+      "why": "In-flight dehydration is a known spaceflight problem.",
+      "action": "Drink a pouch now and log water every few hours.",
+      "source": "Demo parameter; NASA Risk of Inadequate Food and Nutrition"
+    },
+    {
+      "crewId": "crew-1",
+      "day": 47,
+      "level": "caution",
+      "system": "food",
+      "what": "Eating less than 80% of target for 3 days",
+      "why": "ISS crews ate about 80% of their energy needs, and under-eating leads to weight loss.",
+      "action": "Plan an extra snack and tell the CMO if it continues.",
+      "source": "Smith SM et al., J Nutr 2005; NASA Risk of Inadequate Food and Nutrition"
+    },
+    {
+      "crewId": "crew-1",
+      "day": 47,
+      "level": "caution",
+      "system": "water",
+      "what": "Less than 2.0 L of water for 2 days",
+      "why": "In-flight dehydration is a known spaceflight problem.",
+      "action": "Drink a pouch now and log water every few hours.",
+      "source": "Demo parameter; NASA Risk of Inadequate Food and Nutrition"
+    }
+  ]
+}
