@@ -15,7 +15,8 @@ const NOT_FOUND_PAGE = "not-found";
 
 /**
  * Fired on window at the start of every render with detail { path, pageName }.
- * js/shell.js uses it to highlight the nav and close the mobile drawer.
+ * js/shell.js uses it to highlight the nav and to close the mobile drawer on
+ * every route change (nav click, Back/Forward, navigate()).
  */
 export const ROUTE_CHANGE_EVENT = "app:routechange";
 

@@ -15,10 +15,23 @@ const STATUS_VIEW = {
 };
 
 export function initShell() {
+  initSkipLink();
   initDrawer();
   initNav();
   initClock();
   initServerStatus();
+}
+
+/* ---------- Skip link ---------- */
+
+// The router owns location.hash, so href="#app" must not change it.
+function initSkipLink() {
+  const link = document.querySelector(".skip-link");
+  const content = document.getElementById("app");
+  link?.addEventListener("click", (event) => {
+    event.preventDefault();
+    content.focus();
+  });
 }
 
 /* ---------- Drawer (below 1024px) ---------- */
@@ -57,8 +70,13 @@ function initDrawer() {
   closeButton.addEventListener("click", () => close({ returnFocus: true }));
   backdrop.addEventListener("click", () => close({ returnFocus: true }));
   sidebar.addEventListener("click", (event) => {
-    if (event.target.closest(".nav-link")) close();
+    if (!event.target.closest(".nav-link") || !isOpen()) return;
+    close();
+    // The sidebar is about to be hidden: keep focus in the page, not on <body>.
+    document.getElementById("app").focus({ preventScroll: true });
   });
+  // Any route change (nav click, Back/Forward, code) closes the drawer.
+  window.addEventListener(ROUTE_CHANGE_EVENT, () => close());
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape" && isOpen()) close({ returnFocus: true });
   });
