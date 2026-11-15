@@ -1,0 +1,11 @@
+// DEMO TEST ACCOUNTS for the BLINDSPOT prototype (documented in README).
+// These are public test values, not secrets: anyone with the README can sign in.
+// Passwords are hashed with PasswordHasher<User> at startup; plaintext is never stored.
+// The real Inspiration4 crew stay anonymous: astronaut accounts are "Crew member C00x".
+[
+  { "email": "c001@blindspot.test", "displayName": "Crew member C001", "password": "Dragon-Orbit-7341", "role": "astronaut", "crewId": "C001" },
+  { "email": "c002@blindspot.test", "displayName": "Crew member C002", "password": "Dragon-Orbit-5826", "role": "astronaut", "crewId": "C002" },
+  { "email": "c003@blindspot.test", "displayName": "Crew member C003", "password": "Dragon-Orbit-2958", "role": "astronaut", "crewId": "C003" },
+  { "email": "c004@blindspot.test", "displayName": "Crew member C004", "password": "Dragon-Orbit-4617", "role": "astronaut", "crewId": "C004" },
+  { "email": "surgeon@blindspot.test", "displayName": "Flight surgeon (demo)", "password": "Flight-Surgeon-9052", "role": "flight_surgeon", "crewId": null }
+]

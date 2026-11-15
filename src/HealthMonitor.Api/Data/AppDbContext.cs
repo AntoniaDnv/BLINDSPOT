@@ -12,6 +12,8 @@ public class AppDbContext(
 
     public DbSet<Reading> Readings { get; init; }
 
+    public DbSet<User> Users { get; init; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
         => modelBuilder
             .Entity<Sample>(entity =>
@@ -73,6 +75,54 @@ public class AppDbContext(
                     .HasMaxLength(50);
 
                 entity
-                    .HasIndex(r => new { r.Indicator, r.RecordedAt });
+                    .Property(r => r.CrewId)
+                    .IsRequired()
+                    .HasMaxLength(20);
+
+                entity
+                    .HasIndex(r => new { r.CrewId, r.Indicator, r.RecordedAt });
+            })
+            .Entity<User>(entity =>
+            {
+                entity
+                    .HasKey(u => u.Id);
+
+                // Note: the InMemory provider does not enforce unique indexes;
+                // AuthService checks uniqueness before inserting.
+                entity
+                    .HasIndex(u => u.NormalizedEmail)
+                    .IsUnique();
+
+                entity
+                    .HasIndex(u => u.CrewId)
+                    .IsUnique();
+
+                entity
+                    .Property(u => u.Email)
+                    .IsRequired()
+                    .HasMaxLength(254);
+
+                entity
+                    .Property(u => u.NormalizedEmail)
+                    .IsRequired()
+                    .HasMaxLength(254);
+
+                entity
+                    .Property(u => u.DisplayName)
+                    .IsRequired()
+                    .HasMaxLength(60);
+
+                entity
+                    .Property(u => u.PasswordHash)
+                    .IsRequired();
+
+                entity
+                    .Property(u => u.Role)
+                    .IsRequired()
+                    .HasMaxLength(20);
+
+                entity
+                    .Property(u => u.CrewId)
+                    .HasMaxLength(20);
             });
 }

@@ -1,10 +1,13 @@
 namespace HealthMonitor.Api.Controllers;
 
+using Auth;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models.Dtos;
 using Services.Samples;
 
 [ApiController]
+[Authorize(Policy = Policies.FlightSurgeon)]
 [Route("api/[controller]")]
 public class SamplesController(
     ISampleService samples) : ControllerBase

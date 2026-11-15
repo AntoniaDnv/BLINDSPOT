@@ -1,10 +1,12 @@
 namespace HealthMonitor.Api.Controllers;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models.Dtos;
 using Services.Radiation;
 
 [ApiController]
+[Authorize]
 [Route("api/[controller]")]
 public class RadiationController(IRadiationService radiation) : ControllerBase
 {

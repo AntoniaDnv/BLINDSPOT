@@ -16,6 +16,8 @@ builder
     .ConfigureOptions(builder.Configuration)
     .AddInMemoryDb()
     .AddServices()
+    .AddAppAuth()
+    .AddAuthRateLimiting()
     .AddExternalApiHttpClient()
     .AddOpenApi()
     .AddProblemDetails()
@@ -32,11 +34,17 @@ await app.SeedData(cancellationToken);
 app.UseExceptionHandler();
 app.UseStatusCodePages();
 
-app.MapOpenApi();
-app.MapScalarApiReference();
-
+// Static files (the SPA shell) are public and served before authorization runs.
 app.UseDefaultFiles();
 app.UseStaticFiles();
+
+app.UseRouting();
+app.UseRateLimiter();
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.MapOpenApi().AllowAnonymous();
+app.MapScalarApiReference().AllowAnonymous();
 
 app.MapControllers();
 

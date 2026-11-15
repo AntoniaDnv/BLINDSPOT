@@ -1,9 +1,12 @@
 namespace HealthMonitor.Api.Controllers;
 
+using Auth;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.External;
 
 [ApiController]
+[Authorize(Policy = Policies.FlightSurgeon)]
 [Route("api/[controller]")]
 public class ExternalController(
     IExternalApiClient externalApi) : ControllerBase

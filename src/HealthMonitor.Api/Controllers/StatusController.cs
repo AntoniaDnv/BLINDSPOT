@@ -1,8 +1,10 @@
 namespace HealthMonitor.Api.Controllers;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
+[AllowAnonymous]
 [Route("api/[controller]")]
 public class StatusController(
     IWebHostEnvironment env) : ControllerBase

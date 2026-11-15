@@ -12,6 +12,7 @@ public class ReadingService(
     IVitalThresholdService vitals) : IReadingService
 {
     public async Task<ReadingResponseDto?> CreateAsync(
+        string crewId,
         ReadingCreateDto dto,
         CancellationToken cancellationToken = default)
     {
@@ -21,6 +22,7 @@ public class ReadingService(
 
         var reading = new Reading
         {
+            CrewId = crewId,
             Indicator = threshold.Indicator,
             Value = dto.Value.Value,
             RecordedAt = dto.RecordedAt?.ToUniversalTime() ?? DateTime.UtcNow,
@@ -33,12 +35,14 @@ public class ReadingService(
     }
 
     public async Task<IReadOnlyList<ReadingResponseDto>> GetHistoryAsync(
+        string crewId,
         string? indicator,
         CancellationToken cancellationToken = default)
     {
         IQueryable<Reading> query = data
             .Readings
-            .AsNoTracking();
+            .AsNoTracking()
+            .Where(r => r.CrewId == crewId);
 
         if (!string.IsNullOrWhiteSpace(indicator))
         {
@@ -61,11 +65,13 @@ public class ReadingService(
     }
 
     public async Task<IReadOnlyList<LatestReadingResponseDto>> GetLatestAsync(
+        string crewId,
         CancellationToken cancellationToken = default)
     {
         var readings = await data
             .Readings
             .AsNoTracking()
+            .Where(r => r.CrewId == crewId)
             .ToListAsync(cancellationToken);
 
         var latestByIndicator = readings
@@ -87,6 +93,7 @@ public class ReadingService(
             result.Add(new LatestReadingResponseDto
             {
                 Id = reading.Id,
+                CrewId = reading.CrewId,
                 Indicator = reading.Indicator,
                 Name = threshold.Name,
                 Unit = threshold.Unit,
@@ -107,6 +114,7 @@ public class ReadingService(
         => new()
         {
             Id = reading.Id,
+            CrewId = reading.CrewId,
             Indicator = reading.Indicator,
             Value = reading.Value,
             RecordedAt = reading.RecordedAt,

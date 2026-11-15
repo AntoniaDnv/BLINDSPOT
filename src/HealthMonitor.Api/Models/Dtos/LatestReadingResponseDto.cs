@@ -6,6 +6,8 @@ public class LatestReadingResponseDto
 {
     public int Id { get; init; }
 
+    public string CrewId { get; init; } = "";
+
     public string Indicator { get; init; } = "";
 
     public string Name { get; init; } = "";
