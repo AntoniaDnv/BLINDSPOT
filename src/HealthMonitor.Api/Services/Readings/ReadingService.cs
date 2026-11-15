@@ -42,8 +42,17 @@ public class ReadingService(
         var errors = new Dictionary<string, string[]>(StringComparer.Ordinal);
         var valid = new List<(VitalThreshold Threshold, double Value)>();
 
+        if (dto.RecordedAt is { } at && at.ToUniversalTime() > DateTime.UtcNow.AddMinutes(5))
+            errors["recordedAt"] = ["Recorded time cannot be in the future."];
+
         foreach (var item in dto.Values)
         {
+            if (item is null)
+            {
+                errors["values"] = ["Each value needs an indicator and a value."];
+                continue;
+            }
+
             var key = string.IsNullOrWhiteSpace(item.Indicator) ? "values" : item.Indicator;
             var threshold = vitals.Find(item.Indicator);
             if (threshold is null)

@@ -250,7 +250,7 @@ public class CrewLogService(
             .Take(limit * 8)
             .ToListAsync(cancellationToken);
 
-        foreach (var group in readings.GroupBy(r => r.RecordedAt))
+        foreach (var group in readings.GroupBy(r => new { r.RecordedAt, r.IsSimulated }))
         {
             var parts = new List<string>();
             var worst = "ok";
@@ -270,9 +270,10 @@ public class CrewLogService(
                 result.Add(new RecentEntryDto
                 {
                     Type = "vitals",
-                    RecordedAt = group.Key,
+                    RecordedAt = group.Key.RecordedAt,
                     Summary = string.Join(" · ", parts),
                     Status = worst,
+                    Simulated = group.Key.IsSimulated,
                 });
             }
         }
