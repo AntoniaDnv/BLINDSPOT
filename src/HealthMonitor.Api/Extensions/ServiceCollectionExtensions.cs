@@ -34,6 +34,7 @@ public static class ServiceCollectionExtensions
 
         public IServiceCollection AddServices()
             => services
+                .AddMemoryCache()
                 .AddScoped<JsonLoader>()
                 .AddScoped<CsvLoader>()
                 .AddScoped<DataSeeder>()

@@ -33,7 +33,7 @@ export function init(root) {
   root.querySelector("#rad-live").addEventListener("click", () => load("live"));
   root.querySelector("#rad-30").addEventListener("click", () => load("days30"));
   root.querySelector("#rad-replay").addEventListener("click", () => load("replay"));
-  return load("live");
+  load("live"); // not awaited: router must not wait on a slow DONKI call
 }
 
 export function destroy() {
@@ -56,6 +56,10 @@ async function load(mode) {
     setBadge("error");
     local.guidance.textContent = "Radiation status unavailable.";
     local.range.textContent = "";
+    local.count.textContent = "-";
+    local.flares.textContent = "-";
+    local.cmes.textContent = "-";
+    local.last.textContent = "-";
     showMessage(local.message, `Could not load radiation data: ${error.message}`, "error");
   } finally {
     if (el === local && myId === requestId) buttons.forEach((b) => (b.disabled = false));

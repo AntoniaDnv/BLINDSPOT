@@ -40,6 +40,7 @@ export async function init(root) {
       .join("");
     drawChart();
   } catch (error) {
+    if (el !== rootEl) return; // page was left while loading
     showMessage(el.message, `Could not load vitals: ${error.message}`, "error");
   }
 }

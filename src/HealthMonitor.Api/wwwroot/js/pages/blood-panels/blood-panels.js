@@ -158,15 +158,20 @@ function renderChart() {
 
   const dashed = { borderDash: [6, 4], pointRadius: 0, tension: 0 };
   chart?.destroy();
-  chart = createLineChart(
-    el.canvas,
-    series.map((r) => r.timepoint),
-    [
-      { label: `${selectedAnalyte} (${series[0].unit})`, data: series.map((r) => r.value) },
-      { label: "Range min", data: series.map((r) => r.rangeMin), borderColor: "#2fbf71", backgroundColor: "#2fbf71", ...dashed },
-      { label: "Range max", data: series.map((r) => r.rangeMax), borderColor: "#ef4f4f", backgroundColor: "#ef4f4f", ...dashed },
-    ],
-  );
+  chart = null;
+  try {
+    chart = createLineChart(
+      el.canvas,
+      series.map((r) => r.timepoint),
+      [
+        { label: `${selectedAnalyte} (${series[0].unit})`, data: series.map((r) => r.value) },
+        { label: "Range min", data: series.map((r) => r.rangeMin), borderColor: "#2fbf71", backgroundColor: "#2fbf71", ...dashed },
+        { label: "Range max", data: series.map((r) => r.rangeMax), borderColor: "#ef4f4f", backgroundColor: "#ef4f4f", ...dashed },
+      ],
+    );
+  } catch (error) {
+    showMessage(el.message, error.message, "error");
+  }
   el.chartTitle.textContent = `${selectedAnalyte} trend (${series[0].unit})`;
 }
 
