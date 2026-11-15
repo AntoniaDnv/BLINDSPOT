@@ -5,7 +5,6 @@ using Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Services.Nutrition;
 
 public class CrewSummaryDto
 {
@@ -25,8 +24,7 @@ public class CrewSummaryDto
 [Authorize(Policy = Policies.FlightSurgeon)]
 [Route("api/[controller]")]
 public class CrewController(
-    AppDbContext data,
-    INutritionService nutrition) : ControllerBase
+    AppDbContext data) : ControllerBase
 {
     [HttpGet]
     [ProducesResponseType<IReadOnlyList<CrewSummaryDto>>(StatusCodes.Status200OK)]
@@ -55,6 +53,12 @@ public class CrewController(
                 .ToListAsync(cancellationToken))
             .ToHashSet(StringComparer.Ordinal);
 
+        var withNutrition = (await data.NutritionDays
+                .Select(d => d.CrewId)
+                .Distinct()
+                .ToListAsync(cancellationToken))
+            .ToHashSet(StringComparer.Ordinal);
+
         IReadOnlyList<CrewSummaryDto> result = astronauts
             .Select(a => new CrewSummaryDto
             {
@@ -62,7 +66,7 @@ public class CrewController(
                 DisplayName = a.DisplayName,
                 HasVitals = withVitals.Contains(a.CrewId),
                 HasBlood = withBlood.Contains(a.CrewId),
-                HasNutrition = nutrition.CrewIdsWithData.Contains(a.CrewId),
+                HasNutrition = withNutrition.Contains(a.CrewId),
             })
             .ToList();
 

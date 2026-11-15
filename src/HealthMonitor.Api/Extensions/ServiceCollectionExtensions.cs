@@ -14,6 +14,7 @@ using Models.Entities;
 using Options;
 using Services.BloodPanels;
 using Services.External;
+using Services.Logging;
 using Services.Nutrition;
 using Services.Radiation;
 using Services.Readings;
@@ -59,6 +60,7 @@ public static class ServiceCollectionExtensions
                 .AddSingleton<IVitalThresholdService, VitalThresholdService>()
                 .AddScoped<IRadiationService, RadiationService>()
                 .AddSingleton<INutritionService, NutritionService>()
+                .AddScoped<ICrewLogService, CrewLogService>()
                 .AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>()
                 .AddScoped<IAuthService, AuthService>()
                 .AddScoped<ICrewAccessService, CrewAccessService>();

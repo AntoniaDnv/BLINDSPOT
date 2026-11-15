@@ -34,6 +34,91 @@ public class ReadingService(
         return ToDto(reading, threshold);
     }
 
+    public async Task<(IReadOnlyList<ReadingBatchResultDto>? Created, Dictionary<string, string[]>? Errors)> CreateBatchAsync(
+        string crewId,
+        ReadingBatchCreateDto dto,
+        CancellationToken cancellationToken = default)
+    {
+        var errors = new Dictionary<string, string[]>(StringComparer.Ordinal);
+        var valid = new List<(VitalThreshold Threshold, double Value)>();
+
+        foreach (var item in dto.Values)
+        {
+            var key = string.IsNullOrWhiteSpace(item.Indicator) ? "values" : item.Indicator;
+            var threshold = vitals.Find(item.Indicator);
+            if (threshold is null)
+            {
+                errors[key] = [$"Unknown indicator '{item.Indicator}'."];
+                continue;
+            }
+
+            if (valid.Any(v => v.Threshold.Indicator == threshold.Indicator))
+            {
+                errors[threshold.Indicator] = [$"{threshold.Name} was sent twice."];
+                continue;
+            }
+
+            if (item.Value is null)
+            {
+                errors[threshold.Indicator] = [$"{threshold.Name}: value is required."];
+                continue;
+            }
+
+            if (VitalPlausibility.Validate(threshold, item.Value.Value) is { } message)
+            {
+                errors[threshold.Indicator] = [message];
+                continue;
+            }
+
+            valid.Add((threshold, item.Value.Value));
+        }
+
+        if (errors.Count > 0)
+            return (null, errors);
+
+        var recordedAt = dto.RecordedAt?.ToUniversalTime() ?? DateTime.UtcNow;
+        var rows = valid
+            .Select(v => (v.Threshold, Reading: new Reading
+            {
+                CrewId = crewId,
+                Indicator = v.Threshold.Indicator,
+                Value = v.Value,
+                RecordedAt = recordedAt,
+            }))
+            .ToList();
+
+        data.Readings.AddRange(rows.Select(r => r.Reading));
+        await data.SaveChangesAsync(cancellationToken);
+
+        IReadOnlyList<ReadingBatchResultDto> created = rows
+            .Select(r =>
+            {
+                // Same status rule as the single endpoint.
+                var status = vitals.GetStatus(r.Threshold, r.Reading.Value);
+                return new ReadingBatchResultDto
+                {
+                    Id = r.Reading.Id,
+                    CrewId = r.Reading.CrewId,
+                    Indicator = r.Reading.Indicator,
+                    Name = r.Threshold.Name,
+                    Unit = r.Threshold.Unit,
+                    Value = r.Reading.Value,
+                    RecordedAt = r.Reading.RecordedAt,
+                    Status = status,
+                    Guidance = status switch
+                    {
+                        "ok" => r.Threshold.Guidance.Ok,
+                        "warning" => r.Threshold.Guidance.Warning,
+                        _ => r.Threshold.Guidance.Critical,
+                    },
+                    NasaRisk = r.Threshold.NasaRisk,
+                };
+            })
+            .ToList();
+
+        return (created, null);
+    }
+
     public async Task<IReadOnlyList<ReadingResponseDto>> GetHistoryAsync(
         string crewId,
         string? indicator,

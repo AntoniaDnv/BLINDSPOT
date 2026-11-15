@@ -7,12 +7,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Models.Entities;
 using Models.Seed;
+using Services.Nutrition;
 
 public class DataSeeder(
     AppDbContext data,
     JsonLoader jsonLoader,
     CsvLoader csvLoader,
     IPasswordHasher<User> passwordHasher,
+    INutritionService nutrition,
     IOptions<SeedingOptions> options,
     ILogger<DataSeeder> logger)
 {
@@ -27,6 +29,7 @@ public class DataSeeder(
         await SeedBloodPanelsAsync(cancellationToken);
         await SeedReadingsAsync(cancellationToken);
         await SeedUsersAsync(cancellationToken);
+        await SeedNutritionDaysAsync(cancellationToken);
         //add more seeders here.
     }
 
@@ -133,6 +136,28 @@ public class DataSeeder(
 
         logger.LogInformation(
             "Seeded {Count} readings",
+            saved);
+    }
+
+    private async Task SeedNutritionDaysAsync(
+        CancellationToken cancellationToken = default)
+    {
+        if (await data.NutritionDays.AnyAsync(cancellationToken))
+            return;
+
+        data.NutritionDays.AddRange(nutrition.SeedDays.Select(d => new NutritionDay
+        {
+            CrewId = d.CrewId,
+            Day = d.Day,
+            Kcal = d.Kcal,
+            WaterL = d.WaterL,
+            HypnoticTaken = d.HypnoticTaken,
+        }));
+
+        var saved = await data.SaveChangesAsync(cancellationToken);
+
+        logger.LogInformation(
+            "Seeded {Count} nutrition days",
             saved);
     }
 

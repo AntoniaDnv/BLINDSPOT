@@ -45,6 +45,8 @@ export async function init(root) {
     weekKcal: root.querySelector("#nhm-week-kcal"),
     weekWater: root.querySelector("#nhm-week-water"),
     weekDays: root.querySelector("#nhm-week-days"),
+    logged: root.querySelector("#nhm-logged"),
+    loggedTitle: root.querySelector("#nhm-logged-title"),
   };
 
   try {
@@ -57,6 +59,7 @@ export async function init(root) {
       alerts: res.alerts ?? [],
       crew: res.baseline ? [{ id: res.crewId, baseline: res.baseline }] : [],
       crewId: res.crewId,
+      today: res.today ?? null,
     };
   } catch (error) {
     showMessage(el.message, `Could not load nutrition data: ${error.message}`, "error");
@@ -67,7 +70,11 @@ export async function init(root) {
     setText("#nhm-crew-role", data.crewId);
     el.crew.closest(".nhm-picker").hidden = true;
     el.day.closest(".nhm-picker").hidden = true;
-    showMessage(el.message, "No nutrition data for this crew member yet.", "info");
+    const todayRecord = data.today && data.days.find((d) => d.day === data.today.day);
+    showMessage(el.message, todayRecord
+      ? "No simulated nutrition targets for this crew member. Entries logged today are listed below."
+      : "No nutrition data for this crew member yet.", "info");
+    renderLogged(todayRecord, data.today?.day);
     return;
   }
   fillPickers();
@@ -85,9 +92,14 @@ function fillPickers() {
   el.crew.replaceChildren(...data.crew.map((c) => new Option(c.id, c.id)));
   const lastDay = Math.max(...data.days.map((d) => d.day));
   const options = [];
-  for (let day = 1; day <= lastDay; day++) options.push(new Option(`Day ${day}`, String(day)));
+  const todayDay = data.today?.day;
+  for (let day = 1; day <= lastDay; day++) {
+    options.push(new Option(day === todayDay ? `Day ${day} (today)` : `Day ${day}`, String(day)));
+  }
   el.day.replaceChildren(...options);
-  el.day.value = String(Math.min(DEFAULT_DAY, lastDay));
+  // Once something is logged today, open on today; otherwise on the simulated demo day.
+  const hasToday = todayDay && data.days.some((d) => d.day === todayDay);
+  el.day.value = String(hasToday ? todayDay : Math.min(DEFAULT_DAY, lastDay));
 }
 
 function render() {
@@ -102,6 +114,7 @@ function render() {
   renderWeek(crew, day);
   renderNights(crew.id, day);
   renderEnergyStats(crew, day);
+  renderLogged(record, day);
 
   if (!record) {
     showMessage(el.message, `No data for day ${day}.`, "info");
@@ -143,6 +156,58 @@ function render() {
   setText("#nhm-hypnotic-streak", streak === 1 ? "1 night" : `${streak} nights in a row`);
   setPill("#nhm-meds-status", "Logged", "info");
   el.medsCard.dataset.status = "info";
+}
+
+// Entries from the Log & Data Entry page (meals, water, macros, medication doses).
+function renderLogged(record, day) {
+  const isToday = data.today && day === data.today.day;
+  el.loggedTitle.textContent = isToday ? "Logged today" : `Logged on day ${day ?? DASH}`;
+  const items = [];
+  for (const e of record?.entries ?? []) {
+    const parts = [];
+    if (e.meal) parts.push(e.meal);
+    if (e.waterMl != null) parts.push(`+${formatNumber(e.waterMl)} mL water`);
+    if (e.kcal != null) parts.push(`${formatNumber(e.kcal)} kcal`);
+    const macros = [["Protein", e.proteinG], ["Carbs", e.carbsG], ["Fat", e.fatG]]
+      .filter(([, v]) => v != null).map(([k, v]) => `${k} ${formatNumber(v)} g`);
+    if (macros.length) parts.push(macros.join(", "));
+    items.push(loggedItem("Food & water", parts.join(" · "), e.loggedAt, null));
+  }
+  for (const m of record?.meds ?? []) {
+    const text = `${m.medication} ${m.dose}${m.time ? ` at ${m.time}` : ""}${m.isSleepMedication ? " (sleep medication)" : ""}`;
+    items.push(loggedItem("Medication", text, m.loggedAt, m.taken ? ["Taken", "ok"] : ["Pending", "caution"]));
+  }
+  if (items.length === 0) {
+    const li = document.createElement("li");
+    li.className = "nhm-muted";
+    li.textContent = "Nothing logged for this day. Use Log & Data Entry to add food, water or medication.";
+    el.logged.replaceChildren(li);
+    return;
+  }
+  el.logged.replaceChildren(...items);
+}
+
+function loggedItem(kind, text, at, pill) {
+  const li = document.createElement("li");
+  li.className = "nhm-logged-item";
+  const main = document.createElement("p");
+  const label = document.createElement("span");
+  label.className = "nhm-label";
+  label.textContent = `${kind} `;
+  main.append(label, document.createTextNode(text)); // user text: textContent only
+  const time = document.createElement("span");
+  time.className = "nhm-muted";
+  time.textContent = at ? new Date(at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) : "";
+  li.append(main, time);
+  if (pill) {
+    const p = document.createElement("span");
+    p.className = "nhm-pill";
+    p.dataset.tone = pill[1];
+    p.innerHTML = '<span class="nhm-dot" aria-hidden="true"></span><span class="nhm-pill-text"></span>';
+    p.querySelector(".nhm-pill-text").textContent = pill[0];
+    li.append(p);
+  }
+  return li;
 }
 
 function findDay(crewId, day) {

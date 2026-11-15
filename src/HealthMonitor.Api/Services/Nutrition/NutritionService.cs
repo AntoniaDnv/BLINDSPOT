@@ -3,8 +3,9 @@ namespace HealthMonitor.Api.Services.Nutrition;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using Data.Seeding;
+using Models.Dtos;
 
-/// <summary>Simulated nutrition / hydration / meds data for one crew member.</summary>
+/// <summary>Nutrition / hydration / meds for one crew member (simulated file data + logged entries).</summary>
 public class NutritionCrewDto
 {
     public string CrewId { get; init; } = "";
@@ -16,22 +17,43 @@ public class NutritionCrewDto
 
     public JsonNode? Baseline { get; init; }
 
-    public JsonArray Days { get; init; } = [];
+    /// <summary>Today's mission day, so pages can find "today" in <see cref="Days"/>.</summary>
+    public MissionTodayDto Today { get; init; } = new();
+
+    public IReadOnlyList<NutritionDayDto> Days { get; init; } = [];
 
     public JsonArray Alerts { get; init; } = [];
 }
 
+/// <summary>One day row from the data file (used to seed NutritionDay entities).</summary>
+public sealed record NutritionSeedDay(string CrewId, int Day, double Kcal, double WaterL, bool HypnoticTaken);
+
 public interface INutritionService
 {
-    /// <summary>Data for an already-authorised crewId; empty days/alerts if none.</summary>
-    NutritionCrewDto GetForCrew(string crewId);
+    string Note { get; }
 
-    IReadOnlySet<string> CrewIdsWithData { get; }
+    /// <summary>Simulated role and baseline (targets) for a crew member, or nulls.</summary>
+    (string? Role, JsonNode? Baseline) GetProfile(string crewId);
+
+    JsonArray GetAlerts(string crewId);
+
+    IReadOnlyList<NutritionSeedDay> SeedDays { get; }
+
+    /// <summary>
+    /// Mission day of today's date. Team demo parameter: today is the day after the last
+    /// simulated day in the file, so logged entries never mix with simulated ones.
+    /// </summary>
+    MissionTodayDto Today { get; }
+
+    int DayFor(DateOnly date);
+
+    DateOnly DateFor(int day);
 }
 
 /// <summary>
 /// Loads Data/Files/nutrition-days.json once (it is no longer served from wwwroot),
-/// maps crew-1/2/3 to C001/C002/C003 and drops the fictional names.
+/// maps crew-1/2/3 to C001/C002/C003 and drops the fictional names. The day rows seed
+/// the NutritionDay entities (see DataSeeder); logs then change those entities.
 /// </summary>
 public class NutritionService : INutritionService
 {
@@ -44,26 +66,28 @@ public class NutritionService : INutritionService
         ["crew-3"] = "C003",
     };
 
-    private readonly string note;
     private readonly Dictionary<string, JsonObject> crewById = new(StringComparer.Ordinal);
-    private readonly Dictionary<string, List<JsonObject>> daysByCrew = new(StringComparer.Ordinal);
     private readonly Dictionary<string, List<JsonObject>> alertsByCrew = new(StringComparer.Ordinal);
+    private readonly DateOnly startDate;
 
     public NutritionService(ILogger<NutritionService> logger)
     {
+        this.startDate = DateOnly.FromDateTime(DateTime.UtcNow);
+
         var path = SeedFilePaths.Resolve(FileName);
         if (!File.Exists(path))
         {
             logger.LogWarning("Nutrition data file not found: {Path}", path);
-            this.note = "";
-            this.CrewIdsWithData = new HashSet<string>();
+            this.Note = "";
+            this.SeedDays = [];
+            this.Today = new MissionTodayDto { Day = 1, Date = this.startDate };
             return;
         }
 
         var root = JsonNode.Parse(File.ReadAllText(path))?.AsObject()
             ?? throw new JsonException($"{FileName} is empty.");
 
-        this.note = root["note"]?.GetValue<string>() ?? "";
+        this.Note = root["note"]?.GetValue<string>() ?? "";
 
         foreach (var crew in Objects(root["crew"]))
         {
@@ -76,49 +100,59 @@ public class NutritionService : INutritionService
             this.crewById[id] = crew;
         }
 
-        Group(root["days"], this.daysByCrew);
-        Group(root["alerts"], this.alertsByCrew);
-
-        this.CrewIdsWithData = this.daysByCrew.Keys.ToHashSet(StringComparer.Ordinal);
-    }
-
-    public IReadOnlySet<string> CrewIdsWithData { get; }
-
-    public NutritionCrewDto GetForCrew(string crewId)
-    {
-        this.crewById.TryGetValue(crewId, out var crew);
-
-        return new NutritionCrewDto
+        var seed = new List<NutritionSeedDay>();
+        foreach (var row in Objects(root["days"]))
         {
-            CrewId = crewId,
-            Note = this.note,
-            Role = crew?["role"]?.GetValue<string>(),
-            Baseline = crew?["baseline"]?.DeepClone(),
-            Days = Clone(this.daysByCrew, crewId),
-            Alerts = Clone(this.alertsByCrew, crewId),
-        };
-    }
+            var id = MapId(row["crewId"]);
+            if (id is null)
+                continue;
 
-    private static JsonArray Clone(Dictionary<string, List<JsonObject>> source, string crewId)
-        => source.TryGetValue(crewId, out var rows)
-            ? new JsonArray(rows.Select(r => (JsonNode?)r.DeepClone()).ToArray())
-            : [];
+            seed.Add(new NutritionSeedDay(
+                id,
+                row["day"]?.GetValue<int>() ?? 0,
+                row["kcal"]?.GetValue<double>() ?? 0,
+                row["waterL"]?.GetValue<double>() ?? 0,
+                row["hypnoticTaken"]?.GetValue<bool>() ?? false));
+        }
 
-    private static void Group(JsonNode? array, Dictionary<string, List<JsonObject>> target)
-    {
-        foreach (var row in Objects(array))
+        this.SeedDays = seed;
+
+        foreach (var row in Objects(root["alerts"]))
         {
             var id = MapId(row["crewId"]);
             if (id is null)
                 continue;
 
             row["crewId"] = id;
-            if (!target.TryGetValue(id, out var list))
-                target[id] = list = [];
+            if (!this.alertsByCrew.TryGetValue(id, out var list))
+                this.alertsByCrew[id] = list = [];
 
             list.Add(row);
         }
+
+        var lastDay = seed.Count == 0 ? 0 : seed.Max(d => d.Day);
+        this.Today = new MissionTodayDto { Day = lastDay + 1, Date = this.startDate };
     }
+
+    public string Note { get; }
+
+    public IReadOnlyList<NutritionSeedDay> SeedDays { get; }
+
+    public MissionTodayDto Today { get; }
+
+    public int DayFor(DateOnly date) => this.Today.Day + (date.DayNumber - this.startDate.DayNumber);
+
+    public DateOnly DateFor(int day) => this.startDate.AddDays(day - this.Today.Day);
+
+    public (string? Role, JsonNode? Baseline) GetProfile(string crewId)
+        => this.crewById.TryGetValue(crewId, out var crew)
+            ? (crew["role"]?.GetValue<string>(), crew["baseline"]?.DeepClone())
+            : (null, null);
+
+    public JsonArray GetAlerts(string crewId)
+        => this.alertsByCrew.TryGetValue(crewId, out var rows)
+            ? new JsonArray(rows.Select(r => (JsonNode?)r.DeepClone()).ToArray())
+            : [];
 
     private static IEnumerable<JsonObject> Objects(JsonNode? array)
         => (array as JsonArray)?

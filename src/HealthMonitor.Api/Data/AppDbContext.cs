@@ -14,6 +14,14 @@ public class AppDbContext(
 
     public DbSet<User> Users { get; init; }
 
+    public DbSet<NutritionDay> NutritionDays { get; init; }
+
+    public DbSet<NutritionLogEntry> NutritionLogEntries { get; init; }
+
+    public DbSet<MedicationLog> MedicationLogs { get; init; }
+
+    public DbSet<SymptomLog> SymptomLogs { get; init; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
         => modelBuilder
             .Entity<Sample>(entity =>
@@ -81,6 +89,32 @@ public class AppDbContext(
 
                 entity
                     .HasIndex(r => new { r.CrewId, r.Indicator, r.RecordedAt });
+            })
+            .Entity<NutritionDay>(entity =>
+            {
+                entity.HasKey(d => d.Id);
+                entity.Property(d => d.CrewId).IsRequired().HasMaxLength(20);
+                entity.HasIndex(d => new { d.CrewId, d.Day });
+            })
+            .Entity<NutritionLogEntry>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.CrewId).IsRequired().HasMaxLength(20);
+                entity.Property(e => e.Meal).HasMaxLength(100);
+            })
+            .Entity<MedicationLog>(entity =>
+            {
+                entity.HasKey(m => m.Id);
+                entity.Property(m => m.CrewId).IsRequired().HasMaxLength(20);
+                entity.Property(m => m.Medication).IsRequired().HasMaxLength(80);
+                entity.Property(m => m.Dose).IsRequired().HasMaxLength(40);
+                entity.Property(m => m.Time).HasMaxLength(5);
+            })
+            .Entity<SymptomLog>(entity =>
+            {
+                entity.HasKey(s => s.Id);
+                entity.Property(s => s.CrewId).IsRequired().HasMaxLength(20);
+                entity.Property(s => s.Notes).HasMaxLength(1000);
             })
             .Entity<User>(entity =>
             {

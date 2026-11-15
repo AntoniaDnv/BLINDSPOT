@@ -1,25 +1,232 @@
 <header class="page-header">
   <div class="page-header__main">
     <div class="page-header__eyebrow">
-      <span class="chip chip--muted">Coming soon</span>
+      <span class="chip chip--info">Crew entry</span>
+      <span class="label" id="log-date">Today</span>
     </div>
     <h1 class="page-header__title">Log &amp; Data Entry</h1>
     <p class="page-header__subtitle">
-      Manual entry of crew readings and notes.
+      Daily vitals, food and water, symptoms and medications. Every save goes to the
+      server and shows up on the Vitals and Nutrition &amp; Meds pages.
     </p>
+  </div>
+  <div class="page-header__meta">
+    <div class="page-header__meta-item">
+      <span class="label">Logging for</span>
+      <span class="page-header__meta-value" id="log-who">—</span>
+    </div>
   </div>
 </header>
 
-<div class="state state--empty">
-  <span class="state__icon" aria-hidden="true">
-    <span class="icon material-symbols-outlined">edit_note</span>
-  </span>
-  <p class="state__title">Coming soon</p>
-  <p class="state__text">
-    This page is not built yet. Until then, readings can be added through the API
-    (see API docs in the sidebar).
-  </p>
-  <div class="state__actions">
-    <a class="btn btn--ghost" href="#/">Back to Daily Readiness &amp; Vitals</a>
+<div id="log-root" class="log">
+  <nav class="tabs log-tabs" aria-label="Log sections">
+    <button type="button" class="tab" data-jump="log-vitals">1 · Daily vitals</button>
+    <button type="button" class="tab" data-jump="log-nutrition">2 · Nutrition &amp; hydration</button>
+    <button type="button" class="tab" data-jump="log-symptoms">3 · Symptoms</button>
+    <button type="button" class="tab" data-jump="log-meds">4 · Medications</button>
+  </nav>
+
+  <div id="log-load" class="hidden"></div>
+
+  <div class="log-layout" id="log-layout">
+    <div class="log-main">
+      <!-- 1 Vitals -->
+      <section class="panel" id="log-vitals" aria-labelledby="log-vitals-title">
+        <div class="panel__header">
+          <span class="panel__icon" aria-hidden="true"><span class="icon material-symbols-outlined">monitor_heart</span></span>
+          <div class="panel__heading">
+            <h2 class="panel__title" id="log-vitals-title">Daily vitals</h2>
+            <p class="panel__subtitle">One timestamp for every value you fill in</p>
+          </div>
+          <div class="panel__aside">
+            <span class="chip chip--muted chip--plain">Step 01 / 04</span>
+            <span class="chip chip--muted" data-saved="vitals">Not saved today</span>
+          </div>
+        </div>
+        <form class="panel__body" id="vitals-form" novalidate>
+          <div class="log-vitals-grid" id="vitals-fields"></div>
+          <div class="log-error hidden" id="vitals-error" role="alert"></div>
+          <div class="cluster log-actions">
+            <button type="submit" class="btn btn--primary" id="vitals-save">
+              <span class="icon material-symbols-outlined" aria-hidden="true">save</span>Save vitals
+            </button>
+            <span class="muted log-hint">Leave a field empty to skip it.</span>
+          </div>
+          <ul class="list log-results hidden" id="vitals-results" aria-live="polite"></ul>
+        </form>
+      </section>
+
+      <!-- 2 Nutrition -->
+      <section class="panel" id="log-nutrition" aria-labelledby="log-nutrition-title">
+        <div class="panel__header">
+          <span class="panel__icon" aria-hidden="true"><span class="icon material-symbols-outlined">restaurant</span></span>
+          <div class="panel__heading">
+            <h2 class="panel__title" id="log-nutrition-title">Nutrition &amp; hydration</h2>
+            <p class="panel__subtitle">Adds to today's totals</p>
+          </div>
+          <div class="panel__aside">
+            <span class="chip chip--muted chip--plain">Step 02 / 04</span>
+            <span class="chip chip--muted" data-saved="nutrition">Not saved today</span>
+          </div>
+        </div>
+        <div class="panel__body">
+          <div class="log-nutrition-grid">
+            <div class="tile log-water">
+              <p class="tile__label">Hydration today</p>
+              <div class="log-water__row">
+                <div class="log-ring" id="water-ring" style="--pct: 0" role="img" aria-label="Water today">
+                  <span class="log-ring__value tabular" id="water-pct">0%</span>
+                </div>
+                <div>
+                  <p class="metric metric--lg"><span class="metric__value tabular" id="water-total">0</span><span class="metric__unit">/ <span id="water-target">—</span> ml</span></p>
+                  <p class="tile__note" id="water-note">—</p>
+                </div>
+              </div>
+              <div class="cluster log-quick">
+                <button type="button" class="btn btn--ghost btn--sm" data-water="250">+ 250 ml</button>
+                <button type="button" class="btn btn--ghost btn--sm" data-water="500">+ 500 ml</button>
+                <button type="button" class="btn btn--ghost btn--sm" data-water="750">+ 750 ml</button>
+              </div>
+              <div class="log-error hidden" id="water-error" role="alert"></div>
+            </div>
+            <form class="tile log-food" id="food-form" novalidate>
+              <p class="tile__label">Food log</p>
+              <div class="field">
+                <label for="food-meal">Meal name</label>
+                <input id="food-meal" name="meal" maxlength="100" placeholder="e.g. Breakfast pack A" autocomplete="off" />
+              </div>
+              <div class="log-macros">
+                <div class="field"><label for="food-kcal">Calories (kcal)</label><input id="food-kcal" name="kcal" type="number" min="1" max="10000" step="1" inputmode="numeric" /></div>
+                <div class="field"><label for="food-protein">Protein (g)</label><input id="food-protein" name="proteinG" type="number" min="0" max="1000" step="1" inputmode="numeric" /></div>
+                <div class="field"><label for="food-carbs">Carbs (g)</label><input id="food-carbs" name="carbsG" type="number" min="0" max="2000" step="1" inputmode="numeric" /></div>
+                <div class="field"><label for="food-fat">Fat (g)</label><input id="food-fat" name="fatG" type="number" min="0" max="1000" step="1" inputmode="numeric" /></div>
+              </div>
+              <p class="tile__note tabular" id="food-today">—</p>
+              <div class="log-error hidden" id="food-error" role="alert"></div>
+              <div class="cluster log-actions">
+                <button type="submit" class="btn btn--primary" id="food-save">
+                  <span class="icon material-symbols-outlined" aria-hidden="true">save</span>Save food
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3 Symptoms -->
+      <section class="panel" id="log-symptoms" aria-labelledby="log-symptoms-title">
+        <div class="panel__header">
+          <span class="panel__icon" aria-hidden="true"><span class="icon material-symbols-outlined">psychology</span></span>
+          <div class="panel__heading">
+            <h2 class="panel__title" id="log-symptoms-title">Symptoms</h2>
+            <p class="panel__subtitle">How you feel right now</p>
+          </div>
+          <div class="panel__aside">
+            <span class="chip chip--muted chip--plain">Step 03 / 04</span>
+            <span class="chip chip--muted" data-saved="symptoms">Not saved today</span>
+          </div>
+        </div>
+        <form class="panel__body" id="symptoms-form" novalidate>
+          <div class="grid-2">
+            <div class="tile">
+              <div class="log-slider-head">
+                <label class="tile__label" for="sym-fatigue">Fatigue</label>
+                <span class="chip chip--info chip--plain tabular" id="sym-fatigue-out">0 · None</span>
+              </div>
+              <input id="sym-fatigue" name="fatigue" type="range" min="0" max="10" step="1" value="0" />
+              <div class="log-scale" aria-hidden="true"><span>0 · None</span><span>5 · Moderate</span><span>10 · Worst</span></div>
+            </div>
+            <div class="tile">
+              <div class="log-slider-head">
+                <label class="tile__label" for="sym-headache">Headache</label>
+                <span class="chip chip--info chip--plain tabular" id="sym-headache-out">0 · None</span>
+              </div>
+              <input id="sym-headache" name="headache" type="range" min="0" max="10" step="1" value="0" />
+              <div class="log-scale" aria-hidden="true"><span>0 · None</span><span>5 · Moderate</span><span>10 · Worst</span></div>
+            </div>
+          </div>
+          <div class="cluster log-checks">
+            <label class="log-check"><input type="checkbox" id="sym-congestion" /> Nasal congestion</label>
+            <label class="log-check"><input type="checkbox" id="sym-vision" /> Vision change (blur, halos)</label>
+          </div>
+          <div class="field">
+            <label for="sym-notes">Notes</label>
+            <textarea id="sym-notes" maxlength="1000" placeholder="Anything else: sleep, pain, how a symptom changed"></textarea>
+            <p class="field__hint tabular" id="sym-notes-count">0 / 1000</p>
+          </div>
+          <div class="log-error hidden" id="symptoms-error" role="alert"></div>
+          <div class="cluster log-actions">
+            <button type="submit" class="btn btn--primary" id="symptoms-save">
+              <span class="icon material-symbols-outlined" aria-hidden="true">save</span>Save symptoms
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <!-- 4 Medications -->
+      <section class="panel" id="log-meds" aria-labelledby="log-meds-title">
+        <div class="panel__header">
+          <span class="panel__icon" aria-hidden="true"><span class="icon material-symbols-outlined">medication</span></span>
+          <div class="panel__heading">
+            <h2 class="panel__title" id="log-meds-title">Medications</h2>
+            <p class="panel__subtitle">Doses taken or still planned today</p>
+          </div>
+          <div class="panel__aside">
+            <span class="chip chip--muted chip--plain">Step 04 / 04</span>
+            <span class="chip chip--muted" data-saved="meds">Not saved today</span>
+          </div>
+        </div>
+        <div class="panel__body">
+          <div class="grid-2">
+            <form class="tile" id="meds-form" novalidate>
+              <div class="field">
+                <label for="med-name">Medication</label>
+                <input id="med-name" maxlength="80" autocomplete="off" placeholder="e.g. Ibuprofen" />
+              </div>
+              <div class="log-macros log-macros--2">
+                <div class="field"><label for="med-dose">Dose</label><input id="med-dose" maxlength="40" autocomplete="off" placeholder="e.g. 200 mg" /></div>
+                <div class="field"><label for="med-time">Time</label><input id="med-time" type="time" /></div>
+              </div>
+              <div class="cluster log-checks">
+                <label class="log-check"><input type="checkbox" id="med-taken" checked /> Taken</label>
+                <label class="log-check"><input type="checkbox" id="med-sleep" /> Sleep medication</label>
+              </div>
+              <div class="log-error hidden" id="meds-error" role="alert"></div>
+              <div class="cluster log-actions">
+                <button type="submit" class="btn btn--primary" id="meds-save">
+                  <span class="icon material-symbols-outlined" aria-hidden="true">add</span>Add to log
+                </button>
+              </div>
+            </form>
+            <div class="tile">
+              <p class="tile__label">Today's medications</p>
+              <ul class="list" id="meds-list"></ul>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <aside class="log-side">
+      <section class="card log-recent" aria-labelledby="log-recent-title">
+        <div class="log-recent__head">
+          <h2 class="panel__title" id="log-recent-title">Recent entries</h2>
+          <span class="chip chip--muted chip--plain">Newest 10</span>
+        </div>
+        <ul class="list" id="recent-list"></ul>
+        <p class="tile__note">Entries are kept in memory and reset when the server restarts (demo).</p>
+      </section>
+    </aside>
   </div>
+
+  <div class="log-footer" role="region" aria-label="Log progress">
+    <span class="icon material-symbols-outlined log-footer__icon" aria-hidden="true">fact_check</span>
+    <div class="log-footer__text">
+      <strong class="tabular" id="log-progress">0 of 4 sections saved today</strong>
+      <span class="muted">Vitals · nutrition · symptoms · medications</span>
+    </div>
+    <button type="button" class="btn btn--ghost" id="log-clear">Clear form</button>
+  </div>
+
+  <div class="log-toast hidden" id="log-toast" role="status" aria-live="polite"></div>
 </div>

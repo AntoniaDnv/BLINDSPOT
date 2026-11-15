@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models.Dtos;
 using Services.Readings;
+using Services.Vitals;
 
 /// <summary>
 /// Vital-sign readings. Astronauts: own crewId only. Flight surgeons: crewId required.
@@ -14,8 +15,39 @@ using Services.Readings;
 [Route("api/[controller]")]
 public class ReadingsController(
     IReadingService readings,
+    IVitalThresholdService vitals,
     ICrewAccessService crewAccess) : ControllerBase
 {
+    /// <summary>
+    /// Several indicator values with one timestamp (Log page "Save vitals"). Each value is
+    /// validated and its status computed exactly like POST /api/readings. All or nothing.
+    /// </summary>
+    [HttpPost("batch")]
+    [ProducesResponseType<IReadOnlyList<ReadingBatchResultDto>>(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<IReadOnlyList<ReadingBatchResultDto>>> CreateBatch(
+        ReadingBatchCreateDto dto,
+        CancellationToken cancellationToken)
+    {
+        var access = await crewAccess.ResolveAsync(this.User, dto.CrewId, cancellationToken);
+        if (!access.IsAllowed)
+            return access.ToErrorResult();
+
+        var (created, errors) = await readings.CreateBatchAsync(access.CrewId!, dto, cancellationToken);
+        if (errors is not null)
+        {
+            return this.BadRequest(new
+            {
+                error = string.Join(" ", errors.Values.SelectMany(v => v)),
+                errors,
+            });
+        }
+
+        return this.StatusCode(StatusCodes.Status201Created, created);
+    }
+
     [HttpPost]
     [ProducesResponseType<ReadingResponseDto>(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -29,6 +61,13 @@ public class ReadingsController(
         var access = await crewAccess.ResolveAsync(this.User, dto.CrewId, cancellationToken);
         if (!access.IsAllowed)
             return access.ToErrorResult();
+
+        if (vitals.Find(dto.Indicator) is { } threshold
+            && dto.Value is { } value
+            && VitalPlausibility.Validate(threshold, value) is { } invalid)
+        {
+            return this.BadRequest(new { error = invalid });
+        }
 
         var created = await readings.CreateAsync(
             access.CrewId!,
