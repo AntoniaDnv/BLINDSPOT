@@ -1,27 +1,16 @@
-<section>
-  <h1>BLINDSPOT - Crew Health Monitor</h1>
-  <p class="muted">
-    Current vital signs against evidence-based thresholds, with status and
-    guidance at a glance, so health changes on long missions are not missed.
-  </p>
-</section>
-
-<div id="vitals-message" class="alert hidden"></div>
-
-<div id="vitals-grid" class="grid"></div>
-
-<section class="card">
-  <h2>7-day trend</h2>
-  <p>
-    <label for="vitals-indicator">Indicator</label>
-    <select id="vitals-indicator"></select>
-  </p>
-  <div style="position: relative; height: 320px">
-    <canvas id="vitals-chart"></canvas>
+<header class="page-header">
+  <div class="page-header__main">
+    <p class="page-header__eyebrow">
+      <span id="hv-readiness" class="chip chip--muted">Checking readiness</span>
+      <span id="hv-sim" class="chip chip--tertiary chip--plain hidden">Simulated data</span>
+    </p>
+    <h1 class="page-header__title">Daily Readiness &amp; Vitals</h1>
+    <p class="page-header__subtitle">
+      Simulated vital signs for one astronaut, checked against limits from medical
+      guidelines and compared with the astronaut's own recent baseline.
+    </p>
   </div>
-</section>
+  <div class="page-header__meta" id="hv-meta"></div>
+</header>
 
-<p class="muted">
-  Thresholds come from cited studies (see <code>docs/research.md</code>).
-  Readings shown are simulated demo data.
-</p>
+<div id="hv-body"></div>
