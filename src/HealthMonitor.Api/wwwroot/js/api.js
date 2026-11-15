@@ -1,3 +1,5 @@
+import { SERVER_DOWN_MESSAGE } from "./utils.js";
+
 export class ApiError extends Error {
   constructor(status, message, details = null) {
     super(message);
@@ -23,11 +25,8 @@ async function request(method, url, body) {
   try {
     response = await fetch(url, options);
   } catch (networkError) {
-    throw new ApiError(
-      0,
-      "Cannot reach the server. Is it running?",
-      networkError,
-    );
+    // status 0 = network failure; describeError() in utils.js relies on it.
+    throw new ApiError(0, SERVER_DOWN_MESSAGE, networkError);
   }
 
   if (response.status === 204) {

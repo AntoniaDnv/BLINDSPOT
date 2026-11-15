@@ -1,3 +1,5 @@
+import { RELOAD_EVENT, renderErrorState } from "./utils.js";
+
 const routes = {
   "/": "home",
   "/samples": "samples",
@@ -5,19 +7,28 @@ const routes = {
   "/blood-panels": "blood-panels",
   "/nutrition": "nutrition",
   "/radiation": "radiation",
+  "/log": "log",
   // '/dashboard': 'dashboard',
 };
 
 const NOT_FOUND_PAGE = "not-found";
 
+/**
+ * Fired on window at the start of every render with detail { path, pageName }.
+ * js/shell.js uses it to highlight the nav and close the mobile drawer.
+ */
+export const ROUTE_CHANGE_EVENT = "app:routechange";
+
 const templateCache = new Map();
 
 let currentPage = null;
 let appRoot = null;
+let renderId = 0;
 
 export function startRouter(root) {
   appRoot = root;
   window.addEventListener("hashchange", render);
+  window.addEventListener(RELOAD_EVENT, render); // Retry buttons re-run the page
   render();
 }
 
@@ -27,25 +38,40 @@ export function navigate(path) {
 }
 
 async function render() {
+  const myId = ++renderId;
   const path = getPath();
   const pageName = routes[path] ?? NOT_FOUND_PAGE;
+
+  window.dispatchEvent(
+    new CustomEvent(ROUTE_CHANGE_EVENT, { detail: { path, pageName } }),
+  );
 
   try {
     currentPage?.destroy?.();
     currentPage = null;
 
     const html = await loadTemplate(pageName);
+    if (myId !== renderId) return; // a newer navigation started meanwhile
     appRoot.innerHTML = html;
 
     const module = await import(`./pages/${pageName}/${pageName}.js`);
+    if (myId !== renderId) return;
     currentPage = module;
     await module.init?.(appRoot);
 
-    highlightNav(path);
-    window.scrollTo(0, 0);
+    if (myId === renderId) window.scrollTo(0, 0);
   } catch (err) {
+    if (myId !== renderId) return;
     console.error(`Failed to load page "${pageName}"`, err);
-    appRoot.innerHTML = `<div class="alert alert-error">Failed to load page "${pageName}". Check the browser console.</div>`;
+    renderErrorState(appRoot, {
+      title: "This page could not be loaded",
+      error: err,
+      message:
+        err instanceof TypeError
+          ? undefined
+          : `The page "${pageName}" failed to load. Details are in the browser console.`,
+      onRetry: render,
+    });
   }
 }
 
@@ -70,10 +96,4 @@ async function loadTemplate(pageName) {
   const html = await response.text();
   templateCache.set(pageName, html);
   return html;
-}
-
-function highlightNav(path) {
-  document.querySelectorAll("[data-route]").forEach((link) => {
-    link.classList.toggle("active", link.dataset.route === path);
-  });
 }

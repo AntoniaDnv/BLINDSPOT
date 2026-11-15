@@ -3,7 +3,25 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#0e131f" />
     <title>BLINDSPOT</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23161b28'/%3E%3Cpath d='M5 17h5l3-7 5 13 3-6h6' fill='none' stroke='%2338bdf8' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"
+    />
+
+    <!-- Fonts: Inter (text, tabular numbers) + Material Symbols Outlined (icons). -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..24,400,0..1,0&display=block"
+    />
     <link rel="stylesheet" href="/css/style.css" />
 
     <!-- Chart.js (global `Chart` object). Loaded before the app modules. -->
@@ -11,27 +29,126 @@
   </head>
   <body>
     <!--
-    This file is only the SHELL: header, navigation, footer.
-    Every page lives in js/pages/<page>/<page>.html + <page>.js and is loaded
-    into <main id="app"> by js/router.js. Do not put page content here.
-  -->
-    <header class="site-header">
-      <a class="brand" href="#/">BLINDSPOT</a>
-      <nav class="site-nav">
-        <a href="#/" data-route="/">Vitals</a>
-        <a href="#/blood-panels" data-route="/blood-panels">Blood Panels</a>
-        <a href="#/nutrition" data-route="/nutrition">Nutrition &amp; Meds</a>
-        <a href="#/radiation" data-route="/radiation">Radiation</a>
-        <!-- Add a link per new page here -->
-      </nav>
-    </header>
+      This file is only the SHELL: sidebar, top bar and the router outlet.
+      Every page lives in js/pages/<page>/<page>.html + <page>.js and is loaded
+      into <main id="app"> by js/router.js. Do not put page content here.
+      Shell behaviour (drawer, server status, UTC clock, active nav) is in js/shell.js.
+      To add a page: register it in js/router.js and add a .nav-link below.
+    -->
+    <a class="skip-link" href="#app">Skip to content</a>
 
-    <main id="app" class="container" aria-live="polite"></main>
+    <div class="shell" id="shell">
+      <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+        <div class="sidebar__top">
+          <div class="sidebar__brand">
+            <span class="sidebar__logo" aria-hidden="true">
+              <span class="icon material-symbols-outlined">ecg_heart</span>
+            </span>
+            <span class="sidebar__brand-text">
+              <span class="sidebar__name">BLINDSPOT</span>
+              <span class="sidebar__tagline">Astronaut health telemetry</span>
+            </span>
+            <button
+              type="button"
+              class="btn btn--icon sidebar__close"
+              id="drawer-close"
+              aria-label="Close menu"
+            >
+              <span class="icon material-symbols-outlined" aria-hidden="true">close</span>
+            </button>
+          </div>
 
-    <footer class="site-footer">
-      <span>BLINDSPOT</span>
-      <a href="/scalar" target="_blank" rel="noopener">API docs</a>
-    </footer>
+          <section class="sidebar__sources" aria-labelledby="sources-title">
+            <h2 class="label label--sm" id="sources-title">Data sources</h2>
+            <ul class="source-list">
+              <li><span class="source-dot source-dot--simulated" aria-hidden="true"></span>Vitals: simulated</li>
+              <li><span class="source-dot source-dot--real" aria-hidden="true"></span>Blood: Inspiration4 (real)</li>
+              <li><span class="source-dot source-dot--live" aria-hidden="true"></span>Radiation: NASA DONKI</li>
+            </ul>
+          </section>
+
+          <nav class="sidebar__nav" aria-label="Pages">
+            <a class="nav-link" href="#/" data-route="/">
+              <span class="icon material-symbols-outlined" aria-hidden="true">monitor_heart</span>
+              <span class="nav-link__label">Daily Readiness &amp; Vitals</span>
+            </a>
+            <a class="nav-link" href="#/blood-panels" data-route="/blood-panels">
+              <span class="icon material-symbols-outlined" aria-hidden="true">bloodtype</span>
+              <span class="nav-link__label">Blood Biomarkers &amp; Lab</span>
+            </a>
+            <a class="nav-link" href="#/nutrition" data-route="/nutrition">
+              <span class="icon material-symbols-outlined" aria-hidden="true">restaurant</span>
+              <span class="nav-link__label">Nutrition, Hydration &amp; Meds</span>
+            </a>
+            <a class="nav-link" href="#/radiation" data-route="/radiation">
+              <span class="icon material-symbols-outlined" aria-hidden="true">solar_power</span>
+              <span class="nav-link__label">Radiation &amp; Environment</span>
+            </a>
+            <a class="nav-link" href="#/log" data-route="/log">
+              <span class="icon material-symbols-outlined" aria-hidden="true">edit_note</span>
+              <span class="nav-link__label">Log &amp; Data Entry</span>
+            </a>
+          </nav>
+        </div>
+
+        <div class="sidebar__footer">
+          <span class="chip chip--muted" id="server-status" role="status">Checking server</span>
+          <a class="sidebar__link" href="/scalar" target="_blank" rel="noopener">
+            <span class="icon material-symbols-outlined" aria-hidden="true">api</span>
+            API docs
+            <span class="visually-hidden">(opens in a new tab)</span>
+          </a>
+          <p class="sidebar__disclaimer">Prototype · not a medical device</p>
+        </div>
+      </aside>
+
+      <div class="shell__backdrop" id="drawer-backdrop" hidden></div>
+
+      <div class="shell__main" id="shell-main">
+        <header class="topbar">
+          <div class="topbar__start">
+            <button
+              type="button"
+              class="btn btn--icon topbar__menu"
+              id="drawer-open"
+              aria-label="Open menu"
+              aria-controls="sidebar"
+              aria-expanded="false"
+            >
+              <span class="icon material-symbols-outlined" aria-hidden="true">menu</span>
+            </button>
+            <a class="topbar__brand" href="#/">BLINDSPOT</a>
+            <p class="topbar__context">
+              <span class="label label--sm">NASA Space Apps 2026</span>
+              <span class="topbar__sep" aria-hidden="true">·</span>
+              <span class="topbar__mission">Health monitoring for long missions</span>
+            </p>
+          </div>
+          <div class="topbar__end">
+            <p class="topbar__clock">
+              <span class="label label--sm">UTC</span>
+              <time id="utc-clock" class="tabular">--:--</time>
+            </p>
+            <a
+              class="btn btn--icon"
+              href="https://github.com/AntoniaDnv/BLINDSPOT"
+              target="_blank"
+              rel="noopener"
+              aria-label="BLINDSPOT source code on GitHub (opens in a new tab)"
+            >
+              <svg class="icon-svg" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                <path
+                  fill="currentColor"
+                  d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"
+                />
+              </svg>
+            </a>
+          </div>
+        </header>
+
+        <main id="app" class="content" tabindex="-1" aria-live="polite"></main>
+      </div>
+    </div>
 
     <script type="module" src="/js/main.js"></script>
   </body>
