@@ -107,4 +107,6 @@ dotnet test
 
 ## Team
 
-`[ names and roles ]` · Project skeleton by Aleksander Milev (teammate and mentor); his original setup guide is in [`docs/SKELETON_GUIDE.md`](docs/SKELETON_GUIDE.md).
+Antonia · Aleksander (mentor) · Andrey · Orlin · Yan · Konstantin
+
+The project skeleton (structure, configuration, deployment) is by Aleksander; his original setup guide is in [`docs/SKELETON_GUIDE.md`](docs/SKELETON_GUIDE.md).
