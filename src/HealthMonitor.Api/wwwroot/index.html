@@ -58,6 +58,29 @@
             </button>
           </div>
 
+          <section class="user-card" id="user-card" aria-label="Signed-in user" hidden>
+            <div class="user-card__row">
+              <span class="user-card__avatar" aria-hidden="true">
+                <span class="icon material-symbols-outlined">person</span>
+              </span>
+              <div class="user-card__text">
+                <span class="user-card__name" id="user-name">-</span>
+                <span class="user-card__meta">
+                  <span class="chip" id="user-role">-</span>
+                  <span class="tabular user-card__crew" id="user-crew"></span>
+                </span>
+              </div>
+            </div>
+            <div class="field user-card__switcher" id="crew-switcher" hidden>
+              <label for="crew-select">Viewing crew member</label>
+              <select id="crew-select"></select>
+            </div>
+            <button type="button" class="btn btn--ghost btn--sm user-card__signout" id="sign-out">
+              <span class="icon material-symbols-outlined" aria-hidden="true">logout</span>
+              Sign out
+            </button>
+          </section>
+
           <section class="sidebar__sources" aria-labelledby="sources-title">
             <h2 class="label label--sm" id="sources-title">Data sources</h2>
             <ul class="source-list">
@@ -71,6 +94,10 @@
             <a class="nav-link" href="#/" data-route="/">
               <span class="icon material-symbols-outlined" aria-hidden="true">monitor_heart</span>
               <span class="nav-link__label">Daily Readiness &amp; Vitals</span>
+            </a>
+            <a class="nav-link" href="#/crew" data-route="/crew" id="nav-crew" hidden>
+              <span class="icon material-symbols-outlined" aria-hidden="true">groups</span>
+              <span class="nav-link__label">Crew Overview</span>
             </a>
             <a class="nav-link" href="#/blood-panels" data-route="/blood-panels">
               <span class="icon material-symbols-outlined" aria-hidden="true">bloodtype</span>
@@ -149,6 +176,9 @@
         <main id="app" class="content" tabindex="-1" aria-live="polite"></main>
       </div>
     </div>
+
+    <!-- Login / sign-up render here, full screen, without the shell (see js/router.js). -->
+    <div class="auth-root" id="auth-root" hidden></div>
 
     <script type="module" src="/js/main.js"></script>
   </body>

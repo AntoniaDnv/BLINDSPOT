@@ -5,9 +5,9 @@
 // crew selector and day slider once they exist.
 
 import { api } from "../../api.js";
+import { getActiveCrewId } from "../../session.js";
 import { showMessage, hideMessage } from "../../utils.js";
 
-const DATA_URL = "/data/nutrition-days.json";
 const DEFAULT_DAY = 46;
 const LOW_WATER_L = 2.0;
 const LOW_KCAL_SHARE = 0.8;
@@ -48,13 +48,30 @@ export async function init(root) {
   };
 
   try {
-    data = await api.get(DATA_URL);
+    const crewId = getActiveCrewId();
+    const res = await api.get(`/api/nutrition?crewId=${encodeURIComponent(crewId)}`);
+    // Adapt the per-crew response to the shape the render code expects.
+    data = {
+      note: res.note,
+      days: res.days ?? [],
+      alerts: res.alerts ?? [],
+      crew: res.baseline ? [{ id: res.crewId, baseline: res.baseline }] : [],
+      crewId: res.crewId,
+    };
   } catch (error) {
     showMessage(el.message, `Could not load nutrition data: ${error.message}`, "error");
     return;
   }
 
+  if (data.crew.length === 0) {
+    setText("#nhm-crew-role", data.crewId);
+    el.crew.closest(".nhm-picker").hidden = true;
+    el.day.closest(".nhm-picker").hidden = true;
+    showMessage(el.message, "No nutrition data for this crew member yet.", "info");
+    return;
+  }
   fillPickers();
+  el.crew.closest(".nhm-picker").hidden = true; // the crew member comes from the session
   el.crew.addEventListener("change", render);
   el.day.addEventListener("change", render);
   render();
@@ -65,7 +82,7 @@ export function destroy() {
 }
 
 function fillPickers() {
-  el.crew.replaceChildren(...data.crew.map((c) => new Option(c.name, c.id)));
+  el.crew.replaceChildren(...data.crew.map((c) => new Option(c.id, c.id)));
   const lastDay = Math.max(...data.days.map((d) => d.day));
   const options = [];
   for (let day = 1; day <= lastDay; day++) options.push(new Option(`Day ${day}`, String(day)));
@@ -79,7 +96,7 @@ function render() {
   const record = findDay(crew.id, day);
   const alerts = data.alerts.filter((a) => a.crewId === crew.id && a.day === day);
 
-  setText("#nhm-crew-role", `${crew.role} · ${crew.name}`);
+  setText("#nhm-crew-role", `Simulated data · ${crew.id}`);
   setPill("#nhm-mission-pill", `Mission day ${day}`, "ok");
   renderAlerts(alerts);
   renderWeek(crew, day);

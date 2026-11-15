@@ -1,5 +1,6 @@
 // Vitals dashboard: latest readings vs thresholds + 7-day trend.
 import { api } from "../../api.js";
+import { getActiveCrewId } from "../../session.js";
 import { createLineChart } from "../../charts.js";
 import {
   escapeHtml,
@@ -21,13 +22,14 @@ export async function init(root) {
     canvas: root.querySelector("#vitals-chart"),
   };
   const rootEl = el;
+  const crewId = getActiveCrewId();
 
   el.select.addEventListener("change", drawChart);
 
   try {
     const [latest, all, defs] = await Promise.all([
-      api.get("/api/readings/latest"),
-      api.get("/api/readings"),
+      api.get(`/api/readings/latest?crewId=${encodeURIComponent(crewId)}`),
+      api.get(`/api/readings?crewId=${encodeURIComponent(crewId)}`),
       api.get("/api/vitals/indicators"),
     ]);
     if (el !== rootEl) return; // page was left while loading
@@ -55,7 +57,7 @@ export function destroy() {
 
 function renderCards(latest) {
   if (latest.length === 0) {
-    el.grid.innerHTML = `<p class="muted">No readings available.</p>`;
+    el.grid.innerHTML = `<div class="state state--empty" style="grid-column: 1 / -1"><div class="state__body"><p class="state__title">No vitals logged yet</p><p class="state__text">There are no readings for ${escapeHtml(getActiveCrewId())} yet.</p></div></div>`;
     return;
   }
   el.grid.innerHTML = latest

@@ -1,4 +1,5 @@
 import { SERVER_DOWN_MESSAGE } from "./utils.js";
+import { clearSession } from "./session.js";
 
 export class ApiError extends Error {
   constructor(status, message, details = null) {
@@ -36,6 +37,15 @@ async function request(method, url, body) {
   const isJson = response.headers.get("content-type")?.includes("json");
   const data = isJson ? await response.json() : await response.text();
 
+  if (response.status === 401 && !url.startsWith("/api/auth/")) {
+    // Session expired or signed out: drop it and go to the login screen.
+    clearSession();
+    const here = window.location.hash.slice(1) || "/";
+    if (!here.startsWith("/login") && !here.startsWith("/signup")) {
+      window.location.hash = `#/login?next=${encodeURIComponent(here)}`;
+    }
+  }
+
   if (!response.ok) {
     throw new ApiError(response.status, extractMessage(data, response), data);
   }
@@ -50,7 +60,7 @@ function extractMessage(data, response) {
       return Object.values(data.errors).flat().join(" ");
     }
 
-    return data.detail || data.title || `Request failed (${response.status})`;
+    return data.error || data.detail || data.title || `Request failed (${response.status})`;
   }
 
   return data || `Request failed (${response.status})`;

@@ -1,6 +1,16 @@
 // App shell behaviour: mobile drawer, server status pill, UTC clock, active nav.
 // The markup lives in index.html; pages never touch it.
-import { ROUTE_CHANGE_EVENT } from "./router.js";
+import { ROUTE_CHANGE_EVENT, navigate } from "./router.js";
+import {
+  CREW_CHANGE_EVENT,
+  SESSION_CHANGE_EVENT,
+  getActiveCrewId,
+  getCrewList,
+  getSession,
+  isFlightSurgeon,
+  logout,
+  setActiveCrewId,
+} from "./session.js";
 
 const STATUS_URL = "/api/status";
 const STATUS_INTERVAL_MS = 30_000;
@@ -18,6 +28,7 @@ export function initShell() {
   initSkipLink();
   initDrawer();
   initNav();
+  initUser();
   initClock();
   initServerStatus();
 }
@@ -83,6 +94,48 @@ function initDrawer() {
   desktop.addEventListener("change", (event) => {
     if (event.matches) close();
   });
+}
+
+/* ---------- User card, crew switcher, sign out ---------- */
+
+function initUser() {
+  const card = document.getElementById("user-card");
+  const name = document.getElementById("user-name");
+  const role = document.getElementById("user-role");
+  const crew = document.getElementById("user-crew");
+  const switcher = document.getElementById("crew-switcher");
+  const select = document.getElementById("crew-select");
+  const navCrew = document.getElementById("nav-crew");
+
+  function update() {
+    const session = getSession();
+    card.hidden = !session;
+    navCrew.hidden = !isFlightSurgeon();
+    if (!session) return;
+    const surgeon = isFlightSurgeon();
+    name.textContent = session.displayName;
+    role.textContent = surgeon ? "Flight surgeon" : "Astronaut";
+    role.className = `chip ${surgeon ? "chip--tertiary" : "chip--ok"}`;
+    crew.textContent = session.crewId ?? "";
+    switcher.hidden = !surgeon;
+    if (surgeon) {
+      select.replaceChildren(
+        ...getCrewList().map((c) => new Option(`${c.crewId} · ${c.displayName}`, c.crewId)),
+      );
+      select.value = getActiveCrewId() ?? "";
+    }
+  }
+
+  select.addEventListener("change", () => setActiveCrewId(select.value));
+  document.getElementById("sign-out").addEventListener("click", async () => {
+    await logout();
+    navigate("/login");
+  });
+  window.addEventListener(SESSION_CHANGE_EVENT, update);
+  window.addEventListener(CREW_CHANGE_EVENT, () => {
+    select.value = getActiveCrewId() ?? "";
+  });
+  update();
 }
 
 /* ---------- Active nav ---------- */

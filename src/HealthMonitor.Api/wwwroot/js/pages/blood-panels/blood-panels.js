@@ -1,5 +1,6 @@
 // Blood Panels page: Inspiration4 CBC / CMP data (NASA OSDR OSD-569 / OSD-575).
 import { api } from "../../api.js";
+import { getActiveCrewId } from "../../session.js";
 import { createLineChart } from "../../charts.js";
 import { escapeHtml, showMessage, hideMessage } from "../../utils.js";
 
@@ -37,16 +38,10 @@ export async function init(root) {
     analyteInfo = {}; // optional tooltips only
   }
 
-  try {
-    const crew = await api.get("/api/bloodpanels/crew");
-    if (crew.length > 0) {
-      el.crew.innerHTML = crew
-        .map((c) => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`)
-        .join("");
-    }
-  } catch (error) {
-    showMessage(el.message, error.message, "error");
-  }
+  // The crew member comes from the session (shell crew switcher for flight surgeons).
+  const crewId = getActiveCrewId() ?? "";
+  el.crew.innerHTML = `<option value="${escapeHtml(crewId)}">${escapeHtml(crewId)}</option>`;
+  el.crew.disabled = true;
 
   await loadPanel();
 }
