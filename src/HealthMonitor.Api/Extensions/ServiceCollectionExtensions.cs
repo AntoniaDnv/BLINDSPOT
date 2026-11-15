@@ -6,6 +6,7 @@ using Data;
 using Data.Seeding;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -100,6 +101,23 @@ public static class ServiceCollectionExtensions
 
             return services;
         }
+
+        /// <summary>
+        /// Trust X-Forwarded-For / X-Forwarded-Proto from the hosting proxy (Render terminates TLS).
+        /// Without this every visitor shares the proxy IP (one rate-limit bucket for everyone) and
+        /// Request.IsHttps is false, so the auth cookie would be issued without Secure.
+        /// Render's proxy IPs are not fixed, so the known-proxy lists are cleared; ForwardLimit = 1
+        /// means only the last hop (the value the proxy appended) is used.
+        /// </summary>
+        public IServiceCollection AddProxyForwardedHeaders()
+            => services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.ForwardedHeaders =
+                    ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+                options.ForwardLimit = 1;
+                options.KnownIPNetworks.Clear();
+                options.KnownProxies.Clear();
+            });
 
         /// <summary>Login/signup limit per client IP per minute (AuthRateLimit:PermitPerMinute) → 429 JSON.</summary>
         public IServiceCollection AddAuthRateLimiting()

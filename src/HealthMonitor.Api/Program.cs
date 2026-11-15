@@ -18,6 +18,7 @@ builder
     .AddServices()
     .AddAppAuth()
     .AddAuthRateLimiting()
+    .AddProxyForwardedHeaders()
     .AddExternalApiHttpClient()
     .AddOpenApi()
     .AddProblemDetails()
@@ -30,6 +31,9 @@ var cancellationToken = app
     .ApplicationStopping;
 
 await app.SeedData(cancellationToken);
+
+// First: client IP and scheme from the hosting proxy (rate limiting, Secure cookie).
+app.UseForwardedHeaders();
 
 app.UseExceptionHandler();
 app.UseStatusCodePages();

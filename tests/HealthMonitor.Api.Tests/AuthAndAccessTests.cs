@@ -57,7 +57,8 @@ public class AuthAndAccessTests(ApiFactory factory) : IClassFixture<ApiFactory>
     public async Task Nutrition_file_is_no_longer_public()
     {
         var response = await factory.NewClient().GetAsync("/data/nutrition-days.json");
-        Assert.NotEqual(HttpStatusCode.OK, response.StatusCode);
+        // No static file any more, so the authenticated fallback policy answers.
+        Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
     }
 
     [Fact]
@@ -161,6 +162,38 @@ public class AuthAndAccessTests(ApiFactory factory) : IClassFixture<ApiFactory>
         Assert.Equal("C001", me!.CrewId);
         Assert.Equal("astronaut", me.Role);
         Assert.Equal("Crew member C001", me.DisplayName);
+    }
+
+    [Fact]
+    public async Task Login_over_plain_http_sets_cookie_without_secure()
+    {
+        var response = await factory.NewClient().PostAsJsonAsync(
+            "/api/auth/login",
+            new { email = ApiFactory.C001Email, password = ApiFactory.C001Password });
+
+        var cookie = Assert.Single(
+            response.Headers.GetValues("Set-Cookie"),
+            c => c.StartsWith("blindspot.auth=", StringComparison.Ordinal));
+        Assert.DoesNotContain("secure", cookie, StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
+    public async Task Login_behind_tls_proxy_sets_secure_cookie()
+    {
+        using var request = new HttpRequestMessage(HttpMethod.Post, "/api/auth/login")
+        {
+            Content = JsonContent.Create(new { email = ApiFactory.C001Email, password = ApiFactory.C001Password }),
+        };
+        request.Headers.Add("X-Forwarded-Proto", "https");
+        request.Headers.Add("X-Forwarded-For", "203.0.113.7");
+
+        var response = await factory.NewClient().SendAsync(request);
+
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        var cookie = Assert.Single(
+            response.Headers.GetValues("Set-Cookie"),
+            c => c.StartsWith("blindspot.auth=", StringComparison.Ordinal));
+        Assert.Contains("secure", cookie, StringComparison.OrdinalIgnoreCase);
     }
 
     [Fact]
@@ -366,6 +399,32 @@ public class AuthAndAccessTests(ApiFactory factory) : IClassFixture<ApiFactory>
 
 public class RateLimitTests(TightRateLimitFactory factory) : IClassFixture<TightRateLimitFactory>
 {
+    private static Task<HttpResponseMessage> FailedLoginFrom(HttpClient client, string ip)
+    {
+        var request = new HttpRequestMessage(HttpMethod.Post, "/api/auth/login")
+        {
+            Content = JsonContent.Create(new { email = "nobody@example.com", password = "Wrong-Password-1" }),
+        };
+        request.Headers.Add("X-Forwarded-For", ip);
+        return client.SendAsync(request);
+    }
+
+    [Fact]
+    public async Task Rate_limit_is_per_forwarded_client_ip_not_shared_proxy_ip()
+    {
+        var client = factory.NewClient();
+
+        // Limit is 2/min: the third request from one client IP is rejected...
+        await FailedLoginFrom(client, "198.51.100.1");
+        await FailedLoginFrom(client, "198.51.100.1");
+        var third = await FailedLoginFrom(client, "198.51.100.1");
+        Assert.Equal(HttpStatusCode.TooManyRequests, third.StatusCode);
+
+        // ...but another visitor behind the same proxy still gets through.
+        var otherVisitor = await FailedLoginFrom(client, "198.51.100.2");
+        Assert.Equal(HttpStatusCode.Unauthorized, otherVisitor.StatusCode);
+    }
+
     [Fact]
     public async Task Login_is_rate_limited_with_429_json()
     {
