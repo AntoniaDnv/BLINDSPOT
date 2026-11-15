@@ -9,7 +9,7 @@ BLINDSPOT helps astronauts on long missions check their own health. It shows vit
 > BLINDSPOT is a hackathon prototype, not a medical device. It does not diagnose or treat.
 
 - **Code:** https://github.com/AntoniaDnv/BLINDSPOT
-- **Live app:** `[ add Render URL ]`
+- **Live app:** https://blindspot-qcng.onrender.com (free plan: the first visit can take ~50 seconds to wake the server). Log in with a [demo account](#demo-accounts).
 
 ---
 
@@ -37,6 +37,14 @@ We compared each Inspiration4 crew member's average before launch with their val
 | **Nutrition, Hydration & Meds** | Calories, macros, water and sleep medication per day | Simulated crew data |
 | **Log & Data Entry** | Astronauts log vitals, food and water, symptoms and medications; each entry is checked immediately and shows up on the matching page | Saved on the server |
 | **Crew Overview** (flight surgeon) | One card per crew member with their status at a glance | All crew |
+
+### Screenshots
+
+| Daily Readiness & Vitals | Blood Biomarkers & Lab |
+|---|---|
+| ![Vitals page](docs/screenshots/vitals.jpg) | ![Blood page with real Inspiration4 data](docs/screenshots/blood.jpg) |
+| **Log & Data Entry** | **Radiation & Environment** (May 2024 storm replay) |
+| ![Log & Data Entry page](docs/screenshots/log.jpg) | ![Radiation page showing a Critical alert](docs/screenshots/radiation.jpg) |
 
 ### Accounts and roles
 
